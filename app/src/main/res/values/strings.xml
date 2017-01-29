@@ -16,7 +16,10 @@
         completions."
     </string>
 
-    <!-- String related to register for home_btn_user -->
+    <!-- String related to driver login -->
+    <string name="label_driver_login">司机登录</string>
+
+    <!-- String related to register for user -->
     <string name="label_register_user">用户注册</string>
 
     <!-- String related to register for driver -->
@@ -29,6 +32,10 @@
     <string name="prompt_driver_city">所在城市</string>
     <string name="prompt_driver_license_plate">车牌号</string>
     <string name="prompt_driver_license">驾照号</string>
+    <string name="prompt_driver_small_van">小面包车</string>
+    <string name="prompt_driver_van">中面包车</string>
+    <string name="prompt_driver_small_truck">小货车</string>
+    <string name="prompt_driver_truck">中货车</string>
     <string name="action_driver_register_driverInfo">我明白并同意以上条款及细则</string>
     <string name="action_driver_read_rule">成为司机前先阅读</string>
     <string name="action_driver_rule">条款及细则</string>

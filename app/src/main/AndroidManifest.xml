@@ -24,6 +24,16 @@
         </activity>
 
         <activity
+            android:name=".DriverLoginActivity"
+            android:label="@string/label_driver_login">
+            <intent-filter>
+                <!--<action android:name=""/>-->
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity
             android:name=".UserRegisterActivity"
             android:label="@string/label_register_user">
             <intent-filter>

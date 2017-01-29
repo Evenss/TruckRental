@@ -65,19 +65,66 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <TextView
+            android:id="@+id/driver_car_type"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/prompt_driver_car_type"
+            android:textSize="37px"
+            android:maxLines="1"/>
 
-            <AutoCompleteTextView
-                android:id="@+id/driver_car_type"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="7dp"
+                    android:background="@drawable/register_small_van"/>
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/register_van"/>
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="7dp"
+                    android:background="@drawable/register_small_truck"/>
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/register_truck"/>
+            </LinearLayout>
+            <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_driver_car_type"
-                android:inputType="text"
-                android:maxLines="1"/>
+                android:orientation="horizontal">
 
-        </android.support.design.widget.TextInputLayout>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prompt_driver_small_van"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prompt_driver_van"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/prompt_driver_small_truck"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/prompt_driver_truck"/>
+            </RadioGroup>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -145,7 +192,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/register_driverInfo"
+            android:id="@+id/register_driverInfo_btn"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
