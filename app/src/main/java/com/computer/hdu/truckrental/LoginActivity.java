@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,6 +33,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.computer.hdu.truckrental.dao.UserDao;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +46,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    private String tag = "UserDao.class";
     /**
      * Id to identity READ_CONTACTS permission request.
      * 读取用户通讯录
@@ -133,6 +137,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
+
+    //这里测试下userDao中add的功能
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UserDao userDao = new UserDao(getApplicationContext());
+        userDao.addUser("123456789",1);
+        Log.d(tag,"增加用户");
+    }
+
     //加载本地账户
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {

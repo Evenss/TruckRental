@@ -29,7 +29,7 @@ public class DriverRegisterActivity extends Activity {
             }
         });
 
-        Button mRegisterDriverInfo = (Button) findViewById(R.id.register_driverInfo);
+        Button mRegisterDriverInfo = (Button) findViewById(R.id.register_driverInfo_btn);
         mRegisterDriverInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
