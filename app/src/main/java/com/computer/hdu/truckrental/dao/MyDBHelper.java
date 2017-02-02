@@ -17,8 +17,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
     private static final String create_users = "create table if not exists users";
     private static final String users_attributes =
             "(user_id integer primary key autoincrement not null," +
-            " user_phone char(11) not null," +
-            " user_level tinyint not null)";
+            " user_phone string not null," +
+            " user_level integer not null)";
 
     public MyDBHelper(Context context){
         //CursorFactory设置为null,使用默认值
@@ -33,6 +33,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
     //更新数据库版本时调用
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("drop table if exists users");
+        onCreate(db);
     }
 }

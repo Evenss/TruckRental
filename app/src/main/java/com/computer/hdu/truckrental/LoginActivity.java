@@ -3,24 +3,21 @@ package com.computer.hdu.truckrental;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,8 +30,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.computer.hdu.truckrental.dao.UserDao;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +41,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    private String tag = "UserDao.class";
+    private String tag = "LoginActivity.class";
     /**
      * Id to identity READ_CONTACTS permission request.
      * 读取用户通讯录
@@ -138,13 +133,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    //这里测试下userDao中add的功能
+    //这里测试下userDao中的功能
     @Override
     protected void onResume() {
         super.onResume();
-        UserDao userDao = new UserDao(getApplicationContext());
-        userDao.addUser("123456789",1);
+ /*       UserDao userDao = new UserDao(getApplicationContext());
+        userDao.addUser("123456789",3);
         Log.d(tag,"增加用户");
+        userDao.updateUserLevel(1,3);
+        User user = userDao.findUserAll().get(0);
+        Log.d(tag,user.getUser_id().toString());
+        Log.d(tag,user.getUser_phone());
+        Log.d(tag,user.getUser_level().toString());
+        userDao.deleteUser(1);
+        if(userDao.findUserAll()==null){
+            Log.d(tag,"被删除掉了！");
+        }*/
     }
 
     //加载本地账户
