@@ -53,7 +53,6 @@ public class UserDao {
                 user = new User(user_id,phone,level);
             }
             database.close();
-            return user;
         }
         return user;
     }

@@ -13,7 +13,7 @@ public class Driver {
     private String driver_city;
     private String driver_license_plate;
     private String driver_license;
-    private String driver_level;//1-5
+    private Integer driver_level;//1-5
     private Integer driver_score;//1-100
     private Integer driver_state;//0-3 0审核中，1休息中,2工作中，3被除名
 
@@ -48,7 +48,7 @@ public class Driver {
         return driver_license;
     }
 
-    public String getDriver_level() {
+    public Integer getDriver_level() {
         return driver_level;
     }
 
@@ -92,7 +92,7 @@ public class Driver {
         this.driver_license = driver_license;
     }
 
-    public void setDriver_level(String driver_level) {
+    public void setDriver_level(Integer driver_level) {
         this.driver_level = driver_level;
     }
 
