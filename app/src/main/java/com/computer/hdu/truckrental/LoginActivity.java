@@ -30,6 +30,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.computer.hdu.truckrental.dao.UserDao;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,8 +139,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onResume() {
         super.onResume();
- /*       UserDao userDao = new UserDao(getApplicationContext());
-        userDao.addUser("123456789",3);
+        UserDao userDao = new UserDao(getApplicationContext());
+  /*       userDao.addUser("123456789",3);
         Log.d(tag,"增加用户");
         userDao.updateUserLevel(1,3);
         User user = userDao.findUserAll().get(0);
@@ -217,6 +219,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         boolean cancel = false;
         View focusView = null;
+
+        if(TextUtils.isEmpty(password)){
+            //错误处理
+        }
 
         // Check for a valid password, if the home_btn_user entered one.
         //检查密码有效性
