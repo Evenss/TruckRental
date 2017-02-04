@@ -25,7 +25,7 @@ public class UserDao {
     }
 
     //add
-    public boolean addUser(String user_phone,Integer user_level){
+    public boolean addUser(User user){
         //电话号码正则检验
         if(false){
             return false;
@@ -33,7 +33,7 @@ public class UserDao {
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()){
             database.execSQL("insert into users (user_phone,user_level) values(?,?)",
-                    new Object[]{user_phone,user_level});
+                    new Object[]{user.getUser_phone(),user.getUser_level()});
             database.close();
         }
         return true;

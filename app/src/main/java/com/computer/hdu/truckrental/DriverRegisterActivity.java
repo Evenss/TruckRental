@@ -19,8 +19,8 @@ public class DriverRegisterActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_register_driver);
 
-        Button mDriverRule = (Button) findViewById(R.id.driver_rule);
-        mDriverRule.setOnClickListener(new View.OnClickListener() {
+        Button mDriverRuleBtn = (Button) findViewById(R.id.driver_rule_btn);
+        mDriverRuleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //展示注册司机条款界面

@@ -91,8 +91,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
         //登录按钮点击事件
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_btn);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        Button mEmailSignInBtn = (Button) findViewById(R.id.email_sign_in_btn);
+        mEmailSignInBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
@@ -100,8 +100,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         //转换为司机登录界面
-        ImageButton mExchangeToDriver = (ImageButton) findViewById(R.id.exchange_to_driver_btn);
-        mExchangeToDriver.setOnClickListener(new OnClickListener() {
+        ImageButton mExchangeToDriverBtn = (ImageButton) findViewById(R.id.exchange_to_driver_btn);
+        mExchangeToDriverBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -110,8 +110,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
         //用户注册按钮
-        Button mRegisterUser = (Button) findViewById(R.id.register_user_btn);
-        mRegisterUser.setOnClickListener(new OnClickListener() {
+        Button mRegisterUserBtn = (Button) findViewById(R.id.register_user_btn);
+        mRegisterUserBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 //这里跳转用户注册界面
@@ -122,8 +122,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         //司机注册按钮
-        Button mRegisterDriver = (Button) findViewById(R.id.register_driver_btn);
-        mRegisterDriver.setOnClickListener(new OnClickListener() {
+        Button mRegisterDriverBtn = (Button) findViewById(R.id.register_driver_btn);
+        mRegisterDriverBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this,DriverRegisterActivity.class);
