@@ -48,3 +48,12 @@
 
 * driver和order表单创建完成及它们的基础类（domain中）创建完成
 * driver的数据库底层操作CURD完成
+
+****
+##v2.2（2.4）
+**实现任务**
+
+* order表的建立及CURD完成
+* 修改以前建表时的几个错误（driver和order漏了一两个表项）
+
+**PS**：SQLite中本来没有boolean类型，但是拓展了这个类型，所以用这种类型存储进去，但是cursor取出来时却不能取出来，所以我把Boolean修改成了Integer，限制在0和1

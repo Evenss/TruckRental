@@ -17,8 +17,8 @@ public class Order {
     private Integer order_state;//0-4 0已接单，1为未接单，2用户取消，3司机取消，4已完成
     private Integer order_score;//1-100
     private String order_date;
-    private boolean order_back;//0代表不回程，1代表回程；0为默认值
-    private boolean order_carry;//0代表不搬运，1代表搬运；0位默认值
+    private Integer order_back;//0代表不回程，1代表回程；0为默认值
+    private Integer order_carry;//0代表不搬运，1代表搬运；0位默认值
     private Integer order_followers;//对应车型有人数上限
 
     public Integer getOrder_id() {
@@ -69,11 +69,11 @@ public class Order {
         return order_date;
     }
 
-    public boolean isOrder_back() {
+    public Integer getOrder_back() {
         return order_back;
     }
 
-    public boolean isOrder_carry() {
+    public Integer getOrder_carry() {
         return order_carry;
     }
 
@@ -129,11 +129,11 @@ public class Order {
         this.order_date = order_date;
     }
 
-    public void setOrder_back(boolean order_back) {
+    public void setOrder_back(Integer order_back) {
         this.order_back = order_back;
     }
 
-    public void setOrder_carry(boolean order_carry) {
+    public void setOrder_carry(Integer order_carry) {
         this.order_carry = order_carry;
     }
 

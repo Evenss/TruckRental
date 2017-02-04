@@ -24,6 +24,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
             " driver_phone string not null," +
             " driver_pwd string not null," +
             " driver_car_type integer not null," +
+            " driver_city string not null," +
             " driver_license_plate string not null," +
             " driver_license string not null," +
             " driver_level integer not null," +
@@ -39,10 +40,11 @@ public class MyDBHelper extends SQLiteOpenHelper {
             " order_remarks string," +
             " order_distance float not null," +
             " order_price float not null," +
+            " order_state integer not null," +
             " order_score integer," +
             " order_date datetime not null," +
-            " order_back boolean not null," +
-            " order_carry boolean not null," +
+            " order_back integer not null," +
+            " order_carry integer not null," +
             " order_followers integer not null," +
             " foreign key(fk_user_id) references users(user_id)," +
             " foreign key(fk_driver_id) references drivers(diver_id))";
