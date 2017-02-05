@@ -118,19 +118,23 @@ public class DriverDao {
         return driver;
     }
 
-    //下面四个更新可以提取出来，但是合法检查不好处理，这里可以再想想其他方法
+    //update
+    public void updateDriver(String sql, Object[] attribute){
+        SQLiteDatabase database = myDBHelper.getWritableDatabase();
+        if(database.isOpen()) {
+            database.execSQL(sql, attribute);
+            database.close();
+        }
+    }
     //update car_type
     public void updateDriverCarType(Integer driver_id,Integer car_type){
         if(car_type<1 || 4<car_type){
             //错误处理
             return;
         }
-        SQLiteDatabase database = myDBHelper.getWritableDatabase();
-        if(database.isOpen()) {
-            database.execSQL("update drivers set driver_car_type=? where driver_id=?",
-                    new Object[]{car_type, driver_id});
-            database.close();
-        }
+        String carTypeSql = "update drivers set driver_car_type=? where driver_id=?";
+        Object[] attribute = new Object[]{car_type,driver_id};
+        updateDriver(carTypeSql,attribute);
     }
     //update level
     public void updateDriverLevel(Integer driver_id,Integer level){
@@ -138,12 +142,9 @@ public class DriverDao {
             //错误处理
             return;
         }
-        SQLiteDatabase database = myDBHelper.getWritableDatabase();
-        if(database.isOpen()) {
-            database.execSQL("update drivers set driver_level=? where driver_id=?",
-                    new Object[]{level, driver_id});
-            database.close();
-        }
+        String levelSql = "update drivers set driver_level=? where driver_id=?";
+        Object[] attribute = new Object[]{level,driver_id};
+        updateDriver(levelSql,attribute);
     }
     //update score
     public void updateDriverScore(Integer driver_id,Integer score){
@@ -151,12 +152,9 @@ public class DriverDao {
             //错误处理
             return;
         }
-        SQLiteDatabase database = myDBHelper.getWritableDatabase();
-        if(database.isOpen()) {
-            database.execSQL("update drivers set driver_score=? where driver_id=?",
-                    new Object[]{score, driver_id});
-            database.close();
-        }
+        String ScoreSql = "update drivers set driver_score=? where driver_id=?";
+        Object[] attribute = new Object[]{score, driver_id};
+        updateDriver(ScoreSql,attribute);
     }
     //update state
     public void updateDriverState(Integer driver_id,Integer state){
@@ -164,12 +162,9 @@ public class DriverDao {
             //错误处理
             return;
         }
-        SQLiteDatabase database = myDBHelper.getWritableDatabase();
-        if(database.isOpen()) {
-            database.execSQL("update drivers set driver_state=? where driver_id=?",
-                    new Object[]{state, driver_id});
-            database.close();
-        }
+        String StateSql = "update drivers set driver_state=? where driver_id=?";
+        Object[] attribute = new Object[]{state, driver_id};
+        updateDriver(StateSql,attribute);
     }
 
     //delete
