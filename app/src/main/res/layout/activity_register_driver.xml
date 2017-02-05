@@ -66,7 +66,6 @@
         </android.support.design.widget.TextInputLayout>
 
         <TextView
-            android:id="@+id/driver_car_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -102,24 +101,28 @@
                     android:background="@drawable/register_truck"/>
             </LinearLayout>
             <RadioGroup
+                android:id="@+id/driver_car_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/small_van_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/prompt_driver_small_van"/>
                 <RadioButton
+                    android:id="@+id/van_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/prompt_driver_van"/>
                 <RadioButton
+                    android:id="@+id/small_truck_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:text="@string/prompt_driver_small_truck"/>
                 <RadioButton
+                    android:id="@+id/truck_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"

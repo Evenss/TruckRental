@@ -30,8 +30,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.computer.hdu.truckrental.dao.UserDao;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,9 +137,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onResume() {
         super.onResume();
-        UserDao userDao = new UserDao(getApplicationContext());
-  /*       userDao.addUser("123456789",3);
-        Log.d(tag,"增加用户");
+   /*     UserDao userDao = new UserDao(getApplicationContext());
+         userDao.addUser("123456789",3);
+
         userDao.updateUserLevel(1,3);
         User user = userDao.findUserAll().get(0);
         Log.d(tag,user.getUser_id().toString());
@@ -150,7 +148,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         userDao.deleteUser(1);
         if(userDao.findUserAll()==null){
             Log.d(tag,"被删除掉了！");
-        }*/
+        }
+
+        DriverDao driverDao = new DriverDao(getApplicationContext());
+        Driver driver = new Driver();
+        driver.setDriver_name("一号司机");
+        driver.setDriver_phone("123456789");
+        driver.setDriver_pwd("123456789");
+        driver.setDriver_car_type(1);
+        driver.setDriver_city("成都");
+        driver.setDriver_license_plate("123456789");
+        driver.setDriver_license("12345");
+        driver.setDriver_level(5);//初始信用等级为5
+        driver.setDriver_score(100);//初始评分为100
+        driver.setDriver_state(0);//状态为审核中
+        driverDao.addDriver(driver);*/
     }
 
     //加载本地账户

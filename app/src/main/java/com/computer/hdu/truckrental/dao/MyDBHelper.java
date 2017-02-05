@@ -16,23 +16,23 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
     private static final String create_users = "create table if not exists users" +
             "(user_id integer primary key autoincrement not null," +
-            " user_phone string not null," +
+            " user_phone string not null unique," +
             " user_level integer not null)";
     private static final String create_drivers = "create table if not exists drivers" +
             "(driver_id integer primary key autoincrement not null," +
             " driver_name string not null," +
-            " driver_phone string not null," +
+            " driver_phone string not null unique," +
             " driver_pwd string not null," +
             " driver_car_type integer not null," +
             " driver_city string not null," +
-            " driver_license_plate string not null," +
-            " driver_license string not null," +
+            " driver_license_plate string not null unique," +
+            " driver_license string not null unique," +
             " driver_level integer not null," +
             " driver_score integer not null," +
             " driver_state integer not null)";
     private static final String create_orders = "create table if not exists orders" +
             "(order_id integer primary key autoincrement not null," +
-            " order_number string not null," +
+            " order_number string not null unique," +
             " fk_user_id integer not null," +
             " fk_driver_id integer not null," +
             " order_departure string not null," +

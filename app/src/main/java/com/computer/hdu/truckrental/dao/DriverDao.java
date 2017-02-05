@@ -3,6 +3,7 @@ package com.computer.hdu.truckrental.dao;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.computer.hdu.truckrental.domain.Driver;
 
@@ -19,11 +20,16 @@ public class DriverDao {
         myDBHelper = new MyDBHelper(context);
     }
 
+    //test
+    public void showDriver(Driver driver){
+        Log.d(tag,driver.toString());
+    }
+
     //add
     public boolean addDriver(Driver driver){
 
         //valid check
-        //电话号码正则检验
+        //电话号码正则检验并检验是否电话号码重复
         if(true){
         }
         //车型检验

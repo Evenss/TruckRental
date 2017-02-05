@@ -21,7 +21,7 @@ public class UserDao {
     public UserDao(Context context){
         myDBHelper = new MyDBHelper(context);
 /*        SQLiteDatabase database = myDBHelper.getWritableDatabase();
-        myDBHelper.onUpgrade(database,2,3);*/
+        myDBHelper.onUpgrade(database,3,4);*/
     }
 
     //add
