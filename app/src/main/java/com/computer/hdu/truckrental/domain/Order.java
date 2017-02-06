@@ -20,6 +20,8 @@ public class Order {
     private Integer order_back;//0代表不回程，1代表回程；0为默认值
     private Integer order_carry;//0代表不搬运，1代表搬运；0位默认值
     private Integer order_followers;//对应车型有人数上限
+    private Integer order_car_type;//1到4；分别对应小型面包，中型面包，小货，中货车
+    private String order_start_date;
 
     public Integer getOrder_id() {
         return order_id;
@@ -79,6 +81,14 @@ public class Order {
 
     public Integer getOrder_followers() {
         return order_followers;
+    }
+
+    public Integer getOrder_car_type() {
+        return order_car_type;
+    }
+
+    public String getOrder_start_date() {
+        return order_start_date;
     }
 
     public void setOrder_id(Integer order_id) {
@@ -141,6 +151,14 @@ public class Order {
         this.order_followers = order_followers;
     }
 
+    public void setOrder_car_type(Integer order_car_type) {
+        this.order_car_type = order_car_type;
+    }
+
+    public void setOrder_start_date(String order_start_date) {
+        this.order_start_date = order_start_date;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -159,6 +177,8 @@ public class Order {
                 ", order_back=" + order_back +
                 ", order_carry=" + order_carry +
                 ", order_followers=" + order_followers +
+                ", order_car_type=" + order_car_type +
+                ", order_start_date='" + order_start_date + '\'' +
                 '}';
     }
 }

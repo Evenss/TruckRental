@@ -64,6 +64,7 @@ public class OrderDao {
 
                 }
         }
+        //车型检验
 
         //把String类型的日期转换成datetime类型的
 
@@ -83,7 +84,9 @@ public class OrderDao {
                     "order_date," +
                     "order_back," +
                     "order_carry," +
-                    "order_followers)",
+                    "order_followers," +
+                    "order_car_type," +
+                    "order_start_date)",
                     new Object[]{
                             order.getOrder_number(),
                             order.getFk_user_id(),
@@ -98,7 +101,9 @@ public class OrderDao {
                             order.getOrder_date(),//这里需要转换
                             order.getOrder_back(),
                             order.getOrder_carry(),
-                            order.getOrder_followers()
+                            order.getOrder_followers(),
+                            order.getOrder_car_type(),
+                            order.getOrder_start_date()
                     });
             database.close();
         }

@@ -46,6 +46,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
             " order_back integer not null," +
             " order_carry integer not null," +
             " order_followers integer not null," +
+            " order_car_type integer not null," +
+            " order_start_date datetime not null," +
             " foreign key(fk_user_id) references users(user_id)," +
             " foreign key(fk_driver_id) references drivers(diver_id))";
 

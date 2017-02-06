@@ -7,6 +7,9 @@ import android.util.Log;
 
 import com.computer.hdu.truckrental.domain.Driver;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Even on 2017/2/3.
  */
@@ -18,6 +21,8 @@ public class DriverDao {
     //init
     public DriverDao(Context context){
         myDBHelper = new MyDBHelper(context);
+/*        SQLiteDatabase database = myDBHelper.getWritableDatabase();
+        myDBHelper.onUpgrade(database,4,5);*/
     }
 
     //test
@@ -80,7 +85,38 @@ public class DriverDao {
         return true;
     }
 
-    //find
+    //get driver
+    private Driver getDriver(Cursor cursor,Integer driver_id){
+        Driver driver = new Driver();
+        String driver_name = cursor.getString(cursor.getColumnIndex("driver_name"));
+        String driver_phone = cursor.getString(cursor.getColumnIndex("driver_phone"));
+        String driver_pwd = cursor.getString(cursor.getColumnIndex("driver_pwd"));
+        Integer driver_car_type = cursor.getInt(cursor.getColumnIndex("driver_car_type"));
+        String driver_city = cursor.getString(cursor.getColumnIndex("driver_city"));
+        String driver_license_plate =
+                cursor.getString(cursor.getColumnIndex("driver_license_plate"));
+        String driver_license = cursor.getString(cursor.getColumnIndex("driver_license"));
+        Integer driver_level = cursor.getInt(cursor.getColumnIndex("driver_level"));
+        Integer driver_score = cursor.getInt(cursor.getColumnIndex("driver_score"));
+        Integer driver_state = cursor.getInt(cursor.getColumnIndex("driver_state"));
+
+        driver.setDriver_id(driver_id);
+        driver.setDriver_name(driver_name);
+        driver.setDriver_phone(driver_phone);
+        driver.setDriver_pwd(driver_pwd);
+        driver.setDriver_car_type(driver_car_type);
+        driver.setDriver_city(driver_city);
+        driver.setDriver_license_plate(driver_license_plate);
+        driver.setDriver_license(driver_license);
+        driver.setDriver_level(driver_level);
+        driver.setDriver_score(driver_score);
+        driver.setDriver_state(driver_state);
+
+        showDriver(driver);
+        return driver;
+    }
+
+    //find by id
     public Driver findDriverById(Integer driver_id){
         Driver driver;
         driver = null;
@@ -89,37 +125,31 @@ public class DriverDao {
             Cursor cursor = database.rawQuery("select * from drivers where driver_id=?",
                     new String[]{driver_id.toString()});
             if(cursor.moveToFirst()){
-                String driver_name = cursor.getString(cursor.getColumnIndex("driver_name"));
-                String driver_phone = cursor.getString(cursor.getColumnIndex("driver_phone"));
-                String driver_pwd = cursor.getString(cursor.getColumnIndex("driver_pwd"));
-                Integer driver_car_type = cursor.getInt(cursor.getColumnIndex("driver_car_type"));
-                String driver_city = cursor.getString(cursor.getColumnIndex("driver_city"));
-                String driver_license_plate =
-                        cursor.getString(cursor.getColumnIndex("driver_license_plate"));
-                String driver_license = cursor.getString(cursor.getColumnIndex("driver_license"));
-                Integer driver_level = cursor.getInt(cursor.getColumnIndex("driver_level"));
-                Integer driver_score = cursor.getInt(cursor.getColumnIndex("driver_score"));
-                Integer driver_state = cursor.getInt(cursor.getColumnIndex("driver_state"));
-
-                driver.setDriver_id(driver_id);
-                driver.setDriver_name(driver_name);
-                driver.setDriver_phone(driver_phone);
-                driver.setDriver_pwd(driver_pwd);
-                driver.setDriver_car_type(driver_car_type);
-                driver.setDriver_city(driver_city);
-                driver.setDriver_license_plate(driver_license_plate);
-                driver.setDriver_license(driver_license);
-                driver.setDriver_level(driver_level);
-                driver.setDriver_score(driver_score);
-                driver.setDriver_state(driver_state);
+                driver = getDriver(cursor,driver_id);
             }
             database.close();
         }
         return driver;
     }
 
+    //find by car type
+    public List<Driver> findDriverListByCarType(Integer car_type){
+        List<Driver> driverList = new ArrayList<Driver>();
+        SQLiteDatabase database = myDBHelper.getWritableDatabase();
+        if(database.isOpen()){
+            Cursor cursor = database.rawQuery("select * from drivers where driver_car_type=?",
+                    new String[]{car_type.toString()});
+            while(cursor.moveToNext()){
+                Integer driver_id = cursor.getInt(cursor.getColumnIndex("driver_id"));
+                driverList.add(getDriver(cursor,driver_id));
+            }
+            database.close();
+        }
+        return driverList;
+    }
+
     //update
-    public void updateDriver(String sql, Object[] attribute){
+    private void updateDriver(String sql, Object[] attribute){
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()) {
             database.execSQL(sql, attribute);

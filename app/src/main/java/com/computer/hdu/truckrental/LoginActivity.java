@@ -148,9 +148,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         userDao.deleteUser(1);
         if(userDao.findUserAll()==null){
             Log.d(tag,"被删除掉了！");
-        }
+        }*/
 
-        DriverDao driverDao = new DriverDao(getApplicationContext());
+/*        DriverDao driverDao =new DriverDao(getApplicationContext());
         Driver driver = new Driver();
         driver.setDriver_name("一号司机");
         driver.setDriver_phone("123456789");
@@ -162,7 +162,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         driver.setDriver_level(5);//初始信用等级为5
         driver.setDriver_score(100);//初始评分为100
         driver.setDriver_state(0);//状态为审核中
-        driverDao.addDriver(driver);*/
+        driverDao.addDriver(driver);
+
+        driver.setDriver_name("2号司机");
+        driver.setDriver_phone("987654321");
+        driver.setDriver_pwd("123456789");
+        driver.setDriver_car_type(1);
+        driver.setDriver_city("成都");
+        driver.setDriver_license_plate("987654321");
+        driver.setDriver_license("54321");
+        driver.setDriver_level(5);//初始信用等级为5
+        driver.setDriver_score(100);//初始评分为100
+        driver.setDriver_state(0);//状态为审核中
+        driverDao.addDriver(driver);
+
+        driverDao.showDriver(driverDao.findDriverById(1));
+        driverDao.showDriver(driverDao.findDriverById(2));
+        List<Driver> driverList;
+        driverList = driverDao.findDriverListByCarType(1);
+        driverDao.showDriver(driverList.get(0));
+        driverDao.showDriver(driverList.get(1));
+        */
+
     }
 
     //加载本地账户
