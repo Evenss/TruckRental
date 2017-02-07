@@ -10,6 +10,13 @@ import com.computer.hdu.truckrental.domain.Driver;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.computer.hdu.truckrental.tools.Check.checkDriver;
+import static com.computer.hdu.truckrental.tools.Check.checkDriverCarType;
+import static com.computer.hdu.truckrental.tools.Check.checkDriverLevel;
+import static com.computer.hdu.truckrental.tools.Check.checkDriverScore;
+import static com.computer.hdu.truckrental.tools.Check.checkDriverState;
+import static com.computer.hdu.truckrental.tools.Encrypt.getEncryption;
+
 /**
  * Created by Even on 2017/2/3.
  */
@@ -31,28 +38,14 @@ public class DriverDao {
     }
 
     //add
-    public boolean addDriver(Driver driver){
+    public Integer addDriver(Driver driver){
 
         //valid check
-        //电话号码正则检验并检验是否电话号码重复
-        if(true){
-        }
-        //车型检验
-        if(driver.getDriver_car_type()<1 || 4<driver.getDriver_car_type()){
-            return false;
-        }
-        //信用等级合法检验
-        if(driver.getDriver_level()<1 || 5<driver.getDriver_level()){
-            return false;
-        }
-        //评分合法检验
-        if(driver.getDriver_score()<1 || 100<driver.getDriver_score()){
-            return false;
-        }
-        //状态检验
-        if(driver.getDriver_state()<0 || 3<driver.getDriver_state()){
-            return false;
-        }
+        Integer state = checkDriver(driver);
+
+        //pwd encrypt
+        String pwdEncrypted = getEncryption(driver.getDriver_pwd());
+        driver.setDriver_pwd(pwdEncrypted);
 
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()){
@@ -71,18 +64,18 @@ public class DriverDao {
                     new Object[]{//有一些初始值的，放到创建Driver中，这里不直接写初始值
                             driver.getDriver_name(),
                             driver.getDriver_phone(),
-                            driver.getDriver_pwd(),//要加密处理密码
+                            driver.getDriver_pwd(),
                             driver.getDriver_car_type(),
                             driver.getDriver_city(),
                             driver.getDriver_license_plate(),
                             driver.getDriver_license(),
                             driver.getDriver_level(),//5
-                            driver.getDriver_score(),//
+                            driver.getDriver_score(),//100
                             driver.getDriver_state()//0
                     });
             database.close();
         }
-        return true;
+        return state;
     }
 
     //get driver
@@ -157,44 +150,36 @@ public class DriverDao {
         }
     }
     //update car_type
-    public void updateDriverCarType(Integer driver_id,Integer car_type){
-        if(car_type<1 || 4<car_type){
-            //错误处理
-            return;
-        }
+    public Integer updateDriverCarType(Integer driver_id,Integer car_type){
+        Integer state = checkDriverCarType(car_type);
         String carTypeSql = "update drivers set driver_car_type=? where driver_id=?";
         Object[] attribute = new Object[]{car_type,driver_id};
         updateDriver(carTypeSql,attribute);
+        return state;
     }
     //update level
-    public void updateDriverLevel(Integer driver_id,Integer level){
-        if(level<1 || 5<level){
-            //错误处理
-            return;
-        }
+    public Integer updateDriverLevel(Integer driver_id,Integer level){
+        Integer state = checkDriverLevel(level);
         String levelSql = "update drivers set driver_level=? where driver_id=?";
         Object[] attribute = new Object[]{level,driver_id};
         updateDriver(levelSql,attribute);
+        return state;
     }
     //update score
-    public void updateDriverScore(Integer driver_id,Integer score){
-        if(score<0 || 100<score){
-            //错误处理
-            return;
-        }
+    public Integer updateDriverScore(Integer driver_id,Integer score){
+        Integer state = checkDriverScore(score);
         String ScoreSql = "update drivers set driver_score=? where driver_id=?";
         Object[] attribute = new Object[]{score, driver_id};
         updateDriver(ScoreSql,attribute);
+        return score;
     }
     //update state
-    public void updateDriverState(Integer driver_id,Integer state){
-        if(state<0 || 3<state){
-            //错误处理
-            return;
-        }
+    public Integer updateDriverState(Integer driver_id,Integer driver_state){
+        Integer state = checkDriverState(driver_state);
         String StateSql = "update drivers set driver_state=? where driver_id=?";
-        Object[] attribute = new Object[]{state, driver_id};
+        Object[] attribute = new Object[]{driver_state, driver_id};
         updateDriver(StateSql,attribute);
+        return state;
     }
 
     //delete

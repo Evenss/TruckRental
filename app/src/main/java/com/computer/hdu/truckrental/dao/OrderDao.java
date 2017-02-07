@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.computer.hdu.truckrental.domain.Driver;
 import com.computer.hdu.truckrental.domain.Order;
 
+import static com.computer.hdu.truckrental.tools.Check.checkOrder;
+import static com.computer.hdu.truckrental.tools.Check.checkOrderState;
+
 /**
  * Created by Even on 2017/2/3.
  */
@@ -25,46 +28,11 @@ public class OrderDao {
     }
 
     //add
-    public boolean addOrder(Order order){
+    public Integer addOrder(Order order){
         //valid check
-        //检查可以设置错误码，用来返回，方便给出提示语
-        //状态检验
-        if(order.getOrder_state()<0||4<order.getOrder_state()){
-
-        }
-        //评分检验
-        if(order.getOrder_score()<1||100<order.getOrder_score()){
-
-        }
-        //回城检验
-        if(order.getOrder_back()<0||1<order.getOrder_back()){
-
-        }
-        //搬运检查
-        if(order.getOrder_carry()<0||1<order.getOrder_carry()){
-
-        }
         Driver driver = driverDao.findDriverById(order.getFk_driver_id());
-        //跟车人数检验
-        switch (driver.getDriver_car_type()){
-            case 0://小型面包车
-                if(order.getOrder_followers()!=0){
-
-                }
-            case 1://中型面包车
-                if (order.getOrder_followers()!=0){
-
-                }
-            case 2://小型货车
-                if(order.getOrder_followers()<0||2<order.getOrder_followers()){
-
-                }
-            case 3://中型货车
-                if(order.getOrder_followers()<0||3<order.getOrder_followers()){
-
-                }
-        }
-        //车型检验
+        Integer car_type = driver.getDriver_car_type();
+        Integer state = checkOrder(order,car_type);
 
         //把String类型的日期转换成datetime类型的
 
@@ -107,7 +75,7 @@ public class OrderDao {
                     });
             database.close();
         }
-        return true;
+        return state;
     }
 
     //find
@@ -162,17 +130,15 @@ public class OrderDao {
 
     //update
     //update state
-    public void updateOrderState(Integer order_id,Integer state){
-        if(state<0 || 4<state){//0已接单，1为未接单，2用户取消，3司机取消，4已完成
-            //错误处理
-            return;
-        }
+    public Integer updateOrderState(Integer order_id,Integer order_state){
+        Integer state = checkOrderState(order_state);
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()) {
             database.execSQL("update orders set order_state=? where order_id=?",
-                    new Object[]{state, order_id});
+                    new Object[]{order_state, order_id});
             database.close();
         }
+        return state;
     }
 
     //delete
