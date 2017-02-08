@@ -21,6 +21,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -49,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known home_btn_user names and passwords.
+     * A dummy authentication store containing known btn_home_user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      * 模拟授权的账户
      */
@@ -71,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -81,8 +83,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 //当用户处在输入密码编辑框，软键盘打开，输入确定按钮(EditorInfo.IME_NUL)时尝试登录
+                //按回车键进行登录
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
                     attemptLogin();
+                    Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;
@@ -102,7 +106,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mExchangeToDriverBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(LoginActivity.this,OrderCreateActivity.class);//测试用
+                startActivity(intent);
             }
         });
 
@@ -133,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    //这里测试下userDao中的功能
+    //这里测试下功能
     @Override
     protected void onResume() {
         super.onResume();
@@ -257,7 +262,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             //错误处理
         }
 
-        // Check for a valid password, if the home_btn_user entered one.
+        // Check for a valid password, if the btn_home_user entered one.
         //检查密码有效性
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
@@ -283,10 +288,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
-            // perform the home_btn_user login attempt.
+            // perform the btn_home_user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask.execute((Void) null);//执行异步任务
         }
     }
     private boolean isEmailValid(String email) {
@@ -341,7 +346,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
-                // Retrieve data rows for the device home_btn_user's 'profile' contact.
+                // Retrieve data rows for the device btn_home_user's 'profile' contact.
                 //遍历用户的profile数据
                 Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
                         ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
@@ -353,7 +358,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                                                      .CONTENT_ITEM_TYPE},
 
                 // Show primary email addresses first. Note that there won't be
-                // a primary email address if the home_btn_user hasn't specified one.
+                // a primary email address if the btn_home_user hasn't specified one.
                 // 按照用户的输入显示排序的邮箱地址
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
     }
@@ -398,7 +403,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
-     * the home_btn_user.
+     * the btn_home_user.
      * 显示异步登录注册任务，继承异步任务
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
@@ -445,6 +450,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (success) {
                 finish();
                 Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(LoginActivity.this,OrderCreateActivity.class);
+                startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

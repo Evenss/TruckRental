@@ -45,6 +45,9 @@ public class DriverRegisterActivity extends Activity {
             public void onClick(View v) {
                 //注册司机信息到服务器
                 registerDriver();
+                //跳转到司机登录界面
+                Intent intent = new Intent(DriverRegisterActivity.this,LoginActivity.class);
+                startActivity(intent);//暂时先跳转到用户登录界面
             }
         });
     }

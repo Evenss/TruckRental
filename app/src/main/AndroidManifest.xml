@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.computer.hdu.truckrental" >
 
-    <!-- To auto-complete the email text field in the login form with the home_btn_user's emails -->
+    <!-- To auto-complete the email text field in the login form with the btn_home_user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -56,6 +56,15 @@
         <activity
             android:name=".RuleDriverShowActivity"
             android:label="@string/label_driver_rule">
+            <intent-filter>
+                <!--<action android:name=""/>-->
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".OrderCreateActivity"
+            android:label="@string/label_order_create">
             <intent-filter>
                 <!--<action android:name=""/>-->
                 <category android:name="android.intent.category.DEFAULT"/>

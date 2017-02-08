@@ -82,23 +82,23 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginLeft="7dp"
-                    android:background="@drawable/register_small_van"/>
+                    android:background="@drawable/ic_register_small_van"/>
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginLeft="7dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/register_van"/>
+                    android:background="@drawable/ic_register_van"/>
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginLeft="7dp"
-                    android:background="@drawable/register_small_truck"/>
+                    android:background="@drawable/ic_register_small_truck"/>
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="60dp"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/register_truck"/>
+                    android:background="@drawable/ic_register_truck"/>
             </LinearLayout>
             <RadioGroup
                 android:id="@+id/driver_car_type"

@@ -50,4 +50,18 @@
         <b>第三! </b>\n
         绝对裁判的公正漂亮!\n
     </string>
+
+    <!-- String related to create order-->
+    <string name="label_order_create">订单创建</string>
+    <string name="hint_departure">按此输入出发地或点击右边定位</string>
+    <string name="hint_destination">按此输入目的地</string>
+    <string name="hint_explain"><b>+</b>添加额外需求（若不需要则不填写）</string>
+    <string name="hint_follower_explain">面包车：0 || 小货车：0-2 || 中货车：0-3 </string>
+    <string name="prompt_order_back">回  城</string>
+    <string name="prompt_order_carry">搬  运</string>
+    <string name="prompt_order_followers">跟车人数：</string>
+    <string name="prompt_order_remarks">备注：</string>
+    <string name="hint_order_remarks">备注:(若无则不填写)</string>
+    <string name="action_order_create">即时用车（20分钟内）</string>
+    <string name="action_order_create_advanced">预约</string>
 </resources>
