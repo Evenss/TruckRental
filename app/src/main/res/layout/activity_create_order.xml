@@ -44,7 +44,7 @@
                 android:background="@drawable/ic_register_truck"/>
         </LinearLayout>
         <RadioGroup
-            android:id="@+id/driver_car_type"
+            android:id="@+id/order_car_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -127,16 +127,16 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:gravity="center"
+                android:gravity="center"
             android:hint="@string/hint_explain"/>
         <CheckBox
-            android:id="@+id/order_back_cb"
+            android:id="@+id/order_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/prompt_order_back" />
         <CheckBox
-            android:id="@+id/order_carry_cb"
+            android:id="@+id/order_carry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -188,13 +188,13 @@
         android:orientation="horizontal"
         android:layout_marginTop="15dp">
         <Button
-            android:id="@+id/action_order_create"
+            android:id="@+id/order_create_btn"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/action_order_create"/>
         <Button
-            android:id="@+id/action_order_create_advanced"
+            android:id="@+id/order_create_advanced_btn"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
