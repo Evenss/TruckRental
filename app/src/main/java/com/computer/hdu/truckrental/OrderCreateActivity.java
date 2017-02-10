@@ -1,6 +1,7 @@
 package com.computer.hdu.truckrental;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -14,6 +15,8 @@ import android.widget.Spinner;
 import com.computer.hdu.truckrental.dao.OrderDao;
 import com.computer.hdu.truckrental.domain.Order;
 
+import static com.computer.hdu.truckrental.tools.Check.ORDER_FOLLOWERS_ERROR;
+
 /**
  * Created by Even on 2017/2/8.
  */
@@ -21,6 +24,7 @@ import com.computer.hdu.truckrental.domain.Order;
 public class OrderCreateActivity extends Activity {
 
     private OrderDao orderDao;
+    private Integer state;//添加订单后返回的状态码
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +37,9 @@ public class OrderCreateActivity extends Activity {
             String startDate = "0";
             @Override
             public void onClick(View v) {
-                if(OrderCreate(startDate)<0){
-                    ErrorShow();
+                state = OrderCreate(startDate);
+                if(state<0){
+                    ErrorShow(state);
                 }
             }
         });
@@ -47,16 +52,27 @@ public class OrderCreateActivity extends Activity {
             String startDate;
             @Override
             public void onClick(View v) {
-                if(OrderCreate(startDate)<0){
-                    ErrorShow();
+                state = OrderCreate(startDate);
+                if(state<0){
+                    ErrorShow(state);
                 }
             }
         });
     }
 
     //匹配错误码并展示错误
-    private void ErrorShow(){
-
+    private void ErrorShow(Integer state){
+        String errorMessage = "";
+        switch (state){
+            case ORDER_FOLLOWERS_ERROR://跟车人数错误
+                errorMessage = "跟车人数不正确，请仔细阅读要求";
+                break;
+        }
+        AlertDialog.Builder errorBuilder = new AlertDialog.Builder(OrderCreateActivity.this);
+        errorBuilder.setTitle("错误提示");
+        errorBuilder.setMessage(errorMessage);
+        errorBuilder.setPositiveButton("确定",null);
+        errorBuilder.show();
     }
 
     //将价格计算单独提出来，方便以后优化计算
