@@ -64,4 +64,8 @@
     <string name="hint_order_remarks">备注:(若无则不填写)</string>
     <string name="action_order_create">即时用车（20分钟内）</string>
     <string name="action_order_create_advanced">预约</string>
+
+    <!-- -->
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
 </resources>

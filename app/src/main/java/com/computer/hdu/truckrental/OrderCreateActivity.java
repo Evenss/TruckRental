@@ -1,13 +1,19 @@
 package com.computer.hdu.truckrental;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -21,15 +27,55 @@ import static com.computer.hdu.truckrental.tools.Check.ORDER_FOLLOWERS_ERROR;
  * Created by Even on 2017/2/8.
  */
 
-public class OrderCreateActivity extends Activity {
+public class OrderCreateActivity extends AppCompatActivity {
 
     private OrderDao orderDao;
     private Integer state;//添加订单后返回的状态码
+    private ActionBarDrawerToggle mUserDrawerToggle;//?
+    private Toolbar userToolbar;
+    private DrawerLayout mUserDrawerLayout;
+    private AnimationDrawable mAnimationDrawable;//?
+    private ArrayAdapter arrayAdapter;
+    private String[] userList = {"订单记录", "我的司机"};
+    private ListView userLeftMenu;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_create_order);
+
+        //设置toolbar标题
+        userToolbar = (Toolbar) findViewById(R.id.toolbar_user);
+        this.setSupportActionBar(userToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);//?
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);//?
+
+        mUserDrawerLayout = (DrawerLayout) findViewById(R.id.dl_user_left);
+
+        //创建返回键，并实现打开关闭的监听
+
+        mUserDrawerToggle =
+                new ActionBarDrawerToggle(this,mUserDrawerLayout,userToolbar,R.string.drawer_open,
+                        R.string.drawer_close){
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        super.onDrawerOpened(drawerView);
+                        //mAnimationDrawable.stop();
+                        invalidateOptionsMenu();
+                    }
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        super.onDrawerClosed(drawerView);
+                        //mAnimationDrawable.start();
+                        invalidateOptionsMenu();
+                    }
+                };
+        mUserDrawerToggle.syncState();
+        mUserDrawerLayout.setDrawerListener(mUserDrawerToggle);//被抛弃?
+        //设置菜单列表
+        userLeftMenu = (ListView) findViewById(R.id.user_left_menu);
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, userList);
+        userLeftMenu.setAdapter(arrayAdapter);
 
         Button mOrderCreateBtn = (Button) findViewById(R.id.order_create_btn);
         mOrderCreateBtn.setOnClickListener(new View.OnClickListener() {
