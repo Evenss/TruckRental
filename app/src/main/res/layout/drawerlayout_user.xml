@@ -2,7 +2,8 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dl_user_left"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,6 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:orientation="vertical"
             android:background="@drawable/bg_corners">
             <LinearLayout
@@ -199,18 +201,15 @@
                 android:text="@string/action_order_create_advanced"/>
         </LinearLayout>
     </LinearLayout>
-    <FrameLayout
+
+    <ListView
+        android:id="@+id/user_left_menu"
         android:layout_width="150dp"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:layout_gravity="start">
-        <ListView
-            android:id="@+id/user_left_menu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@null"
-            android:text="DrawerLayout" />
-
-
-    </FrameLayout>
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@color/colorTransparent"
+        android:dividerHeight="0dp"
+        android:text="DrawerLayout"
+        android:background="@color/colorWhite"/>
 </android.support.v4.widget.DrawerLayout>

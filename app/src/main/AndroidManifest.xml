@@ -62,9 +62,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".OrderCreateActivity"
-            android:label="@string/label_order_create">
+        <activity android:name=".OrderCreateActivity">
             <intent-filter>
                 <!--<action android:name=""/>-->
                 <category android:name="android.intent.category.DEFAULT"/>
