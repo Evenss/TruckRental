@@ -22,6 +22,8 @@ import com.computer.hdu.truckrental.domain.Order;
 import com.computer.hdu.truckrental.listener.UserDrawerItemClickListener;
 
 import static com.computer.hdu.truckrental.tools.Check.ORDER_FOLLOWERS_ERROR;
+import static com.computer.hdu.truckrental.tools.Tool.getCurrentTime;
+import static com.computer.hdu.truckrental.tools.Tool.getOrderNumber;
 
 /**
  * Created by Even on 2017/2/8.
@@ -78,7 +80,7 @@ public class OrderCreateActivity extends AppCompatActivity {
         Button mOrderCreateBtn = (Button) findViewById(R.id.order_create_btn);
         mOrderCreateBtn.setOnClickListener(new View.OnClickListener() {
             //获取当前日期
-            String startDate = "0";
+            String startDate = getCurrentTime();
             @Override
             public void onClick(View v) {
                 state = OrderCreate(startDate);
@@ -139,12 +141,11 @@ public class OrderCreateActivity extends AppCompatActivity {
         //info to order class
         Order order = new Order();
         String dateTime = "";//需要计算
-        //订单号
-        String orderNumber = "";//需要计算得到，邮编（6位）+用户id(最多10位)+时间（最多14位）
-        order.setOrder_number(orderNumber);
         //用户id
         Integer fkUserId = 0;//上一个活动传到这个活动中,这里最好设置为私有成员
         order.setFk_user_id(fkUserId);
+        //订单号
+        order.setOrder_number(getOrderNumber(startDate,fkUserId.toString()));//用户id(最多10位)+时间（最多14位）
         //出发地
         order.setOrder_departure(mOrderSelectDeparture.getText().toString());
         //目的地
