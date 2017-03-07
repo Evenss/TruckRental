@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.computer.hdu.truckrental"
+        applicationId "com.hdu.truckrental"
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
@@ -17,14 +17,29 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'armeabi-v7a'
+            universalApk true
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     testCompile 'junit:junit:4.12'
+    compile files('libs/baidumapapi_base_v4_2_0.jar')
+    compile files('libs/baidumapapi_cloud_v4_2_0.jar')
+    compile files('libs/baidumapapi_map_v4_2_0.jar')
+    compile files('libs/baidumapapi_radar_v4_2_0.jar')
+    compile files('libs/baidumapapi_search_v4_2_0.jar')
+    compile files('libs/baidumapapi_util_v4_2_0.jar')
+    compile files('libs/locSDK_6.13.jar')
 }

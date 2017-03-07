@@ -68,4 +68,10 @@
     <!-- -->
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>
+
+    <!-- map location-->
+    <string name="hint_map_city">城市</string>
+    <string name="hint_map_address">详细地址</string>
+    <string name="action_map_search">搜索</string>
+    <string name="action_map_sure">确认地点</string>
 </resources>
