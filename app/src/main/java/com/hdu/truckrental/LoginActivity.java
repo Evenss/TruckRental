@@ -129,7 +129,6 @@ public class LoginActivity extends AppCompatActivity implements
          case R.id.register_user_btn:
              intent = new Intent(LoginActivity.this, UserRegisterActivity.class);
              startActivity(intent);
-             Toast.makeText(getApplicationContext(),"还没写呢T^T",Toast.LENGTH_SHORT).show();
              break;
 
          case R.id.register_driver_btn:

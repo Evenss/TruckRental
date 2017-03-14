@@ -21,6 +21,10 @@
 
     <!-- String related to register for user -->
     <string name="label_register_user">用户注册</string>
+    <string name="prompt_user_phone">手机号</string>
+    <string name="prompt_user_validation">验证码</string>
+    <string name="action_user_validate">获取验证码</string>
+    <string name="action_user_registered">立即注册</string>
 
     <!-- String related to register for driver -->
     <string name="label_register_driver">司机注册</string>

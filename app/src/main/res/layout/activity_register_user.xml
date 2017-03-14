@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.computer.hdu.truckrental.UserRegisterActivity">
+    tools:context="com.hdu.truckrental.UserRegisterActivity">
 
     <ScrollView
         android:id="@+id/register_user"
@@ -17,10 +17,46 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/user_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:inputType="phone"
+                android:hint="@string/prompt_user_phone"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+                <EditText
+                    android:id="@+id/user_validation_code"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:inputType="number"
+                    android:hint="@string/prompt_user_validation"/>
+                <Button
+                    android:id="@+id/user_validate"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/action_user_validate"
+                    android:textSize="18sp"/>
+            </LinearLayout>
 
-
+            <Button
+                android:id="@+id/user_registered"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                android:text="@string/action_user_registered"
+                android:textSize="24sp"/>
         </LinearLayout>
+
+
     </ScrollView>
 
 </LinearLayout>
