@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.computer.hdu.truckrental.LoginActivity">
+    tools:context="com.hdu.truckrental.LoginActivity">
 
     <!-- Login progress -->
     <ProgressBar
@@ -42,11 +42,11 @@
                 android:layout_height="wrap_content">
 
             <AutoCompleteTextView
-                android:id="@+id/email"
+                android:id="@+id/account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_email"
-                android:inputType="textEmailAddress"
+                android:hint="@string/prompt_account"
+                android:inputType="phone"
                 android:maxLines="1"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -69,7 +69,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/email_sign_in_btn"
+                android:id="@+id/account_sign_in_btn"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

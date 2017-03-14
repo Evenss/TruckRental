@@ -31,17 +31,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hdu.truckrental.tools.Check;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
- * A login screen that offers login via email/password.
- * 登录界面有email和password两个输入框
+ * 登录界面有account和password两个输入框
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-
+public class LoginActivity extends AppCompatActivity implements
+        LoaderCallbacks<Cursor>, OnClickListener ,TextView.OnEditorActionListener{
     private String tag = "LoginActivity.class";
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -50,12 +51,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known btn_home_user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
      * 模拟授权的账户
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
+            "15957159506:hello"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -64,131 +63,91 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mAccountView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    //Button
+    private Button mAccountSignInBtn;
+    private ImageButton mExchangeToDriverBtn;
+    private Button mRegisterUserBtn;
+    private Button mRegisterDriverBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
+        initView();
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+        setListener();
+    }
 
+    /**
+     * 初始化界面
+     */
+    private void initView(){
+        mAccountView = (AutoCompleteTextView) findViewById(R.id.account);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                //当用户处在输入密码编辑框，软键盘打开，输入确定按钮(EditorInfo.IME_NUL)时尝试登录
-                //按回车键进行登录
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-                return false;
-            }
-        });
-        //登录按钮点击事件
-        Button mEmailSignInBtn = (Button) findViewById(R.id.email_sign_in_btn);
-        mEmailSignInBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
 
-        //转换为司机登录界面
-        ImageButton mExchangeToDriverBtn = (ImageButton) findViewById(R.id.exchange_to_driver_btn);
-        mExchangeToDriverBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, com.hdu.truckrental.OrderCreateActivity.class);//测试用
-                startActivity(intent);
-            }
-        });
-
-
-        //用户注册按钮
-        Button mRegisterUserBtn = (Button) findViewById(R.id.register_user_btn);
-        mRegisterUserBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //这里跳转用户注册界面
-                Intent intent = new Intent(LoginActivity.this, com.hdu.truckrental.UserRegisterActivity.class);
-                startActivity(intent);
-                Toast.makeText(getApplicationContext(),"还没写呢T^T",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //司机注册按钮
-        Button mRegisterDriverBtn = (Button) findViewById(R.id.register_driver_btn);
-        mRegisterDriverBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, com.hdu.truckrental.DriverRegisterActivity.class);
-                startActivity(intent);
-            }
-        });
+        mAccountSignInBtn = (Button) findViewById(R.id.account_sign_in_btn);
+        mExchangeToDriverBtn = (ImageButton) findViewById(R.id.exchange_to_driver_btn);
+        mRegisterUserBtn = (Button) findViewById(R.id.register_user_btn);
+        mRegisterDriverBtn = (Button) findViewById(R.id.register_driver_btn);
         //登录界面和进度条界面
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
-
-    //这里测试下功能
+    /**
+     * 设置监听事件
+     */
+    private void setListener(){
+        mPasswordView.setOnEditorActionListener(this);
+        mAccountSignInBtn.setOnClickListener(this);
+        mExchangeToDriverBtn.setOnClickListener(this);
+        mRegisterUserBtn.setOnClickListener(this);
+        mRegisterDriverBtn.setOnClickListener(this);
+    }
+    /**
+     * 监听事件具体逻辑
+     */
     @Override
-    protected void onResume() {
-        super.onResume();
-   /*     UserDao userDao = new UserDao(getApplicationContext());
-         userDao.addUser("123456789",3);
+    public void onClick(View v) {
+        Intent intent;
+     switch (v.getId()){
+         case R.id.account_sign_in_btn:
+             attemptLogin();
+             break;
 
-        userDao.updateUserLevel(1,3);
-        User user = userDao.findUserAll().get(0);
-        Log.d(tag,user.getUser_id().toString());
-        Log.d(tag,user.getUser_phone());
-        Log.d(tag,user.getUser_level().toString());
-        userDao.deleteUser(1);
-        if(userDao.findUserAll()==null){
-            Log.d(tag,"被删除掉了！");
-        }*/
+         case R.id.exchange_to_driver_btn:
+             intent = new Intent(LoginActivity.this, OrderCreateActivity.class);//测试用
+             startActivity(intent);
+             break;
 
-/*        DriverDao driverDao =new DriverDao(getApplicationContext());
-        Driver driver = new Driver();
-        driver.setDriver_name("一号司机");
-        driver.setDriver_phone("123456789");
-        driver.setDriver_pwd("123456789");
-        driver.setDriver_car_type(1);
-        driver.setDriver_city("成都");
-        driver.setDriver_license_plate("123456789");
-        driver.setDriver_license("12345");
-        driver.setDriver_level(5);//初始信用等级为5
-        driver.setDriver_score(100);//初始评分为100
-        driver.setDriver_state(0);//状态为审核中
-        driverDao.addDriver(driver);
+         case R.id.register_user_btn:
+             intent = new Intent(LoginActivity.this, UserRegisterActivity.class);
+             startActivity(intent);
+             Toast.makeText(getApplicationContext(),"还没写呢T^T",Toast.LENGTH_SHORT).show();
+             break;
 
-        driver.setDriver_name("2号司机");
-        driver.setDriver_phone("987654321");
-        driver.setDriver_pwd("123456789");
-        driver.setDriver_car_type(1);
-        driver.setDriver_city("成都");
-        driver.setDriver_license_plate("987654321");
-        driver.setDriver_license("54321");
-        driver.setDriver_level(5);//初始信用等级为5
-        driver.setDriver_score(100);//初始评分为100
-        driver.setDriver_state(0);//状态为审核中
-        driverDao.addDriver(driver);
+         case R.id.register_driver_btn:
+             intent = new Intent(LoginActivity.this, DriverRegisterActivity.class);
+             startActivity(intent);
+     }
+    }
 
-        driverDao.showDriver(driverDao.findDriverById(1));
-        driverDao.showDriver(driverDao.findDriverById(2));
-        List<Driver> driverList;
-        driverList = driverDao.findDriverListByCarType(1);
-        driverDao.showDriver(driverList.get(0));
-        driverDao.showDriver(driverList.get(1));
-        */
-
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        //当用户处在输入密码编辑框，软键盘打开，输入确定按钮(EditorInfo.IME_NUL)时尝试登录
+        //按回车键进行登录
+        if (actionId == R.id.login || actionId == EditorInfo.IME_NULL) {
+            attemptLogin();
+            Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
     }
 
     //加载本地账户
@@ -208,7 +167,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             return true;
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(mAccountView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
@@ -248,11 +207,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Reset errors.
-        mEmailView.setError(null);
+        mAccountView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String account = mAccountView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -270,51 +229,47 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+        // Check for a valid account address.
+        if (TextUtils.isEmpty(account)) {
+            mAccountView.setError(getString(R.string.error_field_required));
+            focusView = mAccountView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+        } else if (!isAccountValid(account)) {
+            mAccountView.setError(getString(R.string.error_invalid_email));
+            focusView = mAccountView;
             cancel = true;
         }
 
         //取消登录
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
+            // 显示错误
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the btn_home_user login attempt.
+            // 显示进度条，并启动后台任务尝试登录
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(account, password);
             mAuthTask.execute((Void) null);//执行异步任务
         }
     }
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        //判断邮箱有效性，必须含有"@"
-        return email.contains("@");
+    private boolean isAccountValid(String account) {
+        //判断账号有效性
+        if(Check.checkPhone(account) == Check.SUCCEED){
+            return true;
+        }
+        return false;
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         //密码有效性判断，必须长度大于4
         return password.length() > 4;
     }
 
     /**
-     * Shows the progress UI and hides the login form.
      * 显示进度条界面，关闭登录窗体
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
+        // 若版本在13以上使用渐入渐出动画
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -336,8 +291,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             });
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
+            // 否则使用简单的隐藏
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
@@ -351,28 +305,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
                         ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
 
-                // Select only email addresses.
-                // 选择邮箱地址
+                // Select only account addresses.
+                // 选择账号地址
                 ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
+                        " = ?", new String[]{ContactsContract.CommonDataKinds.Phone
                                                                      .CONTENT_ITEM_TYPE},
 
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the btn_home_user hasn't specified one.
-                // 按照用户的输入显示排序的邮箱地址
+                // 按照用户的输入显示排序的账号
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<>();
+        List<String> accounts = new ArrayList<>();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
+            accounts.add(cursor.getString(ProfileQuery.NUMBER));
             cursor.moveToNext();
         }
 
-        addEmailsToAutoComplete(emails);
+        addAccountsToAutoComplete(accounts);
     }
 
     @Override
@@ -382,23 +334,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private interface ProfileQuery {
         String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
+                ContactsContract.CommonDataKinds.Phone.NUMBER,
+                ContactsContract.CommonDataKinds.Phone.IS_PRIMARY,
         };
 
-        int ADDRESS = 0;
+        int NUMBER = 0;
         int IS_PRIMARY = 1;
     }
 
 
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+    private void addAccountsToAutoComplete(List<String> accountAddressCollection) {
         //创建自动填充的提示列表适配器
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(LoginActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
+                        android.R.layout.simple_dropdown_item_1line, accountAddressCollection);
 
-        mEmailView.setAdapter(adapter);
+        mAccountView.setAdapter(adapter);
     }
 
     /**
@@ -408,20 +359,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
+        private final String mAccount;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
+        UserLoginTask(String account, String password) {
+            mAccount = account;
             mPassword = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
             try {
-                // Simulate network access.
                 //通过网络服务尝试获取授权
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -430,8 +379,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
+                if (pieces[0].equals(mAccount)) {
                     //如果账户存在且密码匹配成功返回true
                     return pieces[1].equals(mPassword);
                 }

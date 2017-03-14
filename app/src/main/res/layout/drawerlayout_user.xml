@@ -19,26 +19,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="80dp"
                     android:layout_marginLeft="7dp"
                     android:background="@drawable/ic_register_small_van"/>
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="80dp"
                     android:layout_marginLeft="7dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/ic_register_van"/>
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="80dp"
                     android:layout_marginLeft="7dp"
                     android:background="@drawable/ic_register_small_truck"/>
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="60dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/ic_register_truck"/>
@@ -47,26 +52,31 @@
                 android:id="@+id/order_car_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/small_van_btn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="@string/prompt_driver_small_van"/>
                 <RadioButton
                     android:id="@+id/van_btn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="@string/prompt_driver_van"/>
                 <RadioButton
                     android:id="@+id/small_truck_btn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="@string/prompt_driver_small_truck"/>
                 <RadioButton
                     android:id="@+id/truck_btn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="@string/prompt_driver_truck"/>
@@ -95,22 +105,24 @@
                     android:orientation="horizontal">
                     <Button
                         android:id="@+id/order_select_departure"
-                        android:layout_width="260dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="9"
                         android:layout_height="wrap_content"
                         android:gravity="left|center"
                         android:hint="@string/hint_departure"
                         android:background="@color/colorTransparent"/>
                     <ImageButton
                         android:id="@+id/order_location_departure"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right|center"
+                        android:layout_gravity="center"
                         android:background="@drawable/btn_order_location"/>
                 </LinearLayout>
 
                 <Button
                     android:id="@+id/order_select_destination"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left|center"
                     android:hint="@string/hint_destination"
@@ -189,13 +201,15 @@
             android:layout_marginTop="15dp">
             <Button
                 android:id="@+id/order_create_btn"
-                android:layout_width="250dp"
+                android:layout_width="0dp"
+                android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/action_order_create"/>
             <Button
                 android:id="@+id/order_create_advanced_btn"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="@string/action_order_create_advanced"/>
