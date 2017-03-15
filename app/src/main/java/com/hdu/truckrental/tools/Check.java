@@ -50,9 +50,8 @@ public class Check {
     public static final int DRIVER_SCORE_ERROR = -15;                   //司机评分错误
     public static final int DRIVER_STATE_ERROR = -16;                   //司机状态错误
 
+    public static final int USER_DUPLICATE_ERROR = -17;                       //用户重名错误
     public static final int SUCCEED = 0;                                //检验成功返回的数值
-
-    public static final int OUT_OF_CONDITION = 1;                       //超出条件范围错误
 
     //手机号检验
     public static int checkPhone(String phone){
@@ -175,8 +174,6 @@ public class Check {
             case 3:if (followers < 0 || followers > 3)
                 state = ORDER_FOLLOWERS_ERROR;
                 break;
-            default:state = OUT_OF_CONDITION;
-                break;
         }
 
         return state;
@@ -223,8 +220,6 @@ public class Check {
             //do nothing
         }else if ((state = checkUserLevel(user.getUser_level().intValue())) != SUCCEED){
             //do nothing
-        }else{
-            state = OUT_OF_CONDITION;
         }
 
         return state;
@@ -245,8 +240,6 @@ public class Check {
             //do nothing
         }else if ((state = checkOrderFollowers(carType, order.getOrder_followers().intValue())) != SUCCEED){
             //do nothing
-        }else{
-            state = OUT_OF_CONDITION;
         }
 
         return state;
@@ -264,8 +257,6 @@ public class Check {
             //do nothing
         }else if ((state = checkDriverState(driver.getDriver_state().intValue())) != SUCCEED){
             //do nothing
-        }else{
-            state = OUT_OF_CONDITION;
         }
 
         return state;

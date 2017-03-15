@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.hdu.truckrental.domain.Driver;
 import com.hdu.truckrental.domain.Order;
 
+import static com.hdu.truckrental.tools.Check.SUCCEED;
 import static com.hdu.truckrental.tools.Check.checkOrder;
 import static com.hdu.truckrental.tools.Check.checkOrderState;
 
@@ -33,7 +34,9 @@ public class OrderDao {
         Driver driver = driverDao.findDriverById(order.getFk_driver_id());
         Integer car_type = driver.getDriver_car_type();
         Integer state = checkOrder(order,car_type);
-
+        if(state != SUCCEED){
+            return state;
+        }
         //把String类型的日期转换成datetime类型的
 
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
@@ -132,6 +135,9 @@ public class OrderDao {
     //update state
     public Integer updateOrderState(Integer order_id,Integer order_state){
         Integer state = checkOrderState(order_state);
+        if(state != SUCCEED){
+            return state;
+        }
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()) {
             database.execSQL("update orders set order_state=? where order_id=?",

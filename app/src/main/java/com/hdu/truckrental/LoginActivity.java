@@ -31,6 +31,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hdu.truckrental.dao.UserDao;
 import com.hdu.truckrental.tools.Check;
 
 import java.util.ArrayList;
@@ -49,13 +50,6 @@ public class LoginActivity extends AppCompatActivity implements
      * 读取用户通讯录
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * 模拟授权的账户
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "15957159506:hello"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      * 声明用户登录引用，方便随时撤销登录请求
@@ -73,6 +67,8 @@ public class LoginActivity extends AppCompatActivity implements
     private ImageButton mExchangeToDriverBtn;
     private Button mRegisterUserBtn;
     private Button mRegisterDriverBtn;
+
+    private UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -371,21 +367,14 @@ public class LoginActivity extends AppCompatActivity implements
 
             try {
                 //通过网络服务尝试获取授权
-                Thread.sleep(2000);
+                Thread.sleep(500);
+                userDao = new UserDao(LoginActivity.this);
+                if(userDao.findUserByPhone(mAccount)!=null && mPassword.equals("123456")){
+                    return true;
+                }
             } catch (InterruptedException e) {
                 return false;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mAccount)) {
-                    //如果账户存在且密码匹配成功返回true
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-
-            // TODO: register the new account here.
             return false;
         }
 

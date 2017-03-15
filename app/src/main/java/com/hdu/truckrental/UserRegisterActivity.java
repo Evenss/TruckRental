@@ -7,7 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.hdu.truckrental.dao.UserDao;
+import com.hdu.truckrental.domain.User;
 import com.hdu.truckrental.tools.Check;
+
+import static com.hdu.truckrental.tools.Check.USER_DUPLICATE_ERROR;
 
 /**
  * Created by Even on 2017/1/24.
@@ -20,6 +24,7 @@ public class UserRegisterActivity extends Activity implements View.OnClickListen
     private Button mUserRegistered;
 
     private String code;
+    private UserDao userDao ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,22 @@ public class UserRegisterActivity extends Activity implements View.OnClickListen
                 if(!mUserValidationCode.getText().toString().equals(code)){
                     Toast.makeText(UserRegisterActivity.this,"验证码有误",Toast.LENGTH_SHORT).show();
                 }
+                registerUser(mUserPhone.getText().toString());
+                break;
+        }
+    }
+
+    private void registerUser(String phone){
+
+        User user = new User();
+        user.setUser_phone(phone);
+        user.setUser_level(5);//默认用户初始等为5
+        userDao = new UserDao(UserRegisterActivity.this);
+        switch (userDao.addUser(user)){
+            case USER_DUPLICATE_ERROR:
+                Toast.makeText(UserRegisterActivity.this,"该手机号已被注册",Toast.LENGTH_SHORT).show();
+                break;
+            default:
                 break;
         }
     }

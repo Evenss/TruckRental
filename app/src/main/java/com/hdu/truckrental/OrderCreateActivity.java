@@ -315,6 +315,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
 
         //info to db
         Integer state = 0;
+        orderDao = new OrderDao(OrderCreateActivity.this);
         state = orderDao.addOrder(order);
         return state;
     }

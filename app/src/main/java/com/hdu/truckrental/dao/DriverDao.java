@@ -10,6 +10,7 @@ import com.hdu.truckrental.domain.Driver;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.hdu.truckrental.tools.Check.SUCCEED;
 import static com.hdu.truckrental.tools.Check.checkDriver;
 import static com.hdu.truckrental.tools.Check.checkDriverCarType;
 import static com.hdu.truckrental.tools.Check.checkDriverLevel;
@@ -42,6 +43,9 @@ public class DriverDao {
 
         //valid check
         Integer state = checkDriver(driver);
+        if(state != SUCCEED){
+            return state;
+        }
 
         //pwd encrypt
         String pwdEncrypted = getEncryption(driver.getDriver_pwd());

@@ -5,9 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.hdu.truckrental.domain.User;
+import com.hdu.truckrental.tools.Check;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.hdu.truckrental.tools.Check.USER_DUPLICATE_ERROR;
 
 /**
  * Created by Even on 2017/2/1.
@@ -25,10 +28,14 @@ public class UserDao {
     }
 
     //add
-    public boolean addUser(User user){
-        //电话号码正则检验
-        if(false){
-            return false;
+    public Integer addUser(User user){
+        //输入合法性验证
+        Integer state = Check.checkUser(user);
+        if(state != Check.SUCCEED){
+            return state;
+        }
+        if(isSamePhone(user.getUser_phone())){
+            return USER_DUPLICATE_ERROR;
         }
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()){
@@ -36,7 +43,7 @@ public class UserDao {
                     new Object[]{user.getUser_phone(),user.getUser_level()});
             database.close();
         }
-        return true;
+        return state;
     }
 
     //find
@@ -75,11 +82,35 @@ public class UserDao {
         return userList;
     }
 
+    //find user by phone
+    public User findUserByPhone(String phone){
+        List<User> userList ;
+        userList = findUserAll();
+        for(User user: userList){
+            if(user.getUser_phone().equals(phone)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    // same phone judge
+    private boolean isSamePhone(String phone){
+        List<User> userList ;
+        userList = findUserAll();
+        for(User user: userList){
+            if(user.getUser_phone().equals(phone)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     //update level
-    public void updateUserLevel(Integer user_id,int level){
-        if(level<0 || 5<level){
-            //信用等级不合法并处理它
-            return ;
+    public Integer updateUserLevel(Integer user_id,int level){
+        Integer state = Check.checkUserLevel(level);
+        if(state != Check.SUCCEED){
+            return state;
         }
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()){
@@ -87,6 +118,7 @@ public class UserDao {
                     new Object[]{level,user_id});
             database.close();
         }
+        return state;
     }
 
     //delete
