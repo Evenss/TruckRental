@@ -1,9 +1,9 @@
-package com.hdu.truckrental;
+package com.hdu.truckrental.driver;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager.LoaderCallbacks;
+import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -20,7 +20,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -31,12 +30,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hdu.truckrental.dao.UserDao;
-import com.hdu.truckrental.driver.DriverLoginActivity;
-import com.hdu.truckrental.driver.DriverRegisterActivity;
+import com.hdu.truckrental.LoginActivity;
+import com.hdu.truckrental.R;
+import com.hdu.truckrental.dao.DriverDao;
 import com.hdu.truckrental.tools.Check;
+import com.hdu.truckrental.tools.Encrypt;
 import com.hdu.truckrental.user.OrderCreateActivity;
-import com.hdu.truckrental.user.UserRegisterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +43,12 @@ import java.util.List;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
- * 登录界面有account和password两个输入框
+ * Created by Even on 2017/1/25.
  */
-public class LoginActivity extends AppCompatActivity implements
-        LoaderCallbacks<Cursor>, OnClickListener ,TextView.OnEditorActionListener{
-    private String tag = "LoginActivity.class";
+
+public class DriverLoginActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener,TextView.OnEditorActionListener {
+    private String tag = "DriverLoginActivity";
     /**
      * Id to identity READ_CONTACTS permission request.
      * 读取用户通讯录
@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements
      * Keep track of the login task to ensure we can cancel it if requested.
      * 声明用户登录引用，方便随时撤销登录请求
      */
-    private UserLoginTask mAuthTask = null;
+    private DriverLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mAccountView;
@@ -68,17 +68,15 @@ public class LoginActivity extends AppCompatActivity implements
 
     //Button
     private Button mAccountSignInBtn;
-    private ImageButton mExchangeToDriverBtn;
-    private Button mRegisterUserBtn;
-    private Button mRegisterDriverBtn;
+    private ImageButton mExchangeToUserBtn;
 
-    private UserDao userDao;
+    private DriverDao driverDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_driver);
         initView();
         // Set up the login form.
         populateAutoComplete();
@@ -89,16 +87,14 @@ public class LoginActivity extends AppCompatActivity implements
      * 初始化界面
      */
     private void initView(){
-        mAccountView = (AutoCompleteTextView) findViewById(R.id.account);
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mAccountView = (AutoCompleteTextView) findViewById(R.id.driver_account);
+        mPasswordView = (EditText) findViewById(R.id.driver_password);
 
-        mAccountSignInBtn = (Button) findViewById(R.id.account_sign_in_btn);
-        mExchangeToDriverBtn = (ImageButton) findViewById(R.id.exchange_to_driver_btn);
-        mRegisterUserBtn = (Button) findViewById(R.id.register_user_btn);
-        mRegisterDriverBtn = (Button) findViewById(R.id.register_driver_btn);
+        mAccountSignInBtn = (Button) findViewById(R.id.driver_sign_in_btn);
+        mExchangeToUserBtn = (ImageButton) findViewById(R.id.exchange_to_user_btn);
         //登录界面和进度条界面
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        mLoginFormView = findViewById(R.id.driver_login_form);
+        mProgressView = findViewById(R.id.driver_login_progress);
     }
     /**
      * 设置监听事件
@@ -106,9 +102,7 @@ public class LoginActivity extends AppCompatActivity implements
     private void setListener(){
         mPasswordView.setOnEditorActionListener(this);
         mAccountSignInBtn.setOnClickListener(this);
-        mExchangeToDriverBtn.setOnClickListener(this);
-        mRegisterUserBtn.setOnClickListener(this);
-        mRegisterDriverBtn.setOnClickListener(this);
+        mExchangeToUserBtn.setOnClickListener(this);
     }
     /**
      * 监听事件具体逻辑
@@ -116,25 +110,17 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
         Intent intent;
-     switch (v.getId()){
-         case R.id.account_sign_in_btn:
-             attemptLogin();
-             break;
+        switch (v.getId()){
+            case R.id.driver_sign_in_btn:
+                attemptLogin();
+                break;
 
-         case R.id.exchange_to_driver_btn:
-             intent = new Intent(LoginActivity.this, DriverLoginActivity.class);
-             startActivity(intent);
-             break;
+            case R.id.exchange_to_user_btn:
+                intent = new Intent(DriverLoginActivity.this, LoginActivity.class);//测试用
+                startActivity(intent);
+                break;
 
-         case R.id.register_user_btn:
-             intent = new Intent(LoginActivity.this, UserRegisterActivity.class);
-             startActivity(intent);
-             break;
-
-         case R.id.register_driver_btn:
-             intent = new Intent(LoginActivity.this, DriverRegisterActivity.class);
-             startActivity(intent);
-     }
+        }
     }
 
     @Override
@@ -143,7 +129,7 @@ public class LoginActivity extends AppCompatActivity implements
         //按回车键进行登录
         if (actionId == R.id.login || actionId == EditorInfo.IME_NULL) {
             attemptLogin();
-            Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
+            Toast.makeText(DriverLoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
@@ -246,7 +232,7 @@ public class LoginActivity extends AppCompatActivity implements
         } else {
             // 显示进度条，并启动后台任务尝试登录
             showProgress(true);
-            mAuthTask = new UserLoginTask(account, password);
+            mAuthTask = new DriverLoginTask(account, password);
             mAuthTask.execute((Void) null);//执行异步任务
         }
     }
@@ -308,7 +294,7 @@ public class LoginActivity extends AppCompatActivity implements
                 // 选择账号地址
                 ContactsContract.Contacts.Data.MIMETYPE +
                         " = ?", new String[]{ContactsContract.CommonDataKinds.Phone
-                                                                     .CONTENT_ITEM_TYPE},
+                .CONTENT_ITEM_TYPE},
 
                 // 按照用户的输入显示排序的账号
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
@@ -345,7 +331,7 @@ public class LoginActivity extends AppCompatActivity implements
     private void addAccountsToAutoComplete(List<String> accountAddressCollection) {
         //创建自动填充的提示列表适配器
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
+                new ArrayAdapter<>(DriverLoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, accountAddressCollection);
 
         mAccountView.setAdapter(adapter);
@@ -356,12 +342,12 @@ public class LoginActivity extends AppCompatActivity implements
      * the btn_home_user.
      * 显示异步登录注册任务，继承异步任务
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class DriverLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mAccount;
         private final String mPassword;
 
-        UserLoginTask(String account, String password) {
+        DriverLoginTask(String account, String password) {
             mAccount = account;
             mPassword = password;
         }
@@ -372,8 +358,8 @@ public class LoginActivity extends AppCompatActivity implements
             try {
                 //通过网络服务尝试获取授权
                 Thread.sleep(500);
-                userDao = new UserDao(LoginActivity.this);
-                if(userDao.findUserByPhone(mAccount)!=null && mPassword.equals("123456")){
+                driverDao = new DriverDao(DriverLoginActivity.this);
+                if(driverDao.findDriverByPhone(mAccount).equals(Encrypt.getEncryption(mPassword))){
                     return true;
                 }
             } catch (InterruptedException e) {
@@ -390,7 +376,7 @@ public class LoginActivity extends AppCompatActivity implements
             if (success) {
                 finish();
                 Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this, OrderCreateActivity.class);
+                Intent intent = new Intent(DriverLoginActivity.this, OrderCreateActivity.class);
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -405,4 +391,3 @@ public class LoginActivity extends AppCompatActivity implements
         }
     }
 }
-

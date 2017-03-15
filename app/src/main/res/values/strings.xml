@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Truck Rental</string>
 
-    <!-- Strings related to login -->
+    <!-- login -->
     <string name="prompt_account">账号</string>
     <string name="prompt_password">密码</string>
     <string name="action_sign_in">登录</string>
@@ -16,17 +16,18 @@
         completions."
     </string>
 
-    <!-- String related to driver login -->
+    <!-- driver login -->
     <string name="label_driver_login">司机登录</string>
 
-    <!-- String related to register for user -->
+
+    <!-- register for user -->
     <string name="label_register_user">用户注册</string>
     <string name="prompt_user_phone">手机号</string>
     <string name="prompt_user_validation">验证码</string>
     <string name="action_user_validate">获取验证码</string>
     <string name="action_user_registered">立即注册</string>
 
-    <!-- String related to register for driver -->
+    <!-- register for driver -->
     <string name="label_register_driver">司机注册</string>
     <string name="label_driver_rule">条款及细则</string>
     <string name="prompt_driver_name">姓名</string>
@@ -45,7 +46,7 @@
     <string name="action_driver_rule">条款及细则</string>
 
 
-    <!-- String related to driver's rule-->
+    <!-- driver's rule-->
     <string name="text_driver_rule">
         <b>第一! </b>\n
         绝对不意气用事!\n
@@ -55,7 +56,7 @@
         绝对裁判的公正漂亮!\n
     </string>
 
-    <!-- String related to create order-->
+    <!-- create order-->
     <string name="label_order_create">订单创建</string>
     <string name="hint_departure">按此输入出发地或点击右边定位</string>
     <string name="hint_destination">按此输入目的地</string>

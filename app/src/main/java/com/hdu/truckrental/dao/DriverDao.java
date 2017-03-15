@@ -10,6 +10,7 @@ import com.hdu.truckrental.domain.Driver;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.hdu.truckrental.tools.Check.DRIVER_DUPLICATE_ERROR;
 import static com.hdu.truckrental.tools.Check.SUCCEED;
 import static com.hdu.truckrental.tools.Check.checkDriver;
 import static com.hdu.truckrental.tools.Check.checkDriverCarType;
@@ -47,6 +48,9 @@ public class DriverDao {
             return state;
         }
 
+        if(isSamePhone(driver.getDriver_phone())){
+            return DRIVER_DUPLICATE_ERROR;
+        }
         //pwd encrypt
         String pwdEncrypted = getEncryption(driver.getDriver_pwd());
         driver.setDriver_pwd(pwdEncrypted);
@@ -113,6 +117,21 @@ public class DriverDao {
         return driver;
     }
 
+    //find all
+    public List<Driver> findAllDriver(){
+        List<Driver> driverList = new ArrayList<Driver>();
+        SQLiteDatabase database = myDBHelper.getWritableDatabase();
+        if(database.isOpen()){
+            Cursor cursor = database.rawQuery("select * from drivers",null);
+            while(cursor.moveToNext()){
+                Integer driver_id = cursor.getInt(cursor.getColumnIndex("driver_id"));
+                driverList.add(getDriver(cursor,driver_id));
+            }
+            database.close();
+        }
+        return driverList;
+    }
+
     //find by id
     public Driver findDriverById(Integer driver_id){
         Driver driver;
@@ -143,6 +162,30 @@ public class DriverDao {
             database.close();
         }
         return driverList;
+    }
+
+    //find by phone
+    public Driver findDriverByPhone(String phone){
+        List<Driver> driverList;
+        driverList = findAllDriver();
+        for(Driver driver:driverList){
+            if(driver.getDriver_phone().equals(phone)){
+                return driver;
+            }
+        }
+        return null;
+    }
+
+    //same phone judge
+    private boolean isSamePhone(String phone){
+        List<Driver> driverList ;
+        driverList = findAllDriver();
+        for(Driver driver: driverList){
+            if(driver.getDriver_phone().equals(phone)){
+                return true;
+            }
+        }
+        return false;
     }
 
     //update

@@ -8,7 +8,7 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.hdu.truckrental.DriverRegisterActivity">
+    tools:context="com.hdu.truckrental.driver.DriverRegisterActivity">
 
     <ScrollView
         android:id="@+id/register_driver"

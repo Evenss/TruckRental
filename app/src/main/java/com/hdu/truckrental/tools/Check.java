@@ -50,7 +50,8 @@ public class Check {
     public static final int DRIVER_SCORE_ERROR = -15;                   //司机评分错误
     public static final int DRIVER_STATE_ERROR = -16;                   //司机状态错误
 
-    public static final int USER_DUPLICATE_ERROR = -17;                       //用户重名错误
+    public static final int USER_DUPLICATE_ERROR = -17;                 //用户重名错误
+    public static final int DRIVER_DUPLICATE_ERROR = -18;               //司机重名错误
     public static final int SUCCEED = 0;                                //检验成功返回的数值
 
     //手机号检验

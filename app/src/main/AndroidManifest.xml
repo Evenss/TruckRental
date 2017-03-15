@@ -51,29 +51,29 @@
         </activity>
 
         <activity
-            android:name=".DriverLoginActivity"
+            android:name=".driver.DriverLoginActivity"
             android:label="@string/label_driver_login">
 
         </activity>
 
         <activity
-            android:name=".UserRegisterActivity"
+            android:name=".user.UserRegisterActivity"
             android:label="@string/label_register_user">
 
         </activity>
 
         <activity
-            android:name=".DriverRegisterActivity"
+            android:name=".driver.DriverRegisterActivity"
             android:label="@string/label_register_driver">
 
         </activity>
 
         <activity
-            android:name=".RuleDriverShowActivity"
+            android:name=".driver.RuleDriverShowActivity"
             android:label="@string/label_driver_rule">
         </activity>
 
-        <activity android:name=".OrderCreateActivity"/>
+        <activity android:name=".user.OrderCreateActivity"/>
 
         <activity android:name=".map.MapLocationActivity"/>
     </application>
