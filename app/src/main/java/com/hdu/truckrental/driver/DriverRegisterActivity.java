@@ -19,6 +19,7 @@ import com.hdu.truckrental.domain.Driver;
 
 /**
  * Created by Even on 2017/1/24.
+ * 司机注册
  */
 
 public class DriverRegisterActivity extends Activity {

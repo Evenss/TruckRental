@@ -76,6 +76,8 @@
         <activity android:name=".user.OrderCreateActivity"/>
 
         <activity android:name=".map.MapLocationActivity"/>
+
+        <activity android:name=".driver.DriverAvailableOrderShowActivity"/>
     </application>
 
 </manifest>

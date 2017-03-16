@@ -18,7 +18,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -35,8 +34,6 @@ import com.hdu.truckrental.LoginActivity;
 import com.hdu.truckrental.R;
 import com.hdu.truckrental.dao.DriverDao;
 import com.hdu.truckrental.tools.Check;
-import com.hdu.truckrental.tools.Encrypt;
-import com.hdu.truckrental.user.OrderCreateActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +42,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * Created by Even on 2017/1/25.
+ * 司机登录界面
  */
 
 public class DriverLoginActivity extends AppCompatActivity implements
@@ -82,6 +80,8 @@ public class DriverLoginActivity extends AppCompatActivity implements
         // Set up the login form.
         populateAutoComplete();
         setListener();
+        driverDao = new DriverDao(DriverLoginActivity.this);
+        driverDao.findAllDriver();
     }
 
     /**
@@ -359,11 +359,7 @@ public class DriverLoginActivity extends AppCompatActivity implements
                 //通过网络服务尝试获取授权
                 Thread.sleep(500);
                 driverDao = new DriverDao(DriverLoginActivity.this);
-                Log.d("##Driver:",Encrypt.getEncryption(mPassword));
-                if(Encrypt.getEncryption(mPassword).equals(driverDao.findAllDriver().get(0).getDriver_pwd())){
-                    Log.d("##Driver","right!!");
-                }
-                if(driverDao.findDriverByPhone(mAccount).equals(Encrypt.getEncryption(mPassword))){
+                if(driverDao.findDriverByPhone(mAccount).getDriver_pwd().equals(mPassword)){
                     return true;
                 }
             } catch (InterruptedException e) {
@@ -380,7 +376,8 @@ public class DriverLoginActivity extends AppCompatActivity implements
             if (success) {
                 finish();
                 Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(DriverLoginActivity.this, OrderCreateActivity.class);
+                Intent intent =
+                        new Intent(DriverLoginActivity.this, DriverAvailableOrderShowActivity.class);
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

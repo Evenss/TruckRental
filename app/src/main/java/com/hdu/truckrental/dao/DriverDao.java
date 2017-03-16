@@ -17,21 +17,22 @@ import static com.hdu.truckrental.tools.Check.checkDriverCarType;
 import static com.hdu.truckrental.tools.Check.checkDriverLevel;
 import static com.hdu.truckrental.tools.Check.checkDriverScore;
 import static com.hdu.truckrental.tools.Check.checkDriverState;
-import static com.hdu.truckrental.tools.Encrypt.getEncryption;
 
 /**
  * Created by Even on 2017/2/3.
  */
 
 public class DriverDao {
-    private com.hdu.truckrental.dao.MyDBHelper myDBHelper;
+    private MyDBHelper myDBHelper;
     private String tag = "DriverDao";
 
     //init
     public DriverDao(Context context){
-        myDBHelper = new com.hdu.truckrental.dao.MyDBHelper(context);/*
+        myDBHelper = new com.hdu.truckrental.dao.MyDBHelper(context);
+    }
+    public void updateDatabase(){
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
-        myDBHelper.onUpgrade(database,5,6);*/
+        myDBHelper.onUpgrade(database,6,7);
     }
 
     //test
@@ -52,10 +53,9 @@ public class DriverDao {
             return DRIVER_DUPLICATE_ERROR;
         }
         //pwd encrypt
-        String pwdEncrypted = getEncryption(driver.getDriver_pwd());
-        driver.setDriver_pwd(pwdEncrypted);
+        /*String pwdEncrypted = getEncryption(driver.getDriver_pwd());
+        driver.setDriver_pwd(pwdEncrypted);*/
 
-        showDriver(driver);
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()){
             database.execSQL("insert into drivers (" +

@@ -19,6 +19,20 @@
     <!-- driver login -->
     <string name="label_driver_login">司机登录</string>
 
+    <!-- main function of driver-->
+    <string name="label_main_driver">司机主页</string>
+    <string name="prompt_driver_resting">休息中</string>
+    <string name="prompt_driver_working">工作中</string>
+    <string name="action_driver_info">我的</string>
+    <string name="action_driver_orders">待完成订单</string>
+    <string name="action_driver_record">订单记录</string>
+    <string name="action_driver_change_password">密码修改</string>
+    <string name="action_driver_show_info">信息展示</string>
+    <string name="action_driver_show_level">等级显示</string>
+
+    <!-- myAdapter-->
+    <string name="prompt_appointment_order">预约订单</string>
+    <string name="prompt_immediate_order">即时订单</string>
 
     <!-- register for user -->
     <string name="label_register_user">用户注册</string>
