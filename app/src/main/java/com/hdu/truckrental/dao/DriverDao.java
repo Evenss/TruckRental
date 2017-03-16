@@ -29,9 +29,9 @@ public class DriverDao {
 
     //init
     public DriverDao(Context context){
-        myDBHelper = new com.hdu.truckrental.dao.MyDBHelper(context);
-/*        SQLiteDatabase database = myDBHelper.getWritableDatabase();
-        myDBHelper.onUpgrade(database,4,5);*/
+        myDBHelper = new com.hdu.truckrental.dao.MyDBHelper(context);/*
+        SQLiteDatabase database = myDBHelper.getWritableDatabase();
+        myDBHelper.onUpgrade(database,5,6);*/
     }
 
     //test
@@ -55,6 +55,7 @@ public class DriverDao {
         String pwdEncrypted = getEncryption(driver.getDriver_pwd());
         driver.setDriver_pwd(pwdEncrypted);
 
+        showDriver(driver);
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()){
             database.execSQL("insert into drivers (" +

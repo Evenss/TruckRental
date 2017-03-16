@@ -82,9 +82,6 @@ public class DriverLoginActivity extends AppCompatActivity implements
         // Set up the login form.
         populateAutoComplete();
         setListener();
-
-        driverDao = new DriverDao(DriverLoginActivity.this);
-        Log.d("##Driver:",driverDao.findAllDriver().get(0).getDriver_pwd().toString());
     }
 
     /**
@@ -362,8 +359,8 @@ public class DriverLoginActivity extends AppCompatActivity implements
                 //通过网络服务尝试获取授权
                 Thread.sleep(500);
                 driverDao = new DriverDao(DriverLoginActivity.this);
-                Log.d("##Driver:",Encrypt.getEncryption(mPassword).toString());
-                if(Encrypt.getEncryption(mPassword).toString().equals(driverDao.findAllDriver().get(0).getDriver_pwd())){
+                Log.d("##Driver:",Encrypt.getEncryption(mPassword));
+                if(Encrypt.getEncryption(mPassword).equals(driverDao.findAllDriver().get(0).getDriver_pwd())){
                     Log.d("##Driver","right!!");
                 }
                 if(driverDao.findDriverByPhone(mAccount).equals(Encrypt.getEncryption(mPassword))){

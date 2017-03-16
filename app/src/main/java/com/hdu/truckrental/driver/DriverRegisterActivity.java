@@ -105,7 +105,7 @@ public class DriverRegisterActivity extends Activity {
         Log.d(tag,driver.toString());
 
         //info to db
-        DriverDao driverDao = new DriverDao(getApplicationContext());
+        DriverDao driverDao = new DriverDao(DriverRegisterActivity.this);
         driverDao.addDriver(driver);
 
         Toast.makeText(getApplicationContext(),"注册成功！正在等待审核...",Toast.LENGTH_SHORT).show();
