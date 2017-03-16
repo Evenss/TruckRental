@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -81,6 +82,9 @@ public class DriverLoginActivity extends AppCompatActivity implements
         // Set up the login form.
         populateAutoComplete();
         setListener();
+
+        driverDao = new DriverDao(DriverLoginActivity.this);
+        Log.d("##Driver:",driverDao.findAllDriver().get(0).getDriver_pwd().toString());
     }
 
     /**
@@ -285,7 +289,6 @@ public class DriverLoginActivity extends AppCompatActivity implements
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
-                // Retrieve data rows for the device btn_home_user's 'profile' contact.
                 //遍历用户的profile数据
                 Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
                         ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
@@ -359,6 +362,10 @@ public class DriverLoginActivity extends AppCompatActivity implements
                 //通过网络服务尝试获取授权
                 Thread.sleep(500);
                 driverDao = new DriverDao(DriverLoginActivity.this);
+                Log.d("##Driver:",Encrypt.getEncryption(mPassword).toString());
+                if(Encrypt.getEncryption(mPassword).toString().equals(driverDao.findAllDriver().get(0).getDriver_pwd())){
+                    Log.d("##Driver","right!!");
+                }
                 if(driverDao.findDriverByPhone(mAccount).equals(Encrypt.getEncryption(mPassword))){
                     return true;
                 }

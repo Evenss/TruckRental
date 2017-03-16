@@ -23,14 +23,26 @@ import com.hdu.truckrental.domain.Driver;
 
 public class DriverRegisterActivity extends Activity {
 
+    private Button mDriverRuleBtn;
+    private Button mRegisterDriverInfo;
+    private TextView mDriverNameTv;
+    private TextView mDriverPhoneTv;
+    private EditText mDriverPassWordEt;
+    private RadioGroup mDriverCarTypeRg;
+    private RadioButton mDriverCarTypeRb;
+    private TextView mDriverCityTv;
+    private TextView mDriverLicensePlateTv;
+    private TextView mDriverLicenseTv;
+
     private String tag = "DriverRegister.class";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_register_driver);
 
-        Button mDriverRuleBtn = (Button) findViewById(R.id.driver_rule_btn);
+        mDriverRuleBtn = (Button) findViewById(R.id.driver_rule_btn);
         mDriverRuleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,7 +52,7 @@ public class DriverRegisterActivity extends Activity {
             }
         });
 
-        Button mRegisterDriverInfo = (Button) findViewById(R.id.register_driverInfo_btn);
+        mRegisterDriverInfo = (Button) findViewById(R.id.register_driverInfo_btn);
         mRegisterDriverInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,15 +67,14 @@ public class DriverRegisterActivity extends Activity {
 
     private void registerDriver(){
         //get info
-        TextView mDriverNameTv = (TextView) findViewById(R.id.driver_name);
-        TextView mDriverPhoneTv = (TextView) findViewById(R.id.driver_phone);
-        EditText mDriverPassWordEt = (EditText) findViewById(R.id.driver_password);
-        RadioGroup mDriverCarTypeRg = (RadioGroup) findViewById(R.id.driver_car_type);
-        RadioButton mDriverCarTypeRb =
-                (RadioButton) findViewById(mDriverCarTypeRg.getCheckedRadioButtonId());
-        TextView mDriverCityTv = (TextView) findViewById(R.id.driver_city);//这里需要修改，省市区三级联动！
-        TextView mDriverLicensePlateTv = (TextView) findViewById(R.id.driver_license_plate);
-        TextView mDriverLicenseTv = (TextView) findViewById(R.id.driver_license);
+        mDriverNameTv = (TextView) findViewById(R.id.driver_name);
+        mDriverPhoneTv = (TextView) findViewById(R.id.driver_phone);
+        mDriverPassWordEt = (EditText) findViewById(R.id.driver_password);
+        mDriverCarTypeRg = (RadioGroup) findViewById(R.id.driver_car_type);
+        mDriverCarTypeRb = (RadioButton) findViewById(mDriverCarTypeRg.getCheckedRadioButtonId());
+        mDriverCityTv = (TextView) findViewById(R.id.driver_city);//这里需要修改，省市区三级联动！
+        mDriverLicensePlateTv = (TextView) findViewById(R.id.driver_license_plate);
+        mDriverLicenseTv = (TextView) findViewById(R.id.driver_license);
 
         //info to driver class
         Driver driver = new Driver();

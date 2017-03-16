@@ -18,13 +18,11 @@ import static com.hdu.truckrental.tools.Check.checkOrderState;
 public class OrderDao {
     private MyDBHelper myDBHelper;
     private String tag = "OrderDao.class";
-    private com.hdu.truckrental.dao.UserDao userDao;
     private DriverDao driverDao;
 
     //init
     public OrderDao(Context context){
         myDBHelper = new MyDBHelper(context);
-        userDao = new com.hdu.truckrental.dao.UserDao(context);
         driverDao = new DriverDao(context);
     }
 
