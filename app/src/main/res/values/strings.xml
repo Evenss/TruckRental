@@ -30,6 +30,23 @@
     <string name="action_driver_show_info">信息展示</string>
     <string name="action_driver_show_level">等级显示</string>
 
+    <!-- driver change password -->
+    <string name="prompt_input_pwd">请输入密码</string>
+    <string name="prompt_pwd_invalid">密码过短,请使多于4个字符</string>
+    <string name="prompt_confirm_pwd_error">确认密码与新密码不一致，请重新输入</string>
+    <string name="prompt_old_pwd_error">输入密码错误,请重新输入</string>
+    <string name="hint_old_pwd">请输入旧密码</string>
+    <string name="hint_new_pwd">请输入新密码</string>
+    <string name="hint_confirm_pwd">请确认新密码</string>
+    <string name="action_change_pwd">确认修改</string>
+
+    <!-- order details-->
+    <string name="take_order">立即抢单</string>
+    <string name="order_details">订单详情</string>
+    <string name="price_details">价格明细</string>
+    <string name="back">回程</string>
+    <string name="carry">搬运</string>
+
     <!-- myAdapter-->
     <string name="prompt_appointment_order">预约订单</string>
     <string name="prompt_immediate_order">即时订单</string>

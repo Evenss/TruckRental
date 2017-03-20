@@ -78,6 +78,8 @@
         <activity android:name=".map.MapLocationActivity"/>
 
         <activity android:name=".driver.DriverAvailableOrderShowActivity"/>
+
+        <activity android:name=".driver.DriverInfoShowActivity"/>
     </application>
 
 </manifest>

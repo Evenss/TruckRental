@@ -1,6 +1,5 @@
 package com.hdu.truckrental.tools;
 
-import java.math.BigInteger;
 import java.security.MessageDigest;
 
 /**
@@ -13,16 +12,22 @@ public class Encrypt {
     public static final String KEY_MD = "MD5";
 
     public static String getEncryption(String inputStr){
-        BigInteger bigInteger = null;
+        StringBuffer buf = null;
         try{
-            MessageDigest messageDigest = MessageDigest.getInstance(KEY_MD);
-            byte[] inputData = inputStr.getBytes();
-            messageDigest.update(inputData);
-            bigInteger = new BigInteger(messageDigest.digest());
+            MessageDigest md = MessageDigest.getInstance(KEY_MD);
+            md.update(inputStr.getBytes());
+            buf = new StringBuffer();
+            byte[] bits = md.digest();
+            for(int i=0;i<bits.length;i++){
+                int a = bits[i];
+                if(a<0) a+=256;
+                if(a<16) buf.append("0");
+                buf.append(Integer.toHexString(a));
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        return bigInteger.toString();
+        return buf.toString();
     }
 }

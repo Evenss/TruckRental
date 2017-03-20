@@ -17,6 +17,7 @@ import static com.hdu.truckrental.tools.Check.checkDriverCarType;
 import static com.hdu.truckrental.tools.Check.checkDriverLevel;
 import static com.hdu.truckrental.tools.Check.checkDriverScore;
 import static com.hdu.truckrental.tools.Check.checkDriverState;
+import static com.hdu.truckrental.tools.Encrypt.getEncryption;
 
 /**
  * Created by Even on 2017/2/3.
@@ -53,8 +54,8 @@ public class DriverDao {
             return DRIVER_DUPLICATE_ERROR;
         }
         //pwd encrypt
-        /*String pwdEncrypted = getEncryption(driver.getDriver_pwd());
-        driver.setDriver_pwd(pwdEncrypted);*/
+        String pwdEncrypted = getEncryption(driver.getDriver_pwd());
+        driver.setDriver_pwd(pwdEncrypted);
 
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()){
@@ -196,6 +197,12 @@ public class DriverDao {
             database.execSQL(sql, attribute);
             database.close();
         }
+    }
+    //update pwd
+    public void updateDriverPwd(Integer driver_id,String pwd){
+        String pwdSql = "update drivers set driver_pwd=? where driver_id=?";
+        Object[] attribute = new Object[]{pwd,driver_id};
+        updateDriver(pwdSql,attribute);
     }
     //update car_type
     public Integer updateDriverCarType(Integer driver_id,Integer car_type){

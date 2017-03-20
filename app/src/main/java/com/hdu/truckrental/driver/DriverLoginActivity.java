@@ -7,6 +7,7 @@ import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static com.hdu.truckrental.tools.Encrypt.getEncryption;
 
 /**
  * Created by Even on 2017/1/25.
@@ -113,7 +115,10 @@ public class DriverLoginActivity extends AppCompatActivity implements
         Intent intent;
         switch (v.getId()){
             case R.id.driver_sign_in_btn:
-                attemptLogin();
+                //attemptLogin();
+                intent =
+                        new Intent(DriverLoginActivity.this, DriverAvailableOrderShowActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.exchange_to_user_btn:
@@ -247,7 +252,7 @@ public class DriverLoginActivity extends AppCompatActivity implements
 
     private boolean isPasswordValid(String password) {
         //密码有效性判断，必须长度大于4
-        return password.length() > 4;
+        return password.length() > 0;
     }
 
     /**
@@ -350,6 +355,7 @@ public class DriverLoginActivity extends AppCompatActivity implements
         DriverLoginTask(String account, String password) {
             mAccount = account;
             mPassword = password;
+            driverDao = new DriverDao(DriverLoginActivity.this);
         }
 
         @Override
@@ -358,8 +364,8 @@ public class DriverLoginActivity extends AppCompatActivity implements
             try {
                 //通过网络服务尝试获取授权
                 Thread.sleep(500);
-                driverDao = new DriverDao(DriverLoginActivity.this);
-                if(driverDao.findDriverByPhone(mAccount).getDriver_pwd().equals(mPassword)){
+                if(driverDao.findDriverByPhone(mAccount).getDriver_pwd()
+                        .equals(getEncryption(mPassword))){
                     return true;
                 }
             } catch (InterruptedException e) {
@@ -376,6 +382,10 @@ public class DriverLoginActivity extends AppCompatActivity implements
             if (success) {
                 finish();
                 Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
+                //司机id缓存在文件中
+                SharedPreferences.Editor editor = getSharedPreferences("driver",MODE_PRIVATE).edit();
+                editor.putInt("id",driverDao.findDriverByPhone(mAccount).getDriver_id());
+                editor.apply();
                 Intent intent =
                         new Intent(DriverLoginActivity.this, DriverAvailableOrderShowActivity.class);
                 startActivity(intent);

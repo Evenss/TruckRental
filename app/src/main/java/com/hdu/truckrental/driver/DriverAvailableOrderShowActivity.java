@@ -19,6 +19,7 @@ import android.widget.Switch;
 
 import com.hdu.truckrental.R;
 import com.hdu.truckrental.adapter.MyAdapter;
+import com.hdu.truckrental.dao.OrderDao;
 import com.hdu.truckrental.domain.Order;
 
 import java.util.ArrayList;
@@ -30,6 +31,10 @@ import java.util.List;
  */
 
 public class DriverAvailableOrderShowActivity extends AppCompatActivity {
+    private OrderDao orderDao;
+    private Order order;
+    private List<Order> orderList;
+
     //侧滑菜单
     private Toolbar driverToolbar;
     private DrawerLayout driverDrawerLayout;
@@ -95,7 +100,7 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
-                    put_info_list();
+                    //put_info_list();
                     myAdapter.notifyDataSetChanged();
                 } else {
                     currentPage = 1;
@@ -116,7 +121,7 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
         });
         driverSwipeLayout.setColorSchemeResources(
                 android.R.color.holo_blue_bright, android.R.color.holo_green_light,
-                android.R.color.holo_orange_light, android.R.color.holo_red_light);//????????????????
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
         driverLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -144,13 +149,11 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 ListView listView = (ListView) parent;
-                Order order = (Order) listView.getItemAtPosition(position);
-
-                Bundle bundle = new Bundle();//这里可以修改，不用bundle存储！！！！！！！！
-                put_info_Bundle(bundle, order);
+                order = (Order) listView.getItemAtPosition(position);
+                int order_id = order.getOrder_id();
                 Intent intent = new Intent(DriverAvailableOrderShowActivity.this,
                         DriverOrderDetailsShowActivity.class);
-                intent.putExtras(bundle);
+                intent.putExtra("order_id",order_id);
                 startActivity(intent);
             }
         });
@@ -186,7 +189,7 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
         }
     }
 
-    private void put_info_Bundle(Bundle bundle, Order order){
+/*    private void put_info_Bundle(Bundle bundle, Order order){
         bundle.putString("运货时间", order.getOrder_start_date());
         bundle.putString("下单时间", order.getOrder_date());
         bundle.putString("订单号", order.getOrder_number());
@@ -215,7 +218,7 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
         order1.setOrder_carry(1);
         order1.setOrder_followers(2);
         totalList.add(order1);
-    }
+    }*/
     private Handler mHandler = new Handler()
     {
         public void handleMessage(android.os.Message msg)
@@ -223,25 +226,14 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
             switch (msg.what)
             {
                 case REFRESH_COMPLETE:
-                    Order order2 = new Order();
-                    order2.setOrder_start_date("2017/2/11");
-                    order2.setFk_user_id(2);
-                    order2.setOrder_departure("杭州");
-                    order2.setOrder_destination("江西");
-                    order2.setOrder_date("2017/2/10");
-                    order2.setOrder_number("111");
-                    order2.setOrder_remarks("无");
-                    order2.setOrder_distance(12);
-                    order2.setOrder_price(54);
-                    order2.setOrder_back(1);
-                    order2.setOrder_carry(1);
-                    order2.setOrder_followers(2);
-                    totalList.add(order2);
-
+                    orderDao = new OrderDao(DriverAvailableOrderShowActivity.this);
+                    orderList = orderDao.findAllOrder();
+                    for(Order order:orderList){
+                        totalList.add(order);
+                    }
                     myAdapter.notifyDataSetChanged();
                     driverSwipeLayout.setRefreshing(false);
                     break;
-
             }
         }
     };
