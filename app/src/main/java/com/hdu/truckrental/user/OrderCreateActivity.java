@@ -40,8 +40,6 @@ import static com.hdu.truckrental.tools.Tool.getOrderNumber;
 
 public class OrderCreateActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private OrderDao orderDao;
-    private Integer state;//添加订单后返回的状态码
     private ActionBarDrawerToggle mUserDrawerToggle;
     private Toolbar userToolbar;
     private DrawerLayout mUserDrawerLayout;
@@ -59,6 +57,10 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
 
     RoutePlan routePlan;
     private Integer mDistance;
+    private OrderDao orderDao;
+    private Order order;
+    private Integer state;//添加订单后返回的状态码
+    private Integer fkUserId;
 
     private static final int DEPARTURE_CODE = 1;
     private static final int DESTINATION_CODE = 2;
@@ -132,8 +134,8 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.order_create_btn:
-                //获取当前日期
-                String startDate = getCurrentTime();
+                //运货时间
+                String startDate = "";
                 state = OrderCreate(startDate);
                 if(state<0){
                     ErrorShow(state);
@@ -142,8 +144,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.order_create_advanced_btn:
                 //先跳转到另外一个日期选择界面
-
-                //得到预约日期
+                //得到预约运货日期
                 String advancedDate = "";
                 state = OrderCreate(advancedDate);
                 if(state<0){
@@ -246,13 +247,14 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
         EditText mOrderRemarksEd = (EditText) findViewById(R.id.order_remarks);
 
         //info to order class
-        Order order = new Order();
-        String dateTime = "";//需要计算
+        order = new Order();
+        String currentTime = getCurrentTime();
         //用户id
-        Integer fkUserId = 0;//上一个活动传到这个活动中,这里最好设置为私有成员
+        SharedPreferences pref = getSharedPreferences("user",MODE_PRIVATE);
+        fkUserId = pref.getInt("id",-1);
         order.setFk_user_id(fkUserId);
         //订单号
-        order.setOrder_number(getOrderNumber(startDate,fkUserId.toString()));//用户id(最多10位)+时间（最多14位）
+        order.setOrder_number(getOrderNumber(currentTime,fkUserId.toString()));//用户id(最多10位)+时间（最多14位）
         //出发地
         order.setOrder_departure(mOrderSelectDeparture.getText().toString());
         //目的地
@@ -260,8 +262,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
         //备注
         order.setOrder_remarks(mOrderRemarksEd.getText().toString());
         //距离
-        float orderDistance = 0;//上个活动传到这里，同上
-        order.setOrder_distance(orderDistance);
+        order.setOrder_distance(mDistance);
         //车型
         switch (mOrderCarTypeRb.getText().toString()){
             case "小面包车":
@@ -278,12 +279,12 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
                 break;
         }
         //价格
-        float orderPrice = getOrderPrice(orderDistance,mOrderCarTypeRb.getText().toString());
+        float orderPrice = getOrderPrice(mDistance,mOrderCarTypeRb.getText().toString());
         order.setOrder_price(orderPrice);
         //状态
         order.setOrder_state(1);
         //订单生成时间
-        order.setOrder_date(dateTime);
+        order.setOrder_date(currentTime);
         //回程
         if(mOrderBackCb.isChecked()){
             order.setOrder_back(1);
@@ -312,12 +313,13 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
                 order.setOrder_followers(0);
         }
         //运货日期
-        order.setOrder_start_date(startDate);//这里的string日期转换为datetime日期应该写在dao里面
+        order.setOrder_start_date(startDate);
 
         //info to db
         Integer state = 0;
         orderDao = new OrderDao(OrderCreateActivity.this);
-        state = orderDao.addOrder(order);
+        //这里创建订单时候没有司机id
+        orderDao.addOrderNoDriverId(order);
         return state;
     }
 }

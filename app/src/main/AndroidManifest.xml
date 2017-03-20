@@ -80,6 +80,12 @@
         <activity android:name=".driver.DriverAvailableOrderShowActivity"/>
 
         <activity android:name=".driver.DriverInfoShowActivity"/>
+
+        <activity android:name=".driver.DriverChangePwdActivity"/>
+
+        <activity android:name=".driver.DriverOrderDetailsShowActivity"/>
+
+
     </application>
 
 </manifest>

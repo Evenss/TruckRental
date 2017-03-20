@@ -7,6 +7,7 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -134,6 +135,7 @@ public class LoginActivity extends AppCompatActivity implements
          case R.id.register_driver_btn:
              intent = new Intent(LoginActivity.this, DriverRegisterActivity.class);
              startActivity(intent);
+             break;
      }
     }
 
@@ -143,7 +145,6 @@ public class LoginActivity extends AppCompatActivity implements
         //按回车键进行登录
         if (actionId == R.id.login || actionId == EditorInfo.IME_NULL) {
             attemptLogin();
-            Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
@@ -390,6 +391,11 @@ public class LoginActivity extends AppCompatActivity implements
             if (success) {
                 finish();
                 Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
+                //用户id缓存在文件中
+                SharedPreferences.Editor editor =
+                        getSharedPreferences("user",MODE_PRIVATE).edit();
+                editor.putInt("id",userDao.findUserByPhone(mAccount).getUser_id());
+                editor.commit();
                 Intent intent = new Intent(LoginActivity.this, OrderCreateActivity.class);
                 startActivity(intent);
             } else {

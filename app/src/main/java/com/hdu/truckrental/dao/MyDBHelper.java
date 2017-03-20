@@ -34,7 +34,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
             "(order_id integer primary key autoincrement not null," +
             " order_number string not null unique," +
             " fk_user_id integer not null," +
-            " fk_driver_id integer not null," +
+            " fk_driver_id integer," +
             " order_departure string not null," +
             " order_destination string not null," +
             " order_remarks string," +

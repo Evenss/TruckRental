@@ -82,8 +82,6 @@ public class DriverLoginActivity extends AppCompatActivity implements
         // Set up the login form.
         populateAutoComplete();
         setListener();
-        driverDao = new DriverDao(DriverLoginActivity.this);
-        driverDao.findAllDriver();
     }
 
     /**
@@ -115,10 +113,7 @@ public class DriverLoginActivity extends AppCompatActivity implements
         Intent intent;
         switch (v.getId()){
             case R.id.driver_sign_in_btn:
-                //attemptLogin();
-                intent =
-                        new Intent(DriverLoginActivity.this, DriverAvailableOrderShowActivity.class);
-                startActivity(intent);
+                attemptLogin();
                 break;
 
             case R.id.exchange_to_user_btn:
@@ -383,9 +378,10 @@ public class DriverLoginActivity extends AppCompatActivity implements
                 finish();
                 Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
                 //司机id缓存在文件中
-                SharedPreferences.Editor editor = getSharedPreferences("driver",MODE_PRIVATE).edit();
+                SharedPreferences.Editor editor =
+                        getSharedPreferences("driver",MODE_PRIVATE).edit();
                 editor.putInt("id",driverDao.findDriverByPhone(mAccount).getDriver_id());
-                editor.apply();
+                editor.commit();
                 Intent intent =
                         new Intent(DriverLoginActivity.this, DriverAvailableOrderShowActivity.class);
                 startActivity(intent);

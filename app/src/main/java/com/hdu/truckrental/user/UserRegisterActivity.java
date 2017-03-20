@@ -76,6 +76,8 @@ public class UserRegisterActivity extends Activity implements View.OnClickListen
                 Toast.makeText(UserRegisterActivity.this,"该手机号已被注册",Toast.LENGTH_SHORT).show();
                 break;
             default:
+                Toast.makeText(UserRegisterActivity.this,"注册成功！",Toast.LENGTH_SHORT).show();
+                finish();
                 break;
         }
     }

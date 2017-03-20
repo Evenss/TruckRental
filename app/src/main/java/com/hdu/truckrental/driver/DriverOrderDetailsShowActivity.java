@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hdu.truckrental.R;
+import com.hdu.truckrental.dao.OrderDao;
+import com.hdu.truckrental.domain.Order;
 
 /**
  * Created by Even on 2017/3/16.
@@ -16,6 +18,10 @@ import com.hdu.truckrental.R;
 public class DriverOrderDetailsShowActivity extends Activity {
 
     private static final String TAG = "ShowDetailsOrder";
+
+    private OrderDao orderDao;
+    private Order order;
+    private int orderId;
 
     private TextView showPriceTextView;
     private TextView ShowStartDateTextView;
@@ -33,24 +39,27 @@ public class DriverOrderDetailsShowActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_order_details_show);
         initView();
-        Bundle bundle = getIntent().getExtras();
+        orderId = getIntent().getIntExtra("order_id",0);
+        orderDao = new OrderDao(this);
+        if(orderId != 0){
+            order = orderDao.findOrderById(orderId);
 
-        if(bundle.getInt("是否回程") == 1){
-            ShowBackTextView.setText(R.string.back);
+            if(order.getOrder_back() == 1){
+                ShowBackTextView.setText(R.string.back);
+            }
+            if(order.getOrder_carry() == 1){
+                ShowCarryTextView.setText(R.string.carry);
+            }
+            ShowStartDateTextView.setText(order.getOrder_start_date());
+            ShowDistanceTextView.setText(""+order.getOrder_distance()+"公里");
+            ShowFollowersTextView.setText("跟车人数："+order.getOrder_followers());
+            showPriceTextView.setText(""+order.getOrder_price()+"元");
+            ShowDepartureTextView.setText(order.getOrder_departure());
+            ShowDestinationTextView.setText(order.getOrder_destination());
+            ShowRemarksTextView.setText("备注："+order.getOrder_remarks());
         }
-        if(bundle.getInt("是否搬运") == 1){
-            ShowCarryTextView.setText(R.string.carry);
-        }
-
-        ShowStartDateTextView.setText(bundle.getString("运货时间"));
-        ShowDistanceTextView.setText(""+bundle.getFloat("路程数")+"公里");
-        ShowFollowersTextView.setText("跟车人数："+Integer.toString(bundle.getInt("跟车人数")));
-        showPriceTextView.setText(""+bundle.getFloat("金额")+"元");
-        ShowDepartureTextView.setText(bundle.getString("出发地址"));
-        ShowDestinationTextView.setText(bundle.getString("目的地址"));
-        ShowRemarksTextView.setText("备注："+bundle.getString("备注"));
-
     }
+
     private void initView(){
         showPriceTextView = (TextView)findViewById(R.id.details_price);
         ShowStartDateTextView = (TextView)findViewById(R.id.details_start_date);
@@ -67,12 +76,14 @@ public class DriverOrderDetailsShowActivity extends Activity {
         switch (view.getId())
         {
             case R.id.btn_price_details:
-                Intent intent = new Intent(DriverOrderDetailsShowActivity.this,DriverPriceDetailsShowActivity.class);
+                Intent intent = new Intent(DriverOrderDetailsShowActivity.this,
+                        DriverPriceDetailsShowActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btn_take_order:
                 //跳转订单进行页面
-                intent = new Intent(DriverOrderDetailsShowActivity.this,DriverPriceDetailsShowActivity.class);
+                intent = new Intent(DriverOrderDetailsShowActivity.this,
+                        DriverPriceDetailsShowActivity.class);
                 startActivity(intent);
                 break;
         }

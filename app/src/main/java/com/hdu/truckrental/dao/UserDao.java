@@ -22,9 +22,9 @@ public class UserDao {
 
     //init
     public UserDao(Context context){
-        myDBHelper = new MyDBHelper(context);/*
-        SQLiteDatabase database = myDBHelper.getWritableDatabase();
-        myDBHelper.onUpgrade(database,4,5);*/
+        myDBHelper = new MyDBHelper(context);
+/*        SQLiteDatabase database = myDBHelper.getWritableDatabase();
+        myDBHelper.onUpgrade(database,6,7);*/
     }
 
     //add

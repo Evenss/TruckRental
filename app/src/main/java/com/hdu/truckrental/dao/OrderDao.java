@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.hdu.truckrental.domain.Driver;
 import com.hdu.truckrental.domain.Order;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.hdu.truckrental.tools.Check.SUCCEED;
@@ -57,7 +58,7 @@ public class OrderDao {
                     "order_carry," +
                     "order_followers," +
                     "order_car_type," +
-                    "order_start_date)",
+                    "order_start_date) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new Object[]{
                             order.getOrder_number(),
                             order.getFk_user_id(),
@@ -80,11 +81,57 @@ public class OrderDao {
         }
         return state;
     }
+
+    //add order without driver_id
+    public void addOrderNoDriverId(Order order){
+        //把String类型的日期转换成datetime类型的
+
+        SQLiteDatabase database = myDBHelper.getWritableDatabase();
+        if(database.isOpen()){
+            database.execSQL("insert into orders(" +
+                            "order_number," +
+                            "fk_user_id," +
+                            "fk_driver_id," +
+                            "order_departure," +
+                            "order_destination," +
+                            "order_remarks," +
+                            "order_distance," +
+                            "order_price," +
+                            "order_state," +
+                            "order_score," +
+                            "order_date," +
+                            "order_back," +
+                            "order_carry," +
+                            "order_followers," +
+                            "order_car_type," +
+                            "order_start_date) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    new Object[]{
+                            order.getOrder_number(),
+                            order.getFk_user_id(),
+                            null,
+                            order.getOrder_departure(),
+                            order.getOrder_destination(),
+                            order.getOrder_remarks(),
+                            order.getOrder_destination(),
+                            order.getOrder_price(),
+                            order.getOrder_state(),
+                            order.getOrder_score(),
+                            order.getOrder_date(),//这里需要转换
+                            order.getOrder_back(),
+                            order.getOrder_carry(),
+                            order.getOrder_followers(),
+                            order.getOrder_car_type(),
+                            order.getOrder_start_date()
+                    });
+            database.close();
+        }
+    }
+
     //get order
     private Order getOrder(Cursor cursor){
-        Order order;
-        order = null;
+        Order order = new Order();
         if(cursor.moveToFirst()){
+            Integer order_id = cursor.getInt(cursor.getColumnIndex("order_id"));
             String order_number=
                     cursor.getString(cursor.getColumnIndex("order_number"));
             Integer fk_user_id= cursor.getInt(cursor.getColumnIndex("fk_user_id"));
@@ -105,7 +152,10 @@ public class OrderDao {
             Integer order_carry= cursor.getInt(cursor.getColumnIndex("order_carry"));
             Integer order_followers=
                     cursor.getInt(cursor.getColumnIndex("order_followers"));
+            Integer order_car_type = cursor.getInt(cursor.getColumnIndex("order_car_type"));
+            String order_start_date = cursor.getString(cursor.getColumnIndex("order_start_date"));
 
+            order.setOrder_id(order_id);
             order.setOrder_number(order_number);
             order.setFk_driver_id(fk_driver_id);
             order.setFk_user_id(fk_user_id);
@@ -120,14 +170,15 @@ public class OrderDao {
             order.setOrder_back(order_back);
             order.setOrder_carry(order_carry);
             order.setOrder_followers(order_followers);
+            order.setOrder_car_type(order_car_type);
+            order.setOrder_start_date(order_start_date);
         }
         return order;
     }
 
     //find by id
     public Order findOrderById(Integer order_id){
-        Order order;
-        order = null;
+        Order order = new Order();
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()){
             Cursor cursor = database.rawQuery("select * from orders where order_id=?",
@@ -140,8 +191,7 @@ public class OrderDao {
 
     //find all orders
     public List<Order> findAllOrder(){
-        List<Order> orderList;
-        orderList = null;
+        List<Order> orderList = new ArrayList<>();
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()){
             Cursor cursor = database.rawQuery("select * from orders", null);

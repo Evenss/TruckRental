@@ -10,7 +10,7 @@
         android:background="@drawable/bg_squares_white">
 
         <TextView
-            android:text="运货时间"
+            android:hint="运货时间"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:gravity="left|center"

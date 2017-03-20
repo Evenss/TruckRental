@@ -27,7 +27,7 @@ public class DriverInfoShowActivity extends AppCompatActivity {
     private static final int TRUCK = 4;
 
     private DriverDao driverDao;
-    private Driver driver;
+    private Driver driver = new Driver();
 
     private ListView driverInfoListView;
     private ArrayList<Map<String,Object>> driverInfoList = new ArrayList<Map<String, Object>>();
