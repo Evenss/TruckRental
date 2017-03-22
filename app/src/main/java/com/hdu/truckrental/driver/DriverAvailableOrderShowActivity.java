@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.hdu.truckrental.R;
 import com.hdu.truckrental.adapter.MyAdapter;
@@ -47,6 +47,7 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
     //下拉刷新
     private static final int REFRESH_COMPLETE = 0X110;//????????????????????????
     private SwipeRefreshLayout driverSwipeLayout;
+    private boolean canRefresh = false;
     //订单详情
     private MyAdapter myAdapter;
     private ListView myListView;
@@ -61,7 +62,7 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_available_order_show);
         initView();
@@ -94,15 +95,17 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
         driverLeftMenu.setAdapter(leftAdapter);
 
         /**
-         * switch点击事件???????????????????????
+         * switch点击事件
          */
         mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
-                    //put_info_list();
+                    canRefresh = true;
+                    mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 1500);
                     myAdapter.notifyDataSetChanged();
                 } else {
+                    canRefresh = false;
                     currentPage = 1;
                     totalList.clear();
                     myAdapter.notifyDataSetChanged();
@@ -116,7 +119,13 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
         driverSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 1500);//????????????????????
+                if(canRefresh){
+                    mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 1500);
+                }else{
+                    Toast.makeText(DriverAvailableOrderShowActivity.this,
+                            "现在处于休息状态",Toast.LENGTH_SHORT).show();
+                    driverSwipeLayout.setRefreshing(false);
+                }
             }
         });
         driverSwipeLayout.setColorSchemeResources(
@@ -189,36 +198,6 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
         }
     }
 
-/*    private void put_info_Bundle(Bundle bundle, Order order){
-        bundle.putString("运货时间", order.getOrder_start_date());
-        bundle.putString("下单时间", order.getOrder_date());
-        bundle.putString("订单号", order.getOrder_number());
-        bundle.putString("出发地址", order.getOrder_departure());
-        bundle.putString("目的地址", order.getOrder_destination());
-        bundle.putString("备注", order.getOrder_remarks());
-        bundle.putFloat("路程数", order.getOrder_distance());
-        bundle.putFloat("金额", order.getOrder_price());
-        bundle.putInt("是否回程", order.getOrder_back());
-        bundle.putInt("是否搬运", order.getOrder_carry());
-        bundle.putInt("跟车人数", order.getOrder_followers());
-    }
-
-    private void put_info_list(){
-        Order order1 = new Order();
-        order1.setOrder_start_date("2017/2/10");
-        order1.setFk_user_id(1);
-        order1.setOrder_departure("兰溪");
-        order1.setOrder_destination("金华");
-        order1.setOrder_date("2017/2/10");
-        order1.setOrder_number("111");
-        order1.setOrder_remarks("无");
-        order1.setOrder_distance(12);
-        order1.setOrder_price(54);
-        order1.setOrder_back(1);
-        order1.setOrder_carry(1);
-        order1.setOrder_followers(2);
-        totalList.add(order1);
-    }*/
     private Handler mHandler = new Handler()
     {
         public void handleMessage(android.os.Message msg)
@@ -226,6 +205,7 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
             switch (msg.what)
             {
                 case REFRESH_COMPLETE:
+                    totalList.clear();
                     orderDao = new OrderDao(DriverAvailableOrderShowActivity.this);
                     orderList = orderDao.findAllOrder();
                     for(Order order:orderList){

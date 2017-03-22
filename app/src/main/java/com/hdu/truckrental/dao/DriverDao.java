@@ -161,6 +161,7 @@ public class DriverDao {
                 Integer driver_id = cursor.getInt(cursor.getColumnIndex("driver_id"));
                 driverList.add(getDriver(cursor,driver_id));
             }
+            cursor.close();
             database.close();
         }
         return driverList;

@@ -39,7 +39,7 @@ public class DriverOrderDetailsShowActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_order_details_show);
         initView();
-        orderId = getIntent().getIntExtra("order_id",0);
+        orderId = getIntent().getIntExtra("order_id",-1);
         orderDao = new OrderDao(this);
         if(orderId != 0){
             order = orderDao.findOrderById(orderId);
@@ -51,9 +51,9 @@ public class DriverOrderDetailsShowActivity extends Activity {
                 ShowCarryTextView.setText(R.string.carry);
             }
             ShowStartDateTextView.setText(order.getOrder_start_date());
-            ShowDistanceTextView.setText(""+order.getOrder_distance()+"公里");
+            ShowDistanceTextView.setText(order.getOrder_distance()/1000.0+"公里");
             ShowFollowersTextView.setText("跟车人数："+order.getOrder_followers());
-            showPriceTextView.setText(""+order.getOrder_price()+"元");
+            showPriceTextView.setText(order.getOrder_price()+"元");
             ShowDepartureTextView.setText(order.getOrder_departure());
             ShowDestinationTextView.setText(order.getOrder_destination());
             ShowRemarksTextView.setText("备注："+order.getOrder_remarks());

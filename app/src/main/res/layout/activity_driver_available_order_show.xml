@@ -47,7 +47,7 @@
         android:layout_height="match_parent">
 
         <!--主布局-->
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -55,7 +55,8 @@
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/SwipeRefreshLayout_driver"
                 android:layout_width="match_parent"
-                android:layout_height="450dp">
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/all_orders">
                 <ListView
                     android:id="@+id/main_driver_list"
                     android:layout_width="match_parent"
@@ -63,9 +64,11 @@
             </android.support.v4.widget.SwipeRefreshLayout>
 
             <LinearLayout
+                android:id="@+id/all_orders"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
                 android:background="@drawable/bg_squares_white">
 
                 <Button
@@ -91,7 +94,7 @@
                     android:textSize="18sp"/>
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <!--侧滑布局-->
         <LinearLayout

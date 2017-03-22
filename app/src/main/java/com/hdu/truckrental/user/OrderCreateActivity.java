@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.baidu.mapapi.model.LatLng;
 import com.hdu.truckrental.R;
@@ -135,11 +136,12 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.order_create_btn:
                 //运货时间
-                String startDate = "";
+                String startDate = getCurrentTime();
                 state = OrderCreate(startDate);
                 if(state<0){
                     ErrorShow(state);
                 }
+                Toast.makeText(this,"订单创建成功",Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.order_create_advanced_btn:
@@ -150,6 +152,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
                 if(state<0){
                     ErrorShow(state);
                 }
+                Toast.makeText(this,"订单创建成功",Toast.LENGTH_SHORT).show();
                 break;
         }
     }

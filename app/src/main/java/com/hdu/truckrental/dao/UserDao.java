@@ -24,7 +24,7 @@ public class UserDao {
     public UserDao(Context context){
         myDBHelper = new MyDBHelper(context);
 /*        SQLiteDatabase database = myDBHelper.getWritableDatabase();
-        myDBHelper.onUpgrade(database,6,7);*/
+        myDBHelper.onUpgrade(database,7,8);*/
     }
 
     //add
@@ -59,6 +59,7 @@ public class UserDao {
                 int level = cursor.getInt(cursor.getColumnIndex("user_level"));
                 user = new User(user_id,phone,level);
             }
+            cursor.close();
             database.close();
         }
         return user;
@@ -77,6 +78,7 @@ public class UserDao {
                 User user = new User(id,phone,level);
                 userList.add(user);
             }
+            cursor.close();
             database.close();
         }
         return userList;

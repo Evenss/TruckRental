@@ -389,7 +389,7 @@ public class LoginActivity extends AppCompatActivity implements
             showProgress(false);
 
             if (success) {
-                finish();
+                //finish();
                 Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
                 //用户id缓存在文件中
                 SharedPreferences.Editor editor =
