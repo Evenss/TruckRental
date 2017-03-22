@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by hanjianhao on 17/2/14.
+ * Altered by Even
  */
 
 public class MyAdapter extends BaseAdapter {

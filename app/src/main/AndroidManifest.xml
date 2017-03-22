@@ -85,7 +85,7 @@
 
         <activity android:name=".driver.DriverOrderDetailsShowActivity"/>
 
-
+        <activity android:name=".driver.DriverRunningOrdersShowActivity"/>
     </application>
 
 </manifest>
