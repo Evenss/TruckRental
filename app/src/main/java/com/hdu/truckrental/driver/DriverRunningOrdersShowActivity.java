@@ -59,10 +59,7 @@ public class DriverRunningOrdersShowActivity extends AppCompatActivity{
                 ListView listView = (ListView) parent;
                 Order order = (Order) listView.getItemAtPosition(position);
 
-                Bundle bundle = new Bundle();
-                put_info_Bundle(bundle, order);
                 Intent intent = new Intent(DriverRunningOrdersShowActivity.this, DriverRunningOrdersDetailsShowActivity.class);
-                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -92,19 +89,6 @@ public class DriverRunningOrdersShowActivity extends AppCompatActivity{
                 isDivPage = ((firstVisibleItem+visibleItemCount) == totalItemCount);
             }
         });*/
-    }
-    private void put_info_Bundle(Bundle bundle, Order order){
-        bundle.putString("运货时间", order.getOrder_start_date());
-        bundle.putString("下单时间", order.getOrder_date());
-        bundle.putString("订单号", order.getOrder_number());
-        bundle.putString("出发地址", order.getOrder_departure());
-        bundle.putString("目的地址", order.getOrder_destination());
-        bundle.putString("备注", order.getOrder_remarks());
-        bundle.putFloat("路程数", order.getOrder_distance());
-        bundle.putFloat("金额", order.getOrder_price());
-        bundle.putInt("是否回程", order.getOrder_back());
-        bundle.putInt("是否搬运", order.getOrder_carry());
-        bundle.putInt("跟车人数", order.getOrder_followers());
     }
 
     private void put_info_list(){

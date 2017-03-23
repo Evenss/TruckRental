@@ -1,16 +1,24 @@
 package com.hdu.truckrental.adapter;
 
-import android.content.Context;
+import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.hdu.truckrental.R;
+import com.hdu.truckrental.dao.UserDao;
 import com.hdu.truckrental.domain.Order;
+import com.hdu.truckrental.domain.User;
 
 import java.util.List;
+
+import static com.hdu.truckrental.R.id.order_state_view;
+import static com.hdu.truckrental.tools.Tool.isAdvancedDate;
 
 
 /**
@@ -20,12 +28,14 @@ import java.util.List;
 
 public class MyAdapter extends BaseAdapter {
 
-    private Context context;
-    private Order mOrder;
-    private List<Order> mOrderList;
+    protected Activity context;
+    protected Order mOrder;
+    protected UserDao userDao;
+    protected User user;
+    protected List<Order> mOrderList;
     private static final String TAG = "MyAdapter";
 
-    public MyAdapter(Context context, List<Order> orderList) {
+    public MyAdapter(Activity context, List<Order> orderList) {
         this.context = context;
         mOrderList = orderList;
     }
@@ -53,6 +63,8 @@ public class MyAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         mOrder = mOrderList.get(position);
+        userDao = new UserDao(context);
+        user = userDao.findUserById(mOrder.getFk_user_id());
         ViewHolder holder;
         if (convertView == null){
             convertView =
@@ -62,25 +74,28 @@ public class MyAdapter extends BaseAdapter {
             holder.tv_destination = (TextView) convertView.findViewById(R.id.destination_view);
             holder.tv_start_date = (TextView) convertView.findViewById(R.id.order_start_date_view);
             holder.tv_user_level = (TextView) convertView.findViewById(R.id.user_level_view);
-            holder.tv_order_state = (TextView) convertView.findViewById(R.id.order_state_view);
+            holder.tv_order_state = (TextView) convertView.findViewById(order_state_view);
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tv_start_date.setText("出发时间：" + mOrder.getOrder_start_date());
+        holder.tv_start_date.setText(mOrder.getOrder_start_date());
         holder.tv_departure.setText(mOrder.getOrder_departure());
         holder.tv_destination.setText(mOrder.getOrder_destination());
-        holder.tv_user_level.setText("用户id:"+mOrder.getFk_user_id());
-        if( mOrder.getOrder_start_date().equals(mOrder.getOrder_date()) ){
+        holder.tv_user_level.setText("用户等级:"+user.getUser_level());
+        //设置图标
+        if(!isAdvancedDate(mOrder.getOrder_start_date(),mOrder.getOrder_date())){
             holder.tv_order_state.setText(R.string.prompt_immediate_order);
-            //这边有版本兼容性问题，故使用过时api
-            holder.tv_order_state.setTextColor(context.getResources().getColor(R.color.red));
-            //holder.tv_order_state.setCompoundDrawables(null,context.getResources().getDrawable(R.drawable.order_state1),null,null);
+            int redColor = ContextCompat.getColor(context,R.color.red);
+            holder.tv_order_state.setTextColor(redColor);
         }else {
             holder.tv_order_state.setText(R.string.prompt_appointment_order);
-            holder.tv_order_state.setTextColor(context.getResources().getColor(R.color.green));
-            //holder.tv_order_state.setCompoundDrawables(null,context.getResources().getDrawable(R.drawable.order_state2,null),null,null);
+            Drawable photo = ContextCompat.getDrawable(context,R.drawable.order_state_advanced);
+            photo.setBounds(0, 0, photo.getMinimumWidth(), photo.getMinimumHeight());
+            holder.tv_order_state.setCompoundDrawables(null,photo,null,null);
+            int greenColor = ContextCompat.getColor(context,R.color.green);
+            holder.tv_order_state.setTextColor(greenColor);
         }
 
         return convertView;
@@ -92,5 +107,6 @@ public class MyAdapter extends BaseAdapter {
         TextView tv_start_date;
         TextView tv_user_level;
         TextView tv_order_state;
+        ImageButton view_btn;
     }
 }

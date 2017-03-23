@@ -46,7 +46,7 @@ public class Tool {
     }
 
     //判断是否为及时订单（判断两个时间差是否为2小时）
-    //请注意参数顺序
+    //请注意参数顺序 MM-dd hh:mm和yyyy-MM-dd HH:mm:ss
     public static boolean isAdvancedDate(String startTime, String createTime){
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");

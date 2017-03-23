@@ -1,49 +1,55 @@
 package com.hdu.truckrental.adapter;
 
-import android.content.Context;
-import android.util.Log;
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hdu.truckrental.R;
+import com.hdu.truckrental.dao.UserDao;
 import com.hdu.truckrental.domain.Order;
 
 import java.util.List;
+
+import static com.hdu.truckrental.tools.Tool.isAdvancedDate;
 
 /**
  * Created by hanjianhao on 17/2/14.
  * Altered by Even
  */
 
-public class RunningOrderAdapter extends BaseAdapter {
+public class RunningOrderAdapter extends MyAdapter {
 
-    private Context context;
-    private List<Order> mOrder;
     private static final String TAG = "RunningOrderAdapter";
+    //这里返回码用作回调函数的判断，但是并不能使用回调函数，必须是Activity才能使用
+    private static final int CALL_REQUEST_CODE = 123;
 
-    public RunningOrderAdapter(Context context, List<Order> order) {
-        this.context = context;
-        mOrder = order;
+    public RunningOrderAdapter(Activity context, List<Order> orderList) {
+        super(context, orderList);
     }
 
     @Override
     public int getCount() {
-        return mOrder.size();
+        return super.getCount();
     }
 
     @Override
     public Object getItem(int position) {
-        return mOrder.get(position);
+        return super.getItem(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return super.getItemId(position);
     }
 
     @Override
@@ -52,53 +58,63 @@ public class RunningOrderAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        RunningOrderAdapter.ViewHolder holder = null;
+    public View getView(int position, View convertView, final ViewGroup parent) {
+        mOrder = mOrderList.get(position);
+        userDao = new UserDao(context);
+        user = userDao.findUserById(mOrder.getFk_user_id());
+        ViewHolder holder;
         if (convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.listview_running_orders,null);
+            convertView =
+                    LayoutInflater.from(context).inflate(R.layout.listview_running_orders,null);
             holder = new RunningOrderAdapter.ViewHolder();
-            holder.tv_departure_destination = (TextView) convertView.findViewById(R.id.running_departure_destination_view);
-            holder.tv_start_date = (TextView) convertView.findViewById(R.id.running_order_start_date_view);
-            holder.tv_user_level = (TextView) convertView.findViewById(R.id.running_user_level_view);
-            holder.tv_order_state = (TextView) convertView.findViewById(R.id.running_order_state_view);
+            holder.tv_departure =
+                    (TextView) convertView.findViewById(R.id.running_departure_view);
+            holder.tv_destination =
+                    (TextView) convertView.findViewById(R.id.running_destination_view);
+            holder.tv_start_date =
+                    (TextView) convertView.findViewById(R.id.running_order_start_date_view);
+            holder.tv_user_level =
+                    (TextView) convertView.findViewById(R.id.running_user_level_view);
+            holder.tv_order_state =
+                    (TextView) convertView.findViewById(R.id.running_order_state_view);
             holder.view_btn=  (ImageButton) convertView.findViewById(R.id.running_phone_btn);
             convertView.setTag(holder);
         }else {
             holder = (RunningOrderAdapter.ViewHolder) convertView.getTag();
         }
-        holder.tv_departure_destination.setText(mOrder.get(position).getOrder_departure()+"--->"+mOrder.get(position).getOrder_destination());
-        holder.tv_start_date.setText(mOrder.get(position).getOrder_start_date());
-        holder.tv_user_level.setText("用户id:"+mOrder.get(position).getFk_user_id()+"");
-        if( mOrder.get(position).getOrder_start_date().equals(mOrder.get(position).getOrder_date()) ){
+        holder.tv_start_date.setText(mOrder.getOrder_start_date());
+        holder.tv_departure.setText(mOrder.getOrder_departure());
+        holder.tv_destination.setText(mOrder.getOrder_destination());
+        holder.tv_user_level.setText("用户等级:"+user.getUser_level());
+        //设置图标
+        if(!isAdvancedDate(mOrder.getOrder_start_date(),mOrder.getOrder_date())){
             holder.tv_order_state.setText(R.string.prompt_immediate_order);
-            //这边有版本兼容性问题，故使用过时api
-            holder.tv_order_state.setTextColor(context.getResources().getColor(R.color.red)/*,null*/);
-            //holder.tv_order_state.setCompoundDrawables(null,context.getResources().getDrawable(R.drawable.order_state1),null,null);
+            int redColor = ContextCompat.getColor(context,R.color.red);
+            holder.tv_order_state.setTextColor(redColor);
         }else {
             holder.tv_order_state.setText(R.string.prompt_appointment_order);
-            holder.tv_order_state.setTextColor(context.getResources().getColor(R.color.green));
-            //holder.tv_order_state.setCompoundDrawables(null,context.getResources().getDrawable(R.drawable.order_state2,null),null,null);
+            Drawable photo = ContextCompat.getDrawable(context,R.drawable.order_state_advanced);
+            photo.setBounds(0, 0, photo.getMinimumWidth(), photo.getMinimumHeight());
+            holder.tv_order_state.setCompoundDrawables(null,photo,null,null);
+            int greenColor = ContextCompat.getColor(context,R.color.green);
+            holder.tv_order_state.setTextColor(greenColor);
         }
 
         holder.view_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-               /* DriverMainActivity.call_user(mOrder.get(position).getFk_user_id()+"");
-
-                //打电话给用户,电话号码未传进来
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+mOrder.get(position).getFk_user_id()+""));
-                startActivity(intent);*/
-                Toast.makeText(context,"点击了电话按钮",Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "onClick:this is phone_btn"+position);
+            public void onClick(final android.view.View view) {
+                //危险权限，需动态申请
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:"  + user.getUser_phone()));
+                if(ContextCompat.checkSelfPermission(context, android.Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(context,
+                            new String[]{Manifest.permission.CALL_PHONE},CALL_REQUEST_CODE);
+                }else{
+                    context.startActivity(intent);
+                }
             }
         });
-
         return convertView;
-    }
-
-    static class ViewHolder{
-        TextView tv_departure_destination,tv_start_date,tv_user_level;
-        TextView tv_order_state;
-        ImageButton view_btn;
     }
 }

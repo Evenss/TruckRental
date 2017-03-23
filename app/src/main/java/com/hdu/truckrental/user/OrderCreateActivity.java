@@ -34,6 +34,7 @@ import com.hdu.truckrental.map.RoutePlan;
 import static com.hdu.truckrental.tools.Check.ORDER_FOLLOWERS_ERROR;
 import static com.hdu.truckrental.tools.Tool.getCurrentTime;
 import static com.hdu.truckrental.tools.Tool.getOrderNumber;
+import static com.hdu.truckrental.tools.Tool.getStartTime;
 
 /**
  * Created by Even on 2017/2/8.
@@ -76,8 +77,6 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
         userToolbar = (Toolbar) findViewById(R.id.toolbar_user);
         userToolbar.setTitle("");
         this.setSupportActionBar(userToolbar);
-/*        getSupportActionBar().setHomeButtonEnabled(false);//决定左上角的图标是否可以点击
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false); // 给左上角图标加上一个返回的图标*/
 
         mUserDrawerLayout = (DrawerLayout) findViewById(R.id.dl_user_left);
 
@@ -123,6 +122,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         Intent intent;
+        String currentTime;
         switch (v.getId()){
             case R.id.order_select_departure:
                 intent = new Intent(OrderCreateActivity.this, MapLocationActivity.class);
@@ -136,8 +136,9 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.order_create_btn:
                 //运货时间
-                String startDate = getCurrentTime();
-                state = OrderCreate(startDate);
+                currentTime = getCurrentTime();
+                String startDate = getStartTime(currentTime);
+                state = OrderCreate(currentTime,startDate);
                 if(state<0){
                     ErrorShow(state);
                 }
@@ -147,8 +148,9 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
             case R.id.order_create_advanced_btn:
                 //先跳转到另外一个日期选择界面
                 //得到预约运货日期
-                String advancedDate = "";
-                state = OrderCreate(advancedDate);
+                currentTime = getCurrentTime();
+                String advancedDate = getStartTime(currentTime);//这里写预约后的时间！！！！！！！！！！
+                state = OrderCreate(currentTime,advancedDate);
                 if(state<0){
                     ErrorShow(state);
                 }
@@ -237,7 +239,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
         return 0;
     }
     //创建订单
-    private Integer OrderCreate(String startDate){
+    private Integer OrderCreate(String currentTime,String startDate){
         //get info from page
         RadioGroup mOrderCarTypeRg = (RadioGroup) findViewById(R.id.order_car_type);
         RadioButton mOrderCarTypeRb = (RadioButton)
@@ -251,7 +253,6 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
 
         //info to order class
         order = new Order();
-        String currentTime = getCurrentTime();
         //用户id
         SharedPreferences pref = getSharedPreferences("user",MODE_PRIVATE);
         fkUserId = pref.getInt("id",-1);
@@ -301,7 +302,6 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
             order.setOrder_carry(0);
         }
         //跟车人数
-        //这里前端页面只能用string，但string不能转换为int，数据库里面是int类型，这里需要优化
         switch (mOrderFollowers.getSelectedItem().toString()){
             case "1":
                 order.setOrder_followers(1);
@@ -315,7 +315,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
             default:
                 order.setOrder_followers(0);
         }
-        //运货日期
+        //运货出发日期
         order.setOrder_start_date(startDate);
 
         //info to db

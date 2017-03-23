@@ -176,7 +176,7 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
 
         myListView = (ListView) findViewById(R.id.main_driver_list);
         driverSwipeLayout = (SwipeRefreshLayout)findViewById(R.id.SwipeRefreshLayout_driver);
-        myAdapter = new MyAdapter(this, totalList);
+        myAdapter = new MyAdapter(DriverAvailableOrderShowActivity.this, totalList);
         myListView.setAdapter(myAdapter);
 
     }
