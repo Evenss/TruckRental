@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -101,6 +102,11 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
         //设置菜单列表
         leftAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, leftList);
         driverLeftMenu.setAdapter(leftAdapter);
+        if(totalList.size() == 0 && canRefresh){
+            Toast toast = Toast.makeText(this,"无订单",Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
+        }
         /**
          * switch点击事件
          */

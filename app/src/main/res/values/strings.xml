@@ -76,6 +76,10 @@
     <string name="action_driver_read_rule">成为司机前先阅读</string>
     <string name="action_driver_rule">条款及细则</string>
 
+    <!--String related to driver's running orders show-->
+    <string name="driver_all_orders">待完成订单</string>
+    <string name="action_navigate">开始导航</string>
+    <string name="action_cancel_order">取消订单</string>
 
     <!-- driver's rule-->
     <string name="text_driver_rule">

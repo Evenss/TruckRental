@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_driver_running_orders_details_show"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite">
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    tools:context="com.hdu.truckrental.driver.DriverRunningOrdersDetailsShowActivity">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -17,7 +21,7 @@
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/details_start_date"
+            android:id="@+id/running_details_start_date"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true" />
 
@@ -29,7 +33,7 @@
             android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/details_distance"
+            android:id="@+id/running_details_distance"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
@@ -38,7 +42,8 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -50,23 +55,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/details_departure"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:gravity="left|center"
-                android:background="@color/colorTransparent"
-                android:hint="出发地"
-                android:textSize="20dp"/>
 
             <TextView
-                android:id="@+id/details_destination"
+                android:hint="出发地"
+                android:textSize="20dp"
+                android:id="@+id/running_details_departure"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:gravity="left|center"
-                android:background="@color/colorTransparent"
+                android:layout_weight="1"
+                android:background="@color/colorTransparent"/>
+
+            <TextView
                 android:hint="目的地"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:id="@+id/running_details_destination"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="left|center"
+                android:layout_weight="1"
+                android:background="@color/colorTransparent"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -77,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
         <TextView
-            android:id="@+id/details_back"
+            android:id="@+id/running_details_back"
             android:hint="无回程"
             android:textSize="20dp"
             android:gravity="center"
@@ -86,8 +94,8 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_squares_white"/>
         <TextView
-            android:id="@+id/details_carry"
-            android:hint="无搬运"
+            android:id="@+id/running_details_carry"
+            android:text="无搬运"
             android:textSize="20dp"
             android:gravity="center"
             android:layout_weight="1"
@@ -96,7 +104,7 @@
             android:background="@drawable/bg_squares_white"/>
 
         <TextView
-            android:id="@+id/details_followers"
+            android:id="@+id/running_details_followers"
             android:hint="跟车人数:0人"
             android:textSize="18dp"
             android:gravity="center"
@@ -111,7 +119,8 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
         <TextView
-            android:id="@+id/details_remarks"
+            android:hint="无备注"
+            android:textSize="18dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:gravity="start"
@@ -119,8 +128,7 @@
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="无备注"
-            android:textSize="18dp" />
+            android:id="@+id/running_details_remarks" />
     </LinearLayout>
 
     <RelativeLayout
@@ -130,13 +138,13 @@
         android:background="@drawable/bg_squares_white">
         <TextView
             android:text="向客户收取"
-            android:textSize="23dp"
+            android:textSize="18dp"
             android:gravity="center"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="30dp" />
         <TextView
-            android:id="@+id/details_price"
+            android:id="@+id/running_details_price"
             android:text="0元"
             android:textColor="@color/red"
             android:textSize="20dp"
@@ -153,11 +161,11 @@
             android:textColor="@drawable/details"
             android:autoLink="all"
             android:background="@color/colorTransparent"
-            android:layout_below="@+id/details_price"
+            android:layout_below="@+id/running_details_price"
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_price_details" />
+            android:id="@+id/btn_running_price_details" />
     </RelativeLayout>
 
     <TextView
@@ -170,14 +178,31 @@
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
-    <Button
-        android:text="@string/take_order"
-        android:onClick="btn_operate"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:id="@+id/btn_take_order"
-        android:textSize="25dp"
-        android:textColor="@drawable/btn_price_details"
-        android:background="@drawable/btn_bg_details"/>
+        android:layout_height="match_parent">
+        <Button
+            android:text="@string/action_navigate"
+            android:onClick="btn_operate"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:id="@+id/btn_navigate"
+            android:textSize="25dp"
+            android:textColor="@drawable/btn_price_details"
+            android:background="@drawable/btn_bg_details"/>
+        <Button
+            android:text="@string/action_cancel_order"
+            android:onClick="btn_operate"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:id="@+id/btn_cancel_order"
+            android:textSize="25dp"
+            android:textColor="@drawable/btn_price_details"
+            android:background="@drawable/btn_bg_details"/>
+    </LinearLayout>
 </LinearLayout>

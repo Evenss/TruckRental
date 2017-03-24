@@ -18,29 +18,27 @@ import com.hdu.truckrental.domain.Order;
  */
 
 public class DriverOrderDetailsShowActivity extends Activity {
-
     private static final String TAG = "ShowDetailsOrder";
-    private static final int RECEIVED = 0;
+    protected static final int RECEIVED = 0;
+    protected static final int UNFINISHED = 1;
 
-    private OrderDao orderDao;
-    private Order order;
-    private int orderId;
+    protected OrderDao orderDao;
+    protected Order order;
+    protected int orderId;
 
-    private TextView showPriceTextView;
-    private TextView ShowStartDateTextView;
-    private TextView ShowDistanceTextView;
-    private TextView ShowRemarksTextView;
-    private TextView ShowDepartureTextView;
-    private TextView ShowDestinationTextView;
-    private TextView ShowCarryTextView;
-    private TextView ShowBackTextView;
-    private TextView ShowFollowersTextView;
-
+    protected TextView showPriceTextView;
+    protected TextView ShowStartDateTextView;
+    protected TextView ShowDistanceTextView;
+    protected TextView ShowRemarksTextView;
+    protected TextView ShowDepartureTextView;
+    protected TextView ShowDestinationTextView;
+    protected TextView ShowCarryTextView;
+    protected TextView ShowBackTextView;
+    protected TextView ShowFollowersTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver_order_details_show);
         initView();
         orderId = getIntent().getIntExtra("order_id",-1);
         orderDao = new OrderDao(this);
@@ -62,8 +60,8 @@ public class DriverOrderDetailsShowActivity extends Activity {
             ShowRemarksTextView.setText("备注："+order.getOrder_remarks());
         }
     }
-
-    private void initView(){
+    protected void initView(){
+        setContentView(R.layout.activity_driver_order_details_show);
         showPriceTextView = (TextView)findViewById(R.id.details_price);
         ShowStartDateTextView = (TextView)findViewById(R.id.details_start_date);
         ShowDistanceTextView = (TextView)findViewById(R.id.details_distance);
@@ -75,11 +73,12 @@ public class DriverOrderDetailsShowActivity extends Activity {
         ShowFollowersTextView = (TextView)findViewById(R.id.details_followers);
     }
 
-    public void btn_operate(View view){
+    protected void btn_operate(View view){
+        Intent intent;
         switch (view.getId())
         {
             case R.id.btn_price_details:
-                Intent intent = new Intent(DriverOrderDetailsShowActivity.this,
+                intent = new Intent(DriverOrderDetailsShowActivity.this,
                         DriverPriceDetailsShowActivity.class);
                 startActivity(intent);
                 break;
