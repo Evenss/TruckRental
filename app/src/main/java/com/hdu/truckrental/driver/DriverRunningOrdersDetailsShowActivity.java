@@ -47,13 +47,11 @@ public class DriverRunningOrdersDetailsShowActivity extends DriverOrderDetailsSh
                 break;
             case R.id.btn_navigate:
                 //跳转导航页面
-                intent = new Intent(DriverRunningOrdersDetailsShowActivity.this,
-                        DriverPriceDetailsShowActivity.class);
-                startActivity(intent);
+                Toast.makeText(this,"还没加入进去！",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_cancel_order:
                 orderDao.updateFkDriverId(orderId,0);
-                orderDao.updateOrderState(orderId,UNFINISHED);
+                orderDao.updateOrderState(orderId,UNRECEIVED);
                 Toast.makeText(this,"取消订单成功",Toast.LENGTH_SHORT).show();
                 finish();
                 break;

@@ -76,10 +76,17 @@
     <string name="action_driver_read_rule">成为司机前先阅读</string>
     <string name="action_driver_rule">条款及细则</string>
 
-    <!--String related to driver's running orders show-->
+    <!-- driver's running orders show-->
     <string name="driver_all_orders">待完成订单</string>
     <string name="action_navigate">开始导航</string>
     <string name="action_cancel_order">取消订单</string>
+
+    <!-- driver's all orders show-->
+    <string name="driver_completed_orders">订单记录</string>
+    <string name="prompt_order_user_cancel">用户已取消</string>
+    <string name="prompt_order_driver_cancel">司机已取消</string>
+    <string name="prompt_order_finished">已完成</string>
+    <string name="prompt_order_running">进行中</string>
 
     <!-- driver's rule-->
     <string name="text_driver_rule">

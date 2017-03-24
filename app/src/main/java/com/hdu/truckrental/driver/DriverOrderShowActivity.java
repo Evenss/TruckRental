@@ -38,7 +38,7 @@ public class DriverOrderShowActivity extends AppCompatActivity {
     private static final String TAG = "DriverMainActivity";
     private static final int MY_INFO = 0;
     private static final int PWD_CHANGE = 1;
-    private static final int UNFINISHED = 1;
+    private static final int UNRECEIVED = 0;
 
     private OrderDao orderDao;
     private Order order;
@@ -235,7 +235,7 @@ public class DriverOrderShowActivity extends AppCompatActivity {
                     for(Order order:orderList){
                         //展示符合相同车型的订单
                         if(order.getOrder_car_type() == driver.getDriver_car_type() &&
-                                order.getOrder_state() == UNFINISHED){
+                                order.getOrder_state() == UNRECEIVED){
                             totalList.add(order);
                         }
                     }

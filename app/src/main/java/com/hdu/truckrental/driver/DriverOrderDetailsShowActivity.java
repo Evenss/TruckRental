@@ -19,8 +19,11 @@ import com.hdu.truckrental.domain.Order;
 
 public class DriverOrderDetailsShowActivity extends Activity {
     private static final String TAG = "ShowDetailsOrder";
-    protected static final int RECEIVED = 0;
-    protected static final int UNFINISHED = 1;
+    protected static final int UNRECEIVED = 0;
+    protected static final int RUNNING = 1;
+    protected static final int USER_CANCEL = 2;
+    protected static final int DRIVER_CANCEL = 3;
+    protected static final int FINISHED = 4;
 
     protected OrderDao orderDao;
     protected Order order;
@@ -86,7 +89,7 @@ public class DriverOrderDetailsShowActivity extends Activity {
                 //抢单成功，修改订单状态，加入司机id
                 SharedPreferences pref = getSharedPreferences("driver",MODE_PRIVATE);
                 orderDao.updateFkDriverId(orderId,pref.getInt("id",-1));
-                orderDao.updateOrderState(orderId,RECEIVED);
+                orderDao.updateOrderState(orderId,RUNNING);
                 Toast.makeText(this,"抢单成功！",Toast.LENGTH_SHORT).show();
                 finish();
                 break;

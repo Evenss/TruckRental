@@ -63,7 +63,7 @@ public class DriverAllOrdersShowActivity extends AppCompatActivity {
                 Order order = (Order) listView.getItemAtPosition(position);
                 int order_id = order.getOrder_id();
                 Intent intent = new Intent(DriverAllOrdersShowActivity.this,
-                        DriverRunningOrdersDetailsShowActivity.class);
+                        DriverAllOrdersDetailsShowActivity.class);
                 intent.putExtra("order_id",order_id);
                 startActivity(intent);
             }

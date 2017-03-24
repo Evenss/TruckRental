@@ -23,8 +23,7 @@ import java.util.List;
 
 public class DriverRunningOrdersShowActivity extends AppCompatActivity{
     private static final String TAG = "DriverRunningOrdersShow";
-    private static final int REFRESH_COMPLETE = 0X110;
-    private static final int RECEIVED = 0;
+    private static final int RUNNING = 1;
 
     private ListView runningOrderLv;
     private RunningOrderAdapter runningOrderAdapter;
@@ -76,7 +75,7 @@ public class DriverRunningOrdersShowActivity extends AppCompatActivity{
         allOrderList = orderDao.findAllOrder();
         mOrderList.clear();
         for(Order order:allOrderList){
-            if(order.getOrder_state() == RECEIVED){
+            if(order.getOrder_state() == RUNNING){
                 mOrderList.add(order);
             }
         }

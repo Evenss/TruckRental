@@ -130,14 +130,4 @@ public class DriverChangePwdActivity extends AppCompatActivity {
     private boolean isPasswordValid(String password) {
         return password.length() > 4;
     }
-
-/*    Handler mHandler = new Handler();
-    Runnable r = new Runnable() {
-        @Override
-        public void run() {
-            //do something
-            //每隔1s循环执行run方法
-            mHandler.postDelayed(this, 1500);
-        }
-    };*/
 }

@@ -66,6 +66,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
 
     private static final int DEPARTURE_CODE = 1;
     private static final int DESTINATION_CODE = 2;
+    private static final int UNRECEIVED = 0;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -286,7 +287,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
         float orderPrice = getOrderPrice(mDistance,mOrderCarTypeRb.getText().toString());
         order.setOrder_price(orderPrice);
         //状态
-        order.setOrder_state(1);
+        order.setOrder_state(UNRECEIVED);
         //订单生成时间
         order.setOrder_date(currentTime);
         //回程
