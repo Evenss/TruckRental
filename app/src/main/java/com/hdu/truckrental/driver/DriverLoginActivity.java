@@ -383,7 +383,7 @@ public class DriverLoginActivity extends AppCompatActivity implements
                 editor.putInt("id",driverDao.findDriverByPhone(mAccount).getDriver_id());
                 editor.commit();
                 Intent intent =
-                        new Intent(DriverLoginActivity.this, DriverAvailableOrderShowActivity.class);
+                        new Intent(DriverLoginActivity.this, DriverOrderShowActivity.class);
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

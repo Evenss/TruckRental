@@ -29,8 +29,8 @@ public class DriverRunningOrdersShowActivity extends AppCompatActivity{
     private ListView runningOrderLv;
     private RunningOrderAdapter runningOrderAdapter;
 
-    private List<Order> runningOrderList = new ArrayList<>();;
-    private List<Order> orderList;
+    private List<Order> mOrderList = new ArrayList<>();;
+    private List<Order> allOrderList;
     private OrderDao orderDao;
 
     private int totalNum,pageNum;
@@ -48,9 +48,9 @@ public class DriverRunningOrdersShowActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
         put_info_list();
-        runningOrderAdapter = new RunningOrderAdapter(this,runningOrderList);
+        runningOrderAdapter = new RunningOrderAdapter(this,mOrderList);
         runningOrderLv.setAdapter(runningOrderAdapter);
-        if(runningOrderList.size() == 0){
+        if(mOrderList.size() == 0){
             Toast toast = Toast.makeText(this, "无订单记录",Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER,0,0);
             toast.show();
@@ -71,13 +71,13 @@ public class DriverRunningOrdersShowActivity extends AppCompatActivity{
         });
     }
 
-    private void put_info_list(){
+    protected void put_info_list(){
         orderDao = new OrderDao(DriverRunningOrdersShowActivity.this);
-        orderList = orderDao.findAllOrder();
-        runningOrderList.clear();
-        for(Order order:orderList){
+        allOrderList = orderDao.findAllOrder();
+        mOrderList.clear();
+        for(Order order:allOrderList){
             if(order.getOrder_state() == RECEIVED){
-                runningOrderList.add(order);
+                mOrderList.add(order);
             }
         }
     }

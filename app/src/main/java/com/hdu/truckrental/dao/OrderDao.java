@@ -191,6 +191,22 @@ public class OrderDao {
         return order;
     }
 
+    //find by driver id
+    public List<Order> findOrderByDriverId(Integer driver_id){
+        List<Order> orderList = new ArrayList<>();
+        SQLiteDatabase database = myDBHelper.getWritableDatabase();
+        if(database.isOpen()){
+            Cursor cursor = database.rawQuery("select * from orders where fk_driver_id=?",
+                    new String[]{driver_id.toString()});
+            while(cursor.moveToNext()){
+                orderList.add(getOrder(cursor));
+            }
+            cursor.close();
+            database.close();
+        }
+        return orderList;
+    }
+
     //find all orders
     public List<Order> findAllOrder(){
         List<Order> orderList = new ArrayList<>();

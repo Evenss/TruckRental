@@ -68,7 +68,7 @@ public class MyAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null){
             convertView =
-                    LayoutInflater.from(context).inflate(R.layout.listview_available_order,null);
+                    LayoutInflater.from(context).inflate(R.layout.listview_order,null);
             holder = new ViewHolder();
             holder.tv_departure = (TextView) convertView.findViewById(R.id.departure_view);
             holder.tv_destination = (TextView) convertView.findViewById(R.id.destination_view);

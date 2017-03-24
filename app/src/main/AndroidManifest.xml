@@ -71,7 +71,7 @@
         </activity>
 
         <activity
-            android:name=".driver.RuleDriverShowActivity"
+            android:name=".driver.DriverRegisterRuleShowActivity"
             android:label="@string/label_driver_rule">
         </activity>
 
@@ -79,7 +79,7 @@
 
         <activity android:name=".map.MapLocationActivity"/>
 
-        <activity android:name=".driver.DriverAvailableOrderShowActivity"/>
+        <activity android:name=".driver.DriverOrderShowActivity"/>
 
         <activity android:name=".driver.DriverInfoShowActivity"/>
 
@@ -92,6 +92,8 @@
         <activity android:name=".driver.DriverPriceDetailsShowActivity"/>
 
         <activity android:name=".driver.DriverRunningOrdersDetailsShowActivity"/>
+
+        <activity android:name=".driver.DriverAllOrdersShowActivity"/>
     </application>
 
 </manifest>
