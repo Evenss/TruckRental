@@ -221,6 +221,15 @@ public class OrderDao {
         }
         return state;
     }
+    //update driver id
+    public void updateFkDriverId(Integer order_id,Integer driver_id){
+        SQLiteDatabase database = myDBHelper.getWritableDatabase();
+        if(database.isOpen()) {
+            database.execSQL("update orders set fk_driver_id=? where order_id=?",
+                    new Object[]{driver_id, order_id});
+            database.close();
+        }
+    }
 
     //delete
     public void deleteOrder(Integer order_id){

@@ -2,9 +2,11 @@ package com.hdu.truckrental.driver;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hdu.truckrental.R;
 import com.hdu.truckrental.dao.OrderDao;
@@ -18,6 +20,7 @@ import com.hdu.truckrental.domain.Order;
 public class DriverOrderDetailsShowActivity extends Activity {
 
     private static final String TAG = "ShowDetailsOrder";
+    private static final int RECEIVED = 0;
 
     private OrderDao orderDao;
     private Order order;
@@ -81,10 +84,12 @@ public class DriverOrderDetailsShowActivity extends Activity {
                 startActivity(intent);
                 break;
             case R.id.btn_take_order:
-                //跳转订单进行页面
-                intent = new Intent(DriverOrderDetailsShowActivity.this,
-                        DriverPriceDetailsShowActivity.class);
-                startActivity(intent);
+                //抢单成功，修改订单状态，加入司机id
+                SharedPreferences pref = getSharedPreferences("driver",MODE_PRIVATE);
+                orderDao.updateFkDriverId(orderId,pref.getInt("id",-1));
+                orderDao.updateOrderState(orderId,RECEIVED);
+                Toast.makeText(this,"抢单成功！",Toast.LENGTH_SHORT).show();
+                finish();
                 break;
         }
     }

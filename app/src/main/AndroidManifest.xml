@@ -88,6 +88,8 @@
         <activity android:name=".driver.DriverOrderDetailsShowActivity"/>
 
         <activity android:name=".driver.DriverRunningOrdersShowActivity"/>
+
+        <activity android:name=".driver.DriverPriceDetailsShowActivity"/>
     </application>
 
 </manifest>

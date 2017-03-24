@@ -1,6 +1,7 @@
 package com.hdu.truckrental.driver;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +20,9 @@ import android.widget.Toast;
 
 import com.hdu.truckrental.R;
 import com.hdu.truckrental.adapter.MyAdapter;
+import com.hdu.truckrental.dao.DriverDao;
 import com.hdu.truckrental.dao.OrderDao;
+import com.hdu.truckrental.domain.Driver;
 import com.hdu.truckrental.domain.Order;
 
 import java.util.ArrayList;
@@ -31,9 +34,17 @@ import java.util.List;
  */
 
 public class DriverAvailableOrderShowActivity extends AppCompatActivity {
+    private static final String TAG = "DriverMainActivity";
+    private static final int MY_INFO = 0;
+    private static final int PWD_CHANGE = 1;
+    private static final int UNFINISHED = 1;
+
     private OrderDao orderDao;
     private Order order;
     private List<Order> orderList;
+    private DriverDao driverDao;
+    private Driver driver;
+    private List<Order>  totalList = new ArrayList<>();;
 
     //侧滑菜单
     private Toolbar driverToolbar;
@@ -51,15 +62,12 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
     //订单详情
     private MyAdapter myAdapter;
     private ListView myListView;
-    private List<Order> totalList = new ArrayList<>();
 
     //分页处理
     private int totalNum,pageNum;
     private int currentPage = 1;
     private int pageSize = 10;
     private boolean isDivPage;
-    private static final String TAG = "DriverMainActivity";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +81,7 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
         this.setSupportActionBar(driverToolbar);
         //导航栏
         getSupportActionBar().setHomeButtonEnabled(true);//设置返回键可用
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true); //创建返回键，并实现打开关/闭监听
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true); //创建返回键，并实现打开关闭监听
         driverDrawerToggle = new ActionBarDrawerToggle(this,driverDrawerLayout,driverToolbar,
                 R.string.drawer_open,R.string.drawer_close) {
             @Override
@@ -93,7 +101,6 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
         //设置菜单列表
         leftAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, leftList);
         driverLeftMenu.setAdapter(leftAdapter);
-
         /**
          * switch点击事件
          */
@@ -137,12 +144,12 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch(i)
                 {
-                    case 0:
+                    case MY_INFO:
                         Intent intent = new Intent(DriverAvailableOrderShowActivity.this,
                                 DriverInfoShowActivity.class);
                         startActivity(intent);
                         break;
-                    case 1:
+                    case PWD_CHANGE:
                         intent = new Intent(DriverAvailableOrderShowActivity.this,
                                 DriverChangePwdActivity.class);
                         startActivity(intent);
@@ -166,6 +173,14 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        if(canRefresh){
+            mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 1500);
+        }
+        super.onResume();
     }
 
     private void initView(){
@@ -208,8 +223,15 @@ public class DriverAvailableOrderShowActivity extends AppCompatActivity {
                     totalList.clear();
                     orderDao = new OrderDao(DriverAvailableOrderShowActivity.this);
                     orderList = orderDao.findAllOrder();
+                    SharedPreferences pref = getSharedPreferences("driver",MODE_PRIVATE);
+                    driverDao = new DriverDao(DriverAvailableOrderShowActivity.this);
+                    driver = driverDao.findDriverById(pref.getInt("id",-1));
                     for(Order order:orderList){
-                        totalList.add(order);
+                        //展示符合相同车型的订单
+                        if(order.getOrder_car_type() == driver.getDriver_car_type() &&
+                                order.getOrder_state() == UNFINISHED){
+                            totalList.add(order);
+                        }
                     }
                     myAdapter.notifyDataSetChanged();
                     driverSwipeLayout.setRefreshing(false);
