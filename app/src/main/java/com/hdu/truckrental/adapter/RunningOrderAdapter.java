@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -108,8 +109,10 @@ public class RunningOrderAdapter extends MyAdapter {
                 intent.setData(Uri.parse("tel:"  + user.getUser_phone()));
                 if(ContextCompat.checkSelfPermission(context, android.Manifest.permission.CALL_PHONE)
                         != PackageManager.PERMISSION_GRANTED){
-                    ActivityCompat.requestPermissions(context,
-                            new String[]{Manifest.permission.CALL_PHONE},CALL_REQUEST_CODE);
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        ActivityCompat.requestPermissions(context,
+                                new String[]{Manifest.permission.CALL_PHONE}, CALL_REQUEST_CODE);
+                    }
                 }else{
                     context.startActivity(intent);
                 }

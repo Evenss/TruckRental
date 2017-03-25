@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <!-- 这个权限用于拨打电话-->
+    <!-- 打电话权限-->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />

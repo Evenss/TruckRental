@@ -12,9 +12,7 @@
     <string name="error_invalid_password">输入密码太短</string>
     <string name="error_incorrect_password">账户或者密码输入不正确</string>
     <string name="error_field_required">请输入账号</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="permission_rationale">提供账号完成所需的权限</string>
 
     <!-- driver login -->
     <string name="label_driver_login">司机登录</string>

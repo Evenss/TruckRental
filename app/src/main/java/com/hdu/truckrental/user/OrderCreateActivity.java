@@ -1,14 +1,20 @@
 package com.hdu.truckrental.user;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -31,6 +37,8 @@ import com.hdu.truckrental.map.LocationBean;
 import com.hdu.truckrental.map.MapLocationActivity;
 import com.hdu.truckrental.map.RoutePlan;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.widget.Toast.makeText;
 import static com.hdu.truckrental.tools.Check.ORDER_FOLLOWERS_ERROR;
 import static com.hdu.truckrental.tools.Tool.getCurrentTime;
 import static com.hdu.truckrental.tools.Tool.getOrderNumber;
@@ -67,6 +75,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
     private static final int DEPARTURE_CODE = 1;
     private static final int DESTINATION_CODE = 2;
     private static final int UNRECEIVED = 0;
+    private static final int LOCATION_REQUEST_CODE = 3;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -117,6 +126,33 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
 
         mOrderCreateAdvancedBtn = (Button) findViewById(R.id.order_create_advanced_btn);
         mOrderCreateAdvancedBtn.setOnClickListener(this);
+        checkPermission();
+    }
+
+    //位置权限检查
+    @TargetApi(Build.VERSION_CODES.M)
+    private void checkPermission(){
+        //6.0版本以上才需要申请权限
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(checkSelfPermission( ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        LOCATION_REQUEST_CODE);
+            }
+        }
+    }
+    // 权限的回调函数
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == LOCATION_REQUEST_CODE){
+            if(grantResults.length >0 && grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                Toast toast =Toast.makeText(this,"未打开位置权限，无法使用功能",Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
+                finish();
+            }
+        }
     }
 
     //Button 的监听事件
@@ -143,7 +179,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
                 if(state<0){
                     ErrorShow(state);
                 }
-                Toast.makeText(this,"订单创建成功",Toast.LENGTH_SHORT).show();
+                makeText(this,"订单创建成功",Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.order_create_advanced_btn:
@@ -155,7 +191,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
                 if(state<0){
                     ErrorShow(state);
                 }
-                Toast.makeText(this,"订单创建成功",Toast.LENGTH_SHORT).show();
+                makeText(this,"订单创建成功",Toast.LENGTH_SHORT).show();
                 break;
         }
     }
