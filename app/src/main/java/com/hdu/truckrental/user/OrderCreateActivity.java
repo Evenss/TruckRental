@@ -39,6 +39,9 @@ import com.hdu.truckrental.map.RoutePlan;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.widget.Toast.makeText;
+import static com.hdu.truckrental.tools.Check.ORDER_CAR_TYPE_NULL_ERROR;
+import static com.hdu.truckrental.tools.Check.ORDER_DEPARTURE_NULL_ERROR;
+import static com.hdu.truckrental.tools.Check.ORDER_DESTINATION_NULL_ERROR;
 import static com.hdu.truckrental.tools.Check.ORDER_FOLLOWERS_ERROR;
 import static com.hdu.truckrental.tools.Tool.getCurrentTime;
 import static com.hdu.truckrental.tools.Tool.getOrderNumber;
@@ -66,7 +69,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
     private LocationBean enLocation;
 
     RoutePlan routePlan;
-    private Integer mDistance;
+    private Integer mDistance = 0;
     private OrderDao orderDao;
     private Order order;
     private Integer state;//添加订单后返回的状态码
@@ -178,8 +181,9 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
                 state = OrderCreate(currentTime,startDate);
                 if(state<0){
                     ErrorShow(state);
+                }else{
+                    makeText(this,"订单创建成功",Toast.LENGTH_SHORT).show();
                 }
-                makeText(this,"订单创建成功",Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.order_create_advanced_btn:
@@ -237,7 +241,16 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
     private void ErrorShow(Integer state){
         String errorMessage = "";
         switch (state){
-            case ORDER_FOLLOWERS_ERROR://跟车人数错误
+            case ORDER_CAR_TYPE_NULL_ERROR:
+                errorMessage = "请选择货车类型";
+                break;
+            case ORDER_DEPARTURE_NULL_ERROR:
+                errorMessage = "请选择出发地";
+                break;
+            case ORDER_DESTINATION_NULL_ERROR:
+                errorMessage = "请选择目的地";
+                break;
+            case ORDER_FOLLOWERS_ERROR:
                 errorMessage = "跟车人数不正确，请仔细阅读要求";
                 break;
         }
@@ -259,7 +272,6 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
                 @Override
                 public void onDataReceiveSuccess(Integer distance) {
                     mDistance = distance;
-                    Log.d("RouteResult",mDistance.toString());
                 }
 
                 @Override
@@ -304,24 +316,29 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
         order.setOrder_remarks(mOrderRemarksEd.getText().toString());
         //距离
         order.setOrder_distance(mDistance);
-        //车型
-        switch (mOrderCarTypeRb.getText().toString()){
-            case "小面包车":
-                order.setOrder_car_type(1);
-                break;
-            case "中面包车":
-                order.setOrder_car_type(2);
-                break;
-            case "小货车":
-                order.setOrder_car_type(3);
-                break;
-            case "中货车":
-                order.setOrder_car_type(4);
-                break;
+
+        if(mOrderCarTypeRb != null){
+            //车型
+            switch (mOrderCarTypeRb.getText().toString()){
+                case "小面包车":
+                    order.setOrder_car_type(1);
+                    break;
+                case "中面包车":
+                    order.setOrder_car_type(2);
+                    break;
+                case "小货车":
+                    order.setOrder_car_type(3);
+                    break;
+                case "中货车":
+                    order.setOrder_car_type(4);
+                    break;
+            }
+            //价格
+            float orderPrice = getOrderPrice(mDistance,mOrderCarTypeRb.getText().toString());
+            order.setOrder_price(orderPrice);
+        }else{
+            order.setOrder_car_type(-1);
         }
-        //价格
-        float orderPrice = getOrderPrice(mDistance,mOrderCarTypeRb.getText().toString());
-        order.setOrder_price(orderPrice);
         //状态
         order.setOrder_state(UNRECEIVED);
         //订单生成时间
@@ -359,7 +376,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
         Integer state = 0;
         orderDao = new OrderDao(OrderCreateActivity.this);
         //这里创建订单时候没有司机id
-        orderDao.addOrderNoDriverId(order);
+        state = orderDao.addOrderNoDriverId(order);
         return state;
     }
 }

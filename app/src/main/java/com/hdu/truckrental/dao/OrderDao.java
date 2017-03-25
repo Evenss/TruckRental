@@ -83,9 +83,13 @@ public class OrderDao {
     }
 
     //add order without driver_id
-    public void addOrderNoDriverId(Order order){
-        //把String类型的日期转换成datetime类型的
-
+    public Integer addOrderNoDriverId(Order order){
+        //valid check
+        Integer car_type = order.getOrder_car_type();
+        Integer state = checkOrder(order,car_type);
+        if(state != SUCCEED){
+            return state;
+        }
         SQLiteDatabase database = myDBHelper.getWritableDatabase();
         if(database.isOpen()){
             database.execSQL("insert into orders(" +
@@ -125,6 +129,7 @@ public class OrderDao {
                     });
             database.close();
         }
+        return state;
     }
 
     //get order

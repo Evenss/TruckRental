@@ -45,13 +45,16 @@ public class Check {
     public static final int ORDER_BACK_ERROR = -10;                     //订单回程错误
     public static final int ORDER_CARRY_ERROR = -11;                    //
     public static final int ORDER_FOLLOWERS_ERROR = -12;                //订单跟车人数错误
-    public static final int DRIVER_CAR_TYPE_ERROR = -13;                //司机车型错误
-    public static final int DRIVER_LEVEL_ERROR = -14;                   //司机等级错误
-    public static final int DRIVER_SCORE_ERROR = -15;                   //司机评分错误
-    public static final int DRIVER_STATE_ERROR = -16;                   //司机状态错误
+    public static final int ORDER_DEPARTURE_NULL_ERROR = -13;           //订单出发地空错误
+    public static final int ORDER_DESTINATION_NULL_ERROR = -14;         //订单目的地空错误
+    public static final int ORDER_CAR_TYPE_NULL_ERROR = -15;            //订单车型空错误
+    public static final int DRIVER_CAR_TYPE_ERROR = -16;                //司机车型错误
+    public static final int DRIVER_LEVEL_ERROR = -17;                   //司机等级错误
+    public static final int DRIVER_SCORE_ERROR = -18;                   //司机评分错误
+    public static final int DRIVER_STATE_ERROR = -19;                   //司机状态错误
 
-    public static final int USER_DUPLICATE_ERROR = -17;                 //用户重名错误
-    public static final int DRIVER_DUPLICATE_ERROR = -18;               //司机重名错误
+    public static final int USER_DUPLICATE_ERROR = -20;                 //用户重名错误
+    public static final int DRIVER_DUPLICATE_ERROR = -21;               //司机重名错误
     public static final int SUCCEED = 0;                                //检验成功返回的数值
 
     //手机号检验
@@ -179,6 +182,27 @@ public class Check {
 
         return state;
     }
+    public static int checkOrderCarType(int carType){
+        if (carType < 1 || carType > 4){
+            return ORDER_CAR_TYPE_NULL_ERROR;
+        }else{
+            return SUCCEED;
+        }
+    }
+    public static int checkOrderDeparture(String departure){
+        if(departure != "" && departure != null){
+            return SUCCEED;
+        }else{
+            return ORDER_DEPARTURE_NULL_ERROR;
+        }
+    }
+    public static int checkOrderDestination(String destination){
+        if(destination != "" && destination != null){
+            return SUCCEED;
+        }else{
+            return ORDER_DESTINATION_NULL_ERROR;
+        }
+    }
 
     public static int checkDriverCarType(int carType){
         if (carType < 1 || carType > 4){
@@ -228,14 +252,20 @@ public class Check {
 
     //订单检验 （综合订单一些属性的检验，并返回相应的错误代码）
     public static int checkOrder(Order order, int carType){
+        //这里订单先去掉检验对司机评分
 
         int state = SUCCEED;
-
-        if ((state = checkOrderState(order.getOrder_state().intValue())) != SUCCEED){
+        if((state = checkOrderCarType(order.getOrder_car_type().intValue())) != SUCCEED){
             //do nothing
-        }else if ((state = checkOrderScore(order.getOrder_score().intValue())) != SUCCEED){
+        }else if((state = checkOrderDeparture(order.getOrder_departure())) != SUCCEED){
             //do nothing
-        }else if ((state = checkOrderBack(order.getOrder_back().intValue())) != SUCCEED){
+        }else if((state = checkOrderDestination(order.getOrder_destination())) != SUCCEED){
+            //do nothing
+        } else if((state = checkOrderState(order.getOrder_state().intValue())) != SUCCEED){
+            //do nothing
+        }/*else if ((state = checkOrderScore(order.getOrder_score().intValue())) != SUCCEED){
+            //do nothing
+        }*/else if ((state = checkOrderBack(order.getOrder_back().intValue())) != SUCCEED){
             //do nothing
         }else if ((state = checkOrderCarry(order.getOrder_carry().intValue())) != SUCCEED){
             //do nothing
