@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements
     private ImageButton mExchangeToDriverBtn;
     private Button mRegisterUserBtn;
     private Button mRegisterDriverBtn;
+    private Button mGetPwdBtn;
 
     private UserDao userDao;
 
@@ -99,6 +101,7 @@ public class LoginActivity extends AppCompatActivity implements
         mExchangeToDriverBtn = (ImageButton) findViewById(R.id.exchange_to_driver_btn);
         mRegisterUserBtn = (Button) findViewById(R.id.register_user_btn);
         mRegisterDriverBtn = (Button) findViewById(R.id.register_driver_btn);
+        mGetPwdBtn = (Button)findViewById(R.id.get_pwd_btn);
         //登录界面和进度条界面
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -112,6 +115,7 @@ public class LoginActivity extends AppCompatActivity implements
         mExchangeToDriverBtn.setOnClickListener(this);
         mRegisterUserBtn.setOnClickListener(this);
         mRegisterDriverBtn.setOnClickListener(this);
+        mGetPwdBtn.setOnClickListener(this);
     }
     /**
      * 监听事件具体逻辑
@@ -137,6 +141,12 @@ public class LoginActivity extends AppCompatActivity implements
          case R.id.register_driver_btn:
              intent = new Intent(LoginActivity.this, DriverRegisterActivity.class);
              startActivity(intent);
+             break;
+
+         case R.id.get_pwd_btn:
+             Toast toast = Toast.makeText(this,"验证码为：123456",Toast.LENGTH_SHORT);
+             toast.setGravity(Gravity.CENTER,0,0);
+             toast.show();
              break;
      }
     }
@@ -240,14 +250,6 @@ public class LoginActivity extends AppCompatActivity implements
             //错误处理
         }
 
-        // Check for a valid password, if the btn_home_user entered one.
-        //检查密码有效性
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
         // Check for a valid account address.
         if (TextUtils.isEmpty(account)) {
             mAccountView.setError(getString(R.string.error_field_required));
@@ -276,11 +278,6 @@ public class LoginActivity extends AppCompatActivity implements
             return true;
         }
         return false;
-    }
-
-    private boolean isPasswordValid(String password) {
-        //密码有效性判断，必须长度大于4
-        return password.length() > 4;
     }
 
     /**

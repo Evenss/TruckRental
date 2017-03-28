@@ -2,6 +2,7 @@ package com.hdu.truckrental.user;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +51,9 @@ public class UserRegisterActivity extends Activity implements View.OnClickListen
         switch (v.getId()){
             case R.id.user_validate:
                 //获取验证码
-                Toast.makeText(UserRegisterActivity.this,"验证码：6666",Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(this,"验证码为：123456",Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
                 code = "6666";
                 break;
             case R.id.user_registered:
