@@ -53,8 +53,8 @@ public class Check {
     public static final int DRIVER_SCORE_ERROR = -18;                   //司机评分错误
     public static final int DRIVER_STATE_ERROR = -19;                   //司机状态错误
 
-    public static final int USER_DUPLICATE_ERROR = -20;                 //用户重名错误
-    public static final int DRIVER_DUPLICATE_ERROR = -21;               //司机重名错误
+    public static final int USER_DUPLICATE_ERROR = -20;                 //用户电话重名错误
+    public static final int DRIVER_DUPLICATE_ERROR = -21;               //司机电话重名错误
     public static final int SUCCEED = 0;                                //检验成功返回的数值
 
     //手机号检验
@@ -278,11 +278,21 @@ public class Check {
 
     //司机检验 （综合一些司机属性的检验，并返回相应的错误代码）
     public static int checkDriver(Driver driver){
+        //车牌号和驾驶证号先不进行检验
         int state = SUCCEED;
+        if((state = checkName(driver.getDriver_name())) != SUCCEED){
 
-        if ((state = checkDriverCarType(driver.getDriver_car_type().intValue())) != SUCCEED){
+        }else if((state = checkPhone(driver.getDriver_phone())) != SUCCEED){
+
+        }else if((state = checkPassword(driver.getDriver_pwd())) != SUCCEED){
+
+        }else if ((state = checkDriverCarType(driver.getDriver_car_type().intValue())) != SUCCEED){
             //do nothing
-        }else if ((state = checkDriverLevel(driver.getDriver_level().intValue())) != SUCCEED){
+        }/*else if((state = checkLicensePlate(driver.getDriver_license_plate())) != SUCCEED){
+
+        }else if((state = checkLicense(driver.getDriver_license())) != SUCCEED){
+
+        }*/else if ((state = checkDriverLevel(driver.getDriver_level().intValue())) != SUCCEED){
             //do nothing
         }else if ((state = checkDriverScore(driver.getDriver_score().intValue())) != SUCCEED){
             //do nothing

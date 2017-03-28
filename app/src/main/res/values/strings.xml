@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Truck Rental</string>
+    <string name="app_name">货滴滴</string>
 
     <!-- login -->
     <string name="prompt_account">账号</string>
