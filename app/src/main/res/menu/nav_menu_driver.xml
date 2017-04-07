@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_info_driver"
+            android:icon="@drawable/nav_info"
+            android:title="我的信息"/>
+        <item
+            android:id="@+id/nav_change_pwd_driver"
+            android:icon="@drawable/nav_change_pwd"
+            android:title="修改密码"/>
+
+        <item
+            android:id="@+id/nav_call_center_driver"
+            android:icon="@drawable/nav_call_center"
+            android:title="客服中心"/>
+        <item
+            android:id="@+id/nav_setup_driver"
+            android:icon="@drawable/nav_setup"
+            android:title="更多设置"/>
+    </group>
+</menu>

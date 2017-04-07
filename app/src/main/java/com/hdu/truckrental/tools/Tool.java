@@ -30,11 +30,11 @@ public class Tool {
             Calendar calendar = Calendar.getInstance();
             Date date = simpleDateFormat.parse(time);
             calendar.setTime(date);
-            calendar.add(Calendar.HOUR, 2);
+            calendar.add(Calendar.MINUTE, 20);
             calendar.add(Calendar.MONTH, 1);
             String startTime = calendar.get(Calendar.MONTH) + "-" +
                     calendar.get(Calendar.DAY_OF_MONTH) + " " +
-                    calendar.get(Calendar.HOUR) + ":" +
+                    calendar.get(Calendar.HOUR_OF_DAY) + ":" +
                     calendar.get(Calendar.MINUTE);
             return startTime;
 
@@ -45,8 +45,25 @@ public class Tool {
         return time;
     }
 
+    //输入一个格式为 MM-dd HH:mm 的时间 转换成 MM月dd日 HH时mm分 格式的时间
+    public static String getDisplayTime(String time){
+
+        String[] dateDivide = time.split("-");
+        String[] strDivide = dateDivide[1].split(" ");
+        String[] timeDivide = strDivide[1].split(":");
+
+        String month = dateDivide[0];//
+        String day = strDivide[0];//
+        String hour = timeDivide[0];
+        String minute = timeDivide[1];
+
+        String displayTime = month + "月" + day + "日 " + hour + "时" + minute + "分";
+
+        return displayTime;
+    }
+
     //判断是否为及时订单（判断两个时间差是否为2小时）
-    //请注意参数顺序 MM-dd hh:mm和yyyy-MM-dd HH:mm:ss
+    //请注意参数顺序
     public static boolean isAdvancedDate(String startTime, String createTime){
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");
@@ -71,8 +88,7 @@ public class Tool {
             int startHour = calendar.get(Calendar.HOUR_OF_DAY);
             int startMinute = calendar.get(Calendar.MINUTE);
 
-            if (createMonth == startMonth && createDay == startDay
-                    && createHour == startHour && createMinute == startMinute){
+            if (createMonth == startMonth && createDay == startDay && createHour == startHour && createMinute == startMinute){
                 return true;
             }else{
                 return false;
@@ -106,16 +122,4 @@ public class Tool {
         return orderNumber;
 
     }
-
-    public static void main(String[] arg){
-        String createDateStr = "2017-02-10 20:11:34";
-        String startDateStr = "02-10 22:11";
-
-        System.out.println(isAdvancedDate(startDateStr, createDateStr));
-    }
-
-
-
-
 }
-

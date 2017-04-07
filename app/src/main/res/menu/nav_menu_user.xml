@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_order"
+            android:icon="@drawable/btm_order"
+            android:title="订单记录"/>
+        <item
+            android:id="@+id/nav_driver"
+            android:icon="@drawable/nav_driver"
+            android:title="我的司机"/>
+        <item
+            android:id="@+id/nav_wallet"
+            android:icon="@drawable/nav_wallet"
+            android:title="滴滴钱包"/>
+        <item
+            android:id="@+id/nav_email"
+            android:icon="@drawable/nav_email"
+            android:title="收件信箱"/>
+        <item
+            android:id="@+id/nav_call_center"
+            android:icon="@drawable/nav_call_center"
+            android:title="客服中心"/>
+        <item
+            android:id="@+id/nav_setup"
+            android:icon="@drawable/nav_setup"
+            android:title="更多设置"/>
+    </group>
+</menu>

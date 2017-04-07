@@ -1,51 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants">
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="8dp"
+    android:foreground="?android:attr/selectableItemBackground">
 
-    <LinearLayout android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp">
-        <TextView
-            android:id="@+id/running_order_start_date_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/running_departure_view"
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants">
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"/>
-        <TextView
-            android:id="@+id/running_destination_view"
+            android:layout_marginLeft="10dp">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/running_order_start_date_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/running_user_level_view"
+                    android:layout_centerVertical="true"
+                    android:text="用户等级"/>
+                <RatingBar
+                    android:id="@+id/running_user_level_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:isIndicator="true"
+                    android:layout_marginRight="10dp"/>
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/ic_point_red"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/running_departure_city_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp" />
+                    <TextView
+                        android:id="@+id/running_departure_addr_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/ic_point_blue"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/running_destination_city_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"/>
+                    <TextView
+                        android:id="@+id/running_destination_addr_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <ImageButton
+            android:id="@+id/running_phone_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"/>
+            android:background="@color/colorTransparent"
+            android:src="@drawable/btn_phone"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp" />
+
         <TextView
-            android:id="@+id/running_user_level_view"
+            android:id="@+id/running_order_state_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/running_phone_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorTransparent"
-        android:src="@drawable/btn_phone"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp" />
-
-    <TextView
-        android:id="@+id/running_order_state_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="即时订单"
-        android:drawableTop="@drawable/order_state"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/running_phone_btn"
-        android:layout_marginEnd="55dp" />
-</RelativeLayout>
+            android:layout_height="wrap_content"
+            android:text="即时订单"
+            android:drawableTop="@drawable/order_state"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/running_phone_btn"
+            android:layout_marginEnd="20dp" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

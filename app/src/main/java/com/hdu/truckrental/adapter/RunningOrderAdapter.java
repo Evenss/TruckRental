@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.hdu.truckrental.R;
@@ -21,6 +22,7 @@ import com.hdu.truckrental.domain.Order;
 
 import java.util.List;
 
+import static com.hdu.truckrental.tools.Tool.getDisplayTime;
 import static com.hdu.truckrental.tools.Tool.isAdvancedDate;
 
 /**
@@ -68,14 +70,18 @@ public class RunningOrderAdapter extends MyAdapter {
             convertView =
                     LayoutInflater.from(context).inflate(R.layout.listview_running_orders,null);
             holder = new RunningOrderAdapter.ViewHolder();
-            holder.tv_departure =
-                    (TextView) convertView.findViewById(R.id.running_departure_view);
-            holder.tv_destination =
-                    (TextView) convertView.findViewById(R.id.running_destination_view);
+            holder.tv_departure_city =
+                    (TextView) convertView.findViewById(R.id.running_departure_city_view);
+            holder.tv_departure_address =
+                    (TextView) convertView.findViewById(R.id.running_departure_addr_view);
+            holder.tv_destination_city =
+                    (TextView) convertView.findViewById(R.id.running_destination_city_view);
+            holder.tv_destination_address =
+                    (TextView) convertView.findViewById(R.id.running_destination_addr_view);
             holder.tv_start_date =
                     (TextView) convertView.findViewById(R.id.running_order_start_date_view);
             holder.tv_user_level =
-                    (TextView) convertView.findViewById(R.id.running_user_level_view);
+                    (RatingBar) convertView.findViewById(R.id.running_user_level_view);
             holder.tv_order_state =
                     (TextView) convertView.findViewById(R.id.running_order_state_view);
             holder.view_btn=  (ImageButton) convertView.findViewById(R.id.running_phone_btn);
@@ -83,10 +89,15 @@ public class RunningOrderAdapter extends MyAdapter {
         }else {
             holder = (RunningOrderAdapter.ViewHolder) convertView.getTag();
         }
-        holder.tv_start_date.setText(mOrder.getOrder_start_date());
-        holder.tv_departure.setText(mOrder.getOrder_departure());
-        holder.tv_destination.setText(mOrder.getOrder_destination());
-        holder.tv_user_level.setText("用户等级:"+user.getUser_level());
+
+        mDepartureAddr = mOrder.getOrder_departure().split(":");
+        mDestinationAddr = mOrder.getOrder_destination().split(":");
+        holder.tv_start_date.setText(getDisplayTime(mOrder.getOrder_start_date()));
+        holder.tv_departure_city.setText(" "+mDepartureAddr[0]);
+        holder.tv_departure_address.setText(mDepartureAddr[1]);
+        holder.tv_destination_city.setText(" "+mDestinationAddr[0]);
+        holder.tv_destination_address.setText(mDestinationAddr[1]);
+        holder.tv_user_level.setRating(user.getUser_level());
         //设置图标
         if(!isAdvancedDate(mOrder.getOrder_start_date(),mOrder.getOrder_date())){
             holder.tv_order_state.setText(R.string.prompt_immediate_order);

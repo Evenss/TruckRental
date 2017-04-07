@@ -60,6 +60,7 @@ public class DriverLoginActivity extends AppCompatActivity implements
     //Button
     private Button mAccountSignInBtn;
     private ImageButton mExchangeToUserBtn;
+    private Button mRegisterDriverBtn;
 
     private DriverDao driverDao;
 
@@ -86,6 +87,7 @@ public class DriverLoginActivity extends AppCompatActivity implements
         //登录界面和进度条界面
         mLoginFormView = findViewById(R.id.driver_login_form);
         mProgressView = findViewById(R.id.driver_login_progress);
+        mRegisterDriverBtn = (Button) findViewById(R.id.register_driver_btn);
     }
     /**
      * 设置监听事件
@@ -94,6 +96,7 @@ public class DriverLoginActivity extends AppCompatActivity implements
         mPasswordView.setOnEditorActionListener(this);
         mAccountSignInBtn.setOnClickListener(this);
         mExchangeToUserBtn.setOnClickListener(this);
+        mRegisterDriverBtn.setOnClickListener(this);
     }
     /**
      * 监听事件具体逻辑
@@ -109,6 +112,13 @@ public class DriverLoginActivity extends AppCompatActivity implements
             case R.id.exchange_to_user_btn:
                 intent = new Intent(DriverLoginActivity.this, LoginActivity.class);//测试用
                 startActivity(intent);
+                finish();
+                break;
+
+            case R.id.register_driver_btn:
+                intent = new Intent(DriverLoginActivity.this, DriverRegisterActivity.class);
+                startActivity(intent);
+                finish();
                 break;
         }
     }
@@ -328,7 +338,7 @@ public class DriverLoginActivity extends AppCompatActivity implements
                 editor.putInt("id",driverDao.findDriverByPhone(mAccount).getDriver_id());
                 editor.commit();
                 Intent intent =
-                        new Intent(DriverLoginActivity.this, DriverOrderShowActivity.class);
+                        new Intent(DriverLoginActivity.this, DriverOrderActivity.class);
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

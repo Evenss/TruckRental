@@ -1,5 +1,6 @@
 package com.hdu.truckrental.map;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.baidu.mapapi.model.LatLng;
@@ -21,12 +22,12 @@ import com.baidu.mapapi.search.route.WalkingRouteResult;
  * 封装地图路径类，返回距离
  */
 
-public class RoutePlan implements OnGetRoutePlanResultListener {
-    private RouteLine route = null;
-    private RoutePlanSearch mSearch = null;
-    private DrivingRouteResult mDrivingRouteResult = null;
-    private boolean isReturn = false;
-    private static Integer distance = -1;
+public class RoutePlan extends Activity implements OnGetRoutePlanResultListener {
+    protected RouteLine route = null;
+    protected RoutePlanSearch mSearch = null;
+    protected DrivingRouteResult mDrivingRouteResult = null;
+    protected boolean isReturn = false;
+    protected static Integer distance = -1;
 
     //开启新线程计算路径
     public void getDistance(final LatLng start, final LatLng end, final DistanceCallBack listener){

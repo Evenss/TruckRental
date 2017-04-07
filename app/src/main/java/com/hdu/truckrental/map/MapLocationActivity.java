@@ -3,6 +3,7 @@ package com.hdu.truckrental.map;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -79,7 +80,7 @@ public class MapLocationActivity extends Activity implements
     private EditText mCity = null;
     private AutoCompleteTextView mAddress = null;
     private Button mSearch = null;
-    private Button mConfirm = null;
+    private FloatingActionButton mConfirm = null;
 
     //提示窗口
     private ArrayAdapter<String> mSugAdapter = null;
@@ -103,7 +104,7 @@ public class MapLocationActivity extends Activity implements
         mCity = (EditText) findViewById(R.id.city);
         mAddress = (AutoCompleteTextView) findViewById(R.id.address);
         mSearch = (Button) findViewById(R.id.search);
-        mConfirm = (Button) findViewById(R.id.confirm);
+        mConfirm = (FloatingActionButton) findViewById(R.id.confirm);
 
         //初始化地图
         mMapView = (MapView) findViewById(R.id.map_view);

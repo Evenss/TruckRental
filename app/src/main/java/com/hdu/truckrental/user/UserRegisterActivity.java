@@ -51,7 +51,7 @@ public class UserRegisterActivity extends Activity implements View.OnClickListen
         switch (v.getId()){
             case R.id.user_validate:
                 //获取验证码
-                Toast toast = Toast.makeText(this,"验证码为：123456",Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(this,"验证码为：6666",Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER,0,0);
                 toast.show();
                 code = "6666";
@@ -59,11 +59,11 @@ public class UserRegisterActivity extends Activity implements View.OnClickListen
             case R.id.user_registered:
                 if(Check.checkPhone(mUserPhone.getText().toString())!=Check.SUCCEED){
                     Toast.makeText(UserRegisterActivity.this,"手机输入有误",Toast.LENGTH_SHORT).show();
-                }
-                if(!mUserValidationCode.getText().toString().equals(code)){
+                }else if(!mUserValidationCode.getText().toString().equals(code)){
                     Toast.makeText(UserRegisterActivity.this,"验证码有误",Toast.LENGTH_SHORT).show();
+                }else{
+                    registerUser(mUserPhone.getText().toString());
                 }
-                registerUser(mUserPhone.getText().toString());
                 break;
         }
     }

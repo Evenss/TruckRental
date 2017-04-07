@@ -3,6 +3,8 @@ package com.hdu.truckrental.driver;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -32,6 +34,7 @@ public class DriverInfoShowActivity extends AppCompatActivity {
     private ListView driverInfoListView;
     private ArrayList<Map<String,Object>> driverInfoList = new ArrayList<Map<String, Object>>();
     private SimpleAdapter driverInfoAdapter;
+    private Toolbar mToolbarInfo;
     private String[] driverInfoTitle =
             {"我的姓名","手机号码","驾驶车型","所在城市","车牌号","驾驶证号","目前等级"};
     private String[] driverInfoContent = {"","","","","","",""};
@@ -39,7 +42,9 @@ public class DriverInfoShowActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        driverInfoListView = new ListView(this);
+        setContentView(R.layout.activity_driver_info_show);
+        driverInfoListView =(ListView) findViewById(R.id.driver_info_ListView);
+        mToolbarInfo = (Toolbar) findViewById(R.id.toolbar_info);
 
         SharedPreferences pref = getSharedPreferences("driver",MODE_PRIVATE);
         driverDao = new DriverDao(this);
@@ -56,7 +61,17 @@ public class DriverInfoShowActivity extends AppCompatActivity {
         driverInfoAdapter = new SimpleAdapter(this, driverInfoList, R.layout.listview_driver_info,
                 new String[]{"标题","内容"}, new int[]{R.id.driver_info_title, R.id.driver_info_content});
         driverInfoListView.setAdapter(driverInfoAdapter);
-        setContentView(driverInfoListView);
+
+        setSupportActionBar(mToolbarInfo);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mToolbarInfo.setNavigationIcon(R.drawable.nav_return);
+        mToolbarInfo.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private void putInfoContent(Driver driver, String[] driverInfoContent){

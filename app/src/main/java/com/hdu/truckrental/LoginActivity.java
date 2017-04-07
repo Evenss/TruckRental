@@ -35,7 +35,6 @@ import android.widget.Toast;
 
 import com.hdu.truckrental.dao.UserDao;
 import com.hdu.truckrental.driver.DriverLoginActivity;
-import com.hdu.truckrental.driver.DriverRegisterActivity;
 import com.hdu.truckrental.tools.Check;
 import com.hdu.truckrental.user.OrderCreateActivity;
 import com.hdu.truckrental.user.UserRegisterActivity;
@@ -74,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements
     private Button mAccountSignInBtn;
     private ImageButton mExchangeToDriverBtn;
     private Button mRegisterUserBtn;
-    private Button mRegisterDriverBtn;
+
     private Button mGetPwdBtn;
 
     private UserDao userDao;
@@ -100,7 +99,6 @@ public class LoginActivity extends AppCompatActivity implements
         mAccountSignInBtn = (Button) findViewById(R.id.account_sign_in_btn);
         mExchangeToDriverBtn = (ImageButton) findViewById(R.id.exchange_to_driver_btn);
         mRegisterUserBtn = (Button) findViewById(R.id.register_user_btn);
-        mRegisterDriverBtn = (Button) findViewById(R.id.register_driver_btn);
         mGetPwdBtn = (Button)findViewById(R.id.get_pwd_btn);
         //登录界面和进度条界面
         mLoginFormView = findViewById(R.id.login_form);
@@ -114,7 +112,6 @@ public class LoginActivity extends AppCompatActivity implements
         mAccountSignInBtn.setOnClickListener(this);
         mExchangeToDriverBtn.setOnClickListener(this);
         mRegisterUserBtn.setOnClickListener(this);
-        mRegisterDriverBtn.setOnClickListener(this);
         mGetPwdBtn.setOnClickListener(this);
     }
     /**
@@ -131,15 +128,11 @@ public class LoginActivity extends AppCompatActivity implements
          case R.id.exchange_to_driver_btn:
              intent = new Intent(LoginActivity.this, DriverLoginActivity.class);
              startActivity(intent);
+             finish();
              break;
 
          case R.id.register_user_btn:
              intent = new Intent(LoginActivity.this, UserRegisterActivity.class);
-             startActivity(intent);
-             break;
-
-         case R.id.register_driver_btn:
-             intent = new Intent(LoginActivity.this, DriverRegisterActivity.class);
              startActivity(intent);
              break;
 

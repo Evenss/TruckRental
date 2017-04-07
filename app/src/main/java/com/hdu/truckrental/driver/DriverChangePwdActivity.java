@@ -3,6 +3,7 @@ package com.hdu.truckrental.driver;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,6 +33,7 @@ public class DriverChangePwdActivity extends AppCompatActivity {
     private EditText confirmPwdEditText;
     private Button confirmChangeButton;
     private String password;
+    private Toolbar mToolbarChangePwd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,7 @@ public class DriverChangePwdActivity extends AppCompatActivity {
         confirmPwdEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                if (id == R.id.modify || id == EditorInfo.IME_NULL) {
                     attemptChange();
                     return true;
                 }
@@ -62,6 +64,16 @@ public class DriverChangePwdActivity extends AppCompatActivity {
             }
         });
 
+        setSupportActionBar(mToolbarChangePwd);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mToolbarChangePwd.setNavigationIcon(R.drawable.nav_return);
+        mToolbarChangePwd.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private void initView(){
@@ -69,6 +81,7 @@ public class DriverChangePwdActivity extends AppCompatActivity {
         newPwdEditText = (EditText)findViewById(R.id.driver_new_pwd);
         confirmPwdEditText = (EditText)findViewById(R.id.driver_confirm_pwd);
         confirmChangeButton = (Button)findViewById(R.id.confirm_change_btn);
+        mToolbarChangePwd = (Toolbar) findViewById(R.id.toolbar_change_pwd);
     }
 
     //验证函数
@@ -117,7 +130,6 @@ public class DriverChangePwdActivity extends AppCompatActivity {
             if(password.equals(Encrypt.getEncryption(oldPwd))){
                 password = Encrypt.getEncryption(newPwd);
                 Toast.makeText(getApplicationContext(),"修改成功",Toast.LENGTH_SHORT).show();
-                //mHandler.postDelayed(r, 100);//延时
                 driverDao.updateDriverPwd(driver.getDriver_id(),password);
                 finish();
             }else {

@@ -3,6 +3,7 @@ package com.hdu.truckrental.driver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.hdu.truckrental.R;
@@ -45,8 +46,8 @@ public class DriverAllOrdersDetailsShowActivity extends DriverOrderDetailsShowAc
         ShowStatementTextView = (TextView)findViewById(R.id.all_order_state);
         ShowDepartureTextView = (TextView) findViewById(R.id.all_details_departure);
         ShowDestinationTextView = (TextView) findViewById(R.id.all_details_destination);
-        ShowCarryTextView = (TextView) findViewById(R.id.all_details_carry);
-        ShowBackTextView = (TextView) findViewById(R.id.all_details_back);
+        ShowCarryCheckBox = (CheckBox) findViewById(R.id.all_details_carry);
+        ShowBackCheckBox = (CheckBox) findViewById(R.id.all_details_back);
         ShowFollowersTextView = (TextView) findViewById(R.id.all_details_followers);
     }
 

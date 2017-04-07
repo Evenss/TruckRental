@@ -3,10 +3,12 @@ package com.hdu.truckrental.driver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hdu.truckrental.R;
+import com.hdu.truckrental.map.RoutePlanNavigation;
 
 /**
  * Created by Even on 2017/3/22.
@@ -30,9 +32,10 @@ public class DriverRunningOrdersDetailsShowActivity extends DriverOrderDetailsSh
         ShowRemarksTextView = (TextView)findViewById(R.id.running_details_remarks);
         ShowDepartureTextView = (TextView)findViewById(R.id.running_details_departure);
         ShowDestinationTextView = (TextView)findViewById(R.id.running_details_destination);
-        ShowCarryTextView = (TextView)findViewById(R.id.running_details_carry);
-        ShowBackTextView = (TextView)findViewById(R.id.running_details_back);
+        ShowCarryCheckBox = (CheckBox) findViewById(R.id.running_details_carry);
+        ShowBackCheckBox = (CheckBox)findViewById(R.id.running_details_back);
         ShowFollowersTextView= (TextView)findViewById(R.id.running_details_followers);
+
     }
 
     @Override
@@ -47,7 +50,9 @@ public class DriverRunningOrdersDetailsShowActivity extends DriverOrderDetailsSh
                 break;
             case R.id.btn_navigate:
                 //跳转导航页面
-                Toast.makeText(this,"还没加入进去！",Toast.LENGTH_SHORT).show();
+                intent = new Intent(DriverRunningOrdersDetailsShowActivity.this,
+                        RoutePlanNavigation.class);
+                startActivity(intent);
                 break;
             case R.id.btn_cancel_order:
                 orderDao.updateFkDriverId(orderId,0);

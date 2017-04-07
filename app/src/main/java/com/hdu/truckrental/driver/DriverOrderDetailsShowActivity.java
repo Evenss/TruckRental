@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hdu.truckrental.R;
 import com.hdu.truckrental.dao.OrderDao;
 import com.hdu.truckrental.domain.Order;
+
+import static com.hdu.truckrental.tools.Tool.getDisplayTime;
 
 /**
  * Created by Even on 2017/3/16.
@@ -35,8 +38,8 @@ public class DriverOrderDetailsShowActivity extends Activity {
     protected TextView ShowRemarksTextView;
     protected TextView ShowDepartureTextView;
     protected TextView ShowDestinationTextView;
-    protected TextView ShowCarryTextView;
-    protected TextView ShowBackTextView;
+    protected CheckBox ShowCarryCheckBox;
+    protected CheckBox ShowBackCheckBox;
     protected TextView ShowFollowersTextView;
 
     @Override
@@ -49,12 +52,12 @@ public class DriverOrderDetailsShowActivity extends Activity {
             order = orderDao.findOrderById(orderId);
 
             if(order.getOrder_back() == 1){
-                ShowBackTextView.setText(R.string.back);
+                ShowBackCheckBox.setChecked(true);
             }
             if(order.getOrder_carry() == 1){
-                ShowCarryTextView.setText(R.string.carry);
+                ShowCarryCheckBox.setChecked(true);
             }
-            ShowStartDateTextView.setText(order.getOrder_start_date());
+            ShowStartDateTextView.setText(getDisplayTime(order.getOrder_start_date()));
             ShowDistanceTextView.setText(order.getOrder_distance()/1000.0+"公里");
             ShowFollowersTextView.setText("跟车人数："+order.getOrder_followers());
             showPriceTextView.setText(order.getOrder_price()+"元");
@@ -71,8 +74,8 @@ public class DriverOrderDetailsShowActivity extends Activity {
         ShowRemarksTextView = (TextView)findViewById(R.id.details_remarks);
         ShowDepartureTextView = (TextView)findViewById(R.id.details_departure);
         ShowDestinationTextView = (TextView)findViewById(R.id.details_destination);
-        ShowCarryTextView = (TextView)findViewById(R.id.details_carry);
-        ShowBackTextView = (TextView)findViewById(R.id.details_back);
+        ShowCarryCheckBox = (CheckBox) findViewById(R.id.details_carry);
+        ShowBackCheckBox = (CheckBox) findViewById(R.id.details_back);
         ShowFollowersTextView = (TextView)findViewById(R.id.details_followers);
     }
 

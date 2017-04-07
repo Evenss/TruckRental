@@ -5,16 +5,118 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorWhite"
+    android:background="@color/colorGray"
+    android:padding="10dp"
     tools:context="com.hdu.truckrental.driver.DriverRunningOrdersDetailsShowActivity">
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingRight="10dp"
+            android:paddingLeft="14dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/ic_point_blue"
+                />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/ic_point_red"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="出发地"
+                android:textSize="20dp"
+                android:id="@+id/running_details_departure"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:gravity="left|center"
+                android:layout_weight="1"
+                android:background="@color/colorTransparent"/>
+
+            <TextView
+                android:text="目的地"
+                android:textSize="20dp"
+                android:id="@+id/running_details_destination"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:gravity="left|center"
+                android:layout_weight="1"
+                android:background="@color/colorTransparent"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:background="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <CheckBox
+            android:id="@+id/running_details_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="-30dp"
+            android:gravity="center"
+            android:text="@string/prompt_order_back"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:enabled="false"/>
+
+        <CheckBox
+            android:id="@+id/running_details_carry"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="-30dp"
+            android:gravity="center"
+            android:text="@string/prompt_order_carry"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:enabled="false"
+            android:background="@drawable/bg_squares_white"/>
+
+        <TextView
+            android:id="@+id/running_details_followers"
+            android:text="跟车人数:3人"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_squares_white"/>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:background="@drawable/bg_squares_white">
+        android:background="@color/colorWhite">
 
         <TextView
-            android:hint="运货时间"
+            android:text="运货时间"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:gravity="left|center"
@@ -41,85 +143,10 @@
     <LinearLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/di_line_vertical"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:hint="出发地"
-                android:textSize="20dp"
-                android:id="@+id/running_details_departure"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:gravity="left|center"
-                android:layout_weight="1"
-                android:background="@color/colorTransparent"/>
-
-            <TextView
-                android:hint="目的地"
-                android:textSize="20dp"
-                android:id="@+id/running_details_destination"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:gravity="left|center"
-                android:layout_weight="1"
-                android:background="@color/colorTransparent"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_squares_white"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="100dp"
+        android:background="@color/colorWhite">
         <TextView
-            android:id="@+id/running_details_back"
-            android:hint="无回程"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_squares_white"/>
-        <TextView
-            android:id="@+id/running_details_carry"
-            android:text="无搬运"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_squares_white"/>
-
-        <TextView
-            android:id="@+id/running_details_followers"
-            android:hint="跟车人数:0人"
-            android:textSize="18dp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_squares_white"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
-        <TextView
-            android:hint="无备注"
+            android:text="备注"
             android:textSize="18dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
@@ -131,21 +158,22 @@
             android:id="@+id/running_details_remarks" />
     </LinearLayout>
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/bg_squares_white">
+        android:background="@color/colorWhite">
         <TextView
             android:text="向客户收取"
-            android:textSize="23dp"
+            android:textSize="18dp"
             android:gravity="center"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="30dp" />
         <TextView
             android:id="@+id/running_details_price"
-            android:text="0元"
+            android:text="145元"
             android:textColor="@color/red"
             android:textSize="20dp"
             android:gravity="center"
@@ -165,44 +193,49 @@
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_running_price_details" />
+            android:id="@+id/btn_price_details" />
     </RelativeLayout>
+
 
     <TextView
         android:layout_marginTop="10dp"
         android:text="声明部分"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:textSize="20dp"
         android:gravity="center|left"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:background="@color/colorWhite"
+        android:paddingLeft="10dp"/>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
         <Button
             android:text="@string/action_navigate"
             android:onClick="btn_operate"
-            android:layout_weight="1"
             android:layout_width="0dp"
+            android:layout_weight="2"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
             android:id="@+id/btn_navigate"
             android:textSize="25dp"
             android:textColor="@drawable/btn_price_details"
             android:background="@drawable/btn_bg_details"/>
+
         <Button
-            android:text="@string/action_cancel_order"
+            android:id="@+id/btn_cancel_order"
             android:onClick="btn_operate"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:id="@+id/btn_cancel_order"
+            android:layout_weight="1"
+            android:text="取消订单"
             android:textSize="25dp"
             android:textColor="@drawable/btn_price_details"
-            android:background="@drawable/btn_bg_details"/>
+            android:background="@color/red"
+            />
+
     </LinearLayout>
+
 </LinearLayout>

@@ -1,10 +1,12 @@
 package com.hdu.truckrental.driver;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -21,12 +23,13 @@ import java.util.List;
  * Created by yjt on 2017/2/11.
  */
 
-public class DriverRunningOrdersShowActivity extends AppCompatActivity{
+public class DriverRunningOrdersShowFragment extends Fragment{
     private static final String TAG = "DriverRunningOrdersShow";
     private static final int RUNNING = 1;
 
     private ListView runningOrderLv;
     private RunningOrderAdapter runningOrderAdapter;
+    private View view;
 
     private List<Order> mOrderList = new ArrayList<>();;
     private List<Order> allOrderList;
@@ -36,21 +39,26 @@ public class DriverRunningOrdersShowActivity extends AppCompatActivity{
     private int pageSize = 15;
     private int currentPage = 1;
     private boolean isDivPage;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver_running_orders_show);
-        runningOrderLv = (ListView) findViewById(R.id.running_orders_ListView);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_driver_running_orders_show,container,false);
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        runningOrderLv = (ListView) view.findViewById(R.id.running_orders_ListView);
         put_info_list();
-        runningOrderAdapter = new RunningOrderAdapter(this,mOrderList);
+        runningOrderAdapter = new RunningOrderAdapter(getActivity(),mOrderList);
         runningOrderLv.setAdapter(runningOrderAdapter);
         if(mOrderList.size() == 0){
-            Toast toast = Toast.makeText(this, "无订单记录",Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getActivity(), "无正在运行订单",Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER,0,0);
             toast.show();
         }
@@ -62,16 +70,17 @@ public class DriverRunningOrdersShowActivity extends AppCompatActivity{
                 ListView listView = (ListView) parent;
                 Order order = (Order) listView.getItemAtPosition(position);
                 int order_id = order.getOrder_id();
-                Intent intent = new Intent(DriverRunningOrdersShowActivity.this,
+                Intent intent = new Intent(getActivity().getApplication(),
                         DriverRunningOrdersDetailsShowActivity.class);
                 intent.putExtra("order_id",order_id);
                 startActivity(intent);
             }
         });
+        super.onResume();
     }
 
     protected void put_info_list(){
-        orderDao = new OrderDao(DriverRunningOrdersShowActivity.this);
+        orderDao = new OrderDao(getActivity());
         allOrderList = orderDao.findAllOrder();
         mOrderList.clear();
         for(Order order:allOrderList){

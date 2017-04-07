@@ -9,19 +9,19 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -31,7 +31,6 @@ import com.baidu.mapapi.model.LatLng;
 import com.hdu.truckrental.R;
 import com.hdu.truckrental.dao.OrderDao;
 import com.hdu.truckrental.domain.Order;
-import com.hdu.truckrental.listener.UserDrawerItemClickListener;
 import com.hdu.truckrental.map.DistanceCallBack;
 import com.hdu.truckrental.map.LocationBean;
 import com.hdu.truckrental.map.MapLocationActivity;
@@ -56,9 +55,7 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
     private ActionBarDrawerToggle mUserDrawerToggle;
     private Toolbar userToolbar;
     private DrawerLayout mUserDrawerLayout;
-    private ArrayAdapter arrayAdapter;
-    private String[] userList = {"订单记录", "我的司机"};
-    private ListView userLeftMenu;
+    private NavigationView userLeftMenu;
 
     private Button mOrderSelectDeparture;
     private Button mOrderSelectDestination;
@@ -108,13 +105,10 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
                         invalidateOptionsMenu();
                     }
                 };
-        mUserDrawerToggle.syncState();//什么作用？
+        mUserDrawerToggle.syncState();
         mUserDrawerLayout.addDrawerListener(mUserDrawerToggle);
         //设置菜单列表
-        userLeftMenu = (ListView) findViewById(R.id.user_left_menu);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, userList);
-        userLeftMenu.setAdapter(arrayAdapter);
-        userLeftMenu.setOnItemClickListener(new UserDrawerItemClickListener());
+        userLeftMenu = (NavigationView) findViewById(R.id.nav_view_user);
 
         //出发地选择
         mOrderSelectDeparture = (Button) findViewById(R.id.order_select_departure);
@@ -130,6 +124,12 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
         mOrderCreateAdvancedBtn = (Button) findViewById(R.id.order_create_advanced_btn);
         mOrderCreateAdvancedBtn.setOnClickListener(this);
         checkPermission();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.toolbar_user, menu);
+        return true;
     }
 
     //位置权限检查
@@ -217,6 +217,10 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
                     if(mOrderSelectDeparture.getText() != ""  && mOrderSelectDestination.getText() != ""){
                         getDistance(stLocation,enLocation);
                     }
+                    SharedPreferences.Editor editor = getSharedPreferences("start_loc",MODE_PRIVATE).edit();
+                    editor.putFloat("lat",(float)stLocation.getLat());
+                    editor.putFloat("lng",(float)stLocation.getLng());
+                    editor.apply();
                 }
                 break;
             case DESTINATION_CODE:
@@ -232,6 +236,10 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
                     if(mOrderSelectDeparture.getText() != ""  && mOrderSelectDestination.getText() != ""){
                         getDistance(stLocation,enLocation);
                     }
+                    SharedPreferences.Editor editor = getSharedPreferences("end_loc",MODE_PRIVATE).edit();
+                    editor.putFloat("lat",(float)enLocation.getLat());
+                    editor.putFloat("lng",(float)enLocation.getLng());
+                    editor.apply();
                 }
                 break;
         }
@@ -293,8 +301,8 @@ public class OrderCreateActivity extends AppCompatActivity implements View.OnCli
         RadioGroup mOrderCarTypeRg = (RadioGroup) findViewById(R.id.order_car_type);
         RadioButton mOrderCarTypeRb = (RadioButton)
                 findViewById(mOrderCarTypeRg.getCheckedRadioButtonId());
-        Button mOrderSelectDeparture = (Button) findViewById(R.id.order_select_departure);
-        Button mOrderSelectDestination = (Button) findViewById(R.id.order_select_destination);
+        mOrderSelectDeparture = (Button) findViewById(R.id.order_select_departure);
+        mOrderSelectDestination = (Button) findViewById(R.id.order_select_destination);
         CheckBox mOrderBackCb = (CheckBox) findViewById(R.id.order_back);
         CheckBox mOrderCarryCb = (CheckBox) findViewById(R.id.order_carry);
         Spinner mOrderFollowers = (Spinner) findViewById(R.id.order_followers);

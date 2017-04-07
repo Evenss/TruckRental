@@ -1,9 +1,10 @@
 package com.hdu.truckrental.driver;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -30,7 +31,7 @@ import static com.hdu.truckrental.tools.Check.PHONE_ERROR;
  * 司机注册
  */
 
-public class DriverRegisterActivity extends Activity {
+public class DriverRegisterActivity extends AppCompatActivity {
 
     private Button mDriverRuleBtn;
     private Button mRegisterDriverInfo;
@@ -42,6 +43,7 @@ public class DriverRegisterActivity extends Activity {
     private TextView mDriverCityTv;
     private TextView mDriverLicensePlateTv;
     private TextView mDriverLicenseTv;
+    private Toolbar mToolbarDriverRegister;
 
     private int state;
     private static final String TAG = "DriverRegister.class";
@@ -74,10 +76,21 @@ public class DriverRegisterActivity extends Activity {
                     Toast.makeText(DriverRegisterActivity.this,"注册成功！正在等待审核...",
                             Toast.LENGTH_SHORT).show();
                     //跳转到司机登录界面
-                    Intent intent = new Intent(DriverRegisterActivity.this, com.hdu.truckrental.LoginActivity.class);
+                    Intent intent = new Intent(DriverRegisterActivity.this, DriverLoginActivity.class);
                     startActivity(intent);//暂时先跳转到用户登录界面
+                    finish();
                 }
 
+            }
+        });
+        mToolbarDriverRegister = (Toolbar)findViewById(R.id.toolbar_driver_register);
+        setSupportActionBar(mToolbarDriverRegister);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mToolbarDriverRegister.setNavigationIcon(R.drawable.nav_return);
+        mToolbarDriverRegister.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

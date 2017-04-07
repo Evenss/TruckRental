@@ -3,6 +3,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 24
     buildToolsVersion "25.0.2"
+    aaptOptions{
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
     defaultConfig {
         applicationId "com.hdu.truckrental"
         minSdkVersion 19
@@ -33,7 +37,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:cardview-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
+    compile 'com.ashokvarma.android:bottom-navigation-bar:0.9.5'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.github.eluleci:flatui:3.0.0'
     testCompile 'junit:junit:4.12'
     compile files('libs/baidumapapi_base_v4_2_0.jar')
     compile files('libs/baidumapapi_cloud_v4_2_0.jar')

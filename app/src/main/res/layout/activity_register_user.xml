@@ -4,59 +4,69 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.hdu.truckrental.user.UserRegisterActivity">
 
-    <ScrollView
-        android:id="@+id/register_user"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_user_register"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="电话验证"
+            android:textColor="@color/colorWhite"
+            android:textSize="22sp"/>
+    </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/user_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:inputType="phone"
+            android:hint="@string/prompt_user_phone"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="16dp">
             <EditText
-                android:id="@+id/user_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:inputType="phone"
-                android:hint="@string/prompt_user_phone"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
-                <EditText
-                    android:id="@+id/user_validation_code"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:inputType="number"
-                    android:hint="@string/prompt_user_validation"/>
-                <Button
-                    android:id="@+id/user_validate"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/action_user_validate"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
+                android:id="@+id/user_validation_code"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:inputType="number"
+                android:hint="@string/prompt_user_validation"/>
             <Button
-                android:id="@+id/user_registered"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:layout_gravity="center"
-                android:text="@string/action_user_registered"
-                android:textSize="24sp"/>
+                android:id="@+id/user_validate"
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/Indigo_colorPrimary"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/action_user_validate"
+                android:textSize="18sp"/>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/user_registered"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/Indigo_colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:text="@string/action_user_registered"
+            android:textSize="24sp"/>
+    </LinearLayout>
 
-    </ScrollView>
 
 </LinearLayout>
